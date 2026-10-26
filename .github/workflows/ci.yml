@@ -24,28 +24,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: 确认无第三方依赖
-        run: |
-          python -c "
-          import ast, pathlib, sys
-          stdlib = set(sys.stdlib_module_names)
-          local = {'apr_calculator', 'scheme_audit', 'report_builder'}
-          bad = []
-          for p in pathlib.Path('tools').glob('*.py'):
-              tree = ast.parse(p.read_text(encoding='utf-8'))
-              for n in ast.walk(tree):
-                  if isinstance(n, ast.Import):
-                      for a in n.names:
-                          root = a.name.split('.')[0]
-                          if root not in stdlib and root not in local:
-                              bad.append(f'{p.name}: {root}')
-                  elif isinstance(n, ast.ImportFrom) and n.module and n.level == 0:
-                      root = n.module.split('.')[0]
-                      if root not in stdlib and root not in local:
-                          bad.append(f'{p.name}: {root}')
-          if bad:
-              print('发现第三方依赖：', bad); sys.exit(1)
-          print('OK：仅使用标准库')
-          "
+        run: python .github/scripts/check_deps.py
 
       - name: 收益反算
         run: python tools/apr_calculator.py --daily 1.8 --cycle 7 --principal 10000 --members 1000
