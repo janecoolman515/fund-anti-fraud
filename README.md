@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Docs: CC BY-NC-SA 4.0](https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-DOCS)
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](tools/)
 [![Language](https://img.shields.io/badge/lang-中文-red)](README_EN.md)
 
@@ -173,7 +173,7 @@ git clone https://github.com/janecoolman515/fund-anti-fraud.git "$env:USERPROFIL
 git clone https://github.com/janecoolman515/fund-anti-fraud.git
 cd fund-anti-fraud
 
-# 无第三方依赖，Python 3.8+ 直接跑
+# 无第三方依赖，Python 3.9+ 直接跑
 python tools/apr_calculator.py --daily 1.8
 python tools/scheme_audit.py examples/sample-case.json
 python tools/report_builder.py examples/sample-case.json -o REPORT.md
