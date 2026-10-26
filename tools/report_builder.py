@@ -306,7 +306,7 @@ def build(case: dict, title: str | None = None) -> str:
     a("")
     a("---")
     a("")
-    a("*本报告由 [fund-scam-audit](https://github.com/janecoolman/fund-scam-audit) 生成*")
+    a("*本报告由 [fund-anti-fraud](https://github.com/janecoolman515/fund-anti-fraud) 生成*")
 
     return "\n".join(L)
 

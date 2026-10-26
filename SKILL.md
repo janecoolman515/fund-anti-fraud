@@ -1,11 +1,11 @@
 ---
-name: fund-scam-audit
+name: fund-anti-fraud
 description: "Audit a suspicious investment project and decide whether it is a pyramid scheme, a fake exchange, or an illegal fund-raising scheme. Use when a user submits a project name, a reward/commission structure, a promo page, a screenshot, or a referral pitch and asks 'is this a scam', 'is this legal', 'should I invest', 'help me check this project'. Produces a scored risk report backed by six verification tracks, four reasoning heuristics, a 100-point risk scorecard and a legal-mapping section, with every claim traceable to a public source. No marketing copy, no rewriting — audit only."
 description_zh: "投资项目风险审查：判断一个可疑理财/币圈/数藏/抢单项目是不是资金盘、传销、非法集资。当用户把项目名称、收益制度、推广页、聊天截图、拉人话术丢过来，问『这是不是骗局』『合法吗』『能不能投』『帮我查查这个项目』时使用。产出带评分的风险报告：六条核查主线取证、四把推理刀穿透、100 分风险评分卡、法律特征映射，每条结论都能追到公开来源。只做审查，不写推广文案。"
 category: 风控
 version: 2.0.0
 author: janecoolman
-author_url: https://github.com/janecoolman
+author_url: https://github.com/janecoolman515
 license: MIT (code) / CC-BY-NC-SA-4.0 (docs)
 tags:
   - anti-fraud

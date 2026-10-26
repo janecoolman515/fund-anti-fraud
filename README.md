@@ -152,26 +152,26 @@ flowchart TD
 
 ```bash
 # 克隆到技能目录
-git clone https://github.com/janecoolman/fund-scam-audit.git \
-  ~/.claude/skills/fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git \
+  ~/.claude/skills/fund-anti-fraud
 
 # WorkBuddy 用户：
-git clone https://github.com/janecoolman/fund-scam-audit.git \
-  ~/.workbuddy-ai/skills/fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git \
+  ~/.workbuddy-ai/skills/fund-anti-fraud
 ```
 
 装好后，直接说「帮我查一下这个项目」并附上资料，技能会自动触发。
 
 **Windows 路径**：
 ```powershell
-git clone https://github.com/janecoolman/fund-scam-audit.git "$env:USERPROFILE\.workbuddy-ai\skills\fund-scam-audit"
+git clone https://github.com/janecoolman515/fund-anti-fraud.git "$env:USERPROFILE\.workbuddy-ai\skills\fund-anti-fraud"
 ```
 
 ### 方式二：只用工具链（不需要 AI）
 
 ```bash
-git clone https://github.com/janecoolman/fund-scam-audit.git
-cd fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git
+cd fund-anti-fraud
 
 # 无第三方依赖，Python 3.8+ 直接跑
 python tools/apr_calculator.py --daily 1.8

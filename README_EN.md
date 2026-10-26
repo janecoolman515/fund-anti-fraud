@@ -127,26 +127,26 @@ The first is emotion. The second is evidence you can show your family, the polic
 ### Option 1: As a Claude Code / WorkBuddy skill (recommended)
 
 ```bash
-git clone https://github.com/janecoolman/fund-scam-audit.git \
-  ~/.claude/skills/fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git \
+  ~/.claude/skills/fund-anti-fraud
 
 # WorkBuddy users:
-git clone https://github.com/janecoolman/fund-scam-audit.git \
-  ~/.workbuddy-ai/skills/fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git \
+  ~/.workbuddy-ai/skills/fund-anti-fraud
 ```
 
 Then just say "check this project for me" with whatever material you have.
 
 **Windows**:
 ```powershell
-git clone https://github.com/janecoolman/fund-scam-audit.git "$env:USERPROFILE\.workbuddy-ai\skills\fund-scam-audit"
+git clone https://github.com/janecoolman515/fund-anti-fraud.git "$env:USERPROFILE\.workbuddy-ai\skills\fund-anti-fraud"
 ```
 
 ### Option 2: CLI tools only (no AI needed)
 
 ```bash
-git clone https://github.com/janecoolman/fund-scam-audit.git
-cd fund-scam-audit
+git clone https://github.com/janecoolman515/fund-anti-fraud.git
+cd fund-anti-fraud
 
 # Zero dependencies. Python 3.8+ runs it directly.
 python tools/apr_calculator.py --daily 1.8

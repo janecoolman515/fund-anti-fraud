@@ -82,8 +82,8 @@ def r_my_new_rule(f):
 
 ```bash
 # 1. Fork 并克隆
-git clone https://github.com/<your-name>/fund-scam-audit.git
-cd fund-scam-audit
+git clone https://github.com/<your-name>/fund-anti-fraud.git
+cd fund-anti-fraud
 
 # 2. 改完自测（无第三方依赖，直接跑）
 python tools/scheme_audit.py examples/sample-case.json

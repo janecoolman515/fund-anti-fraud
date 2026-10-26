@@ -165,7 +165,7 @@
 
 ---
 
-*本报告由 [fund-scam-audit](https://github.com/janecoolman/fund-scam-audit) 生成*
+*本报告由 [fund-anti-fraud](https://github.com/janecoolman515/fund-anti-fraud) 生成*
 ```
 
 ---
