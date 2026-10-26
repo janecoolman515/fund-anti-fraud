@@ -175,6 +175,30 @@ def r_official_denial(f):
     return None if v is None else bool(v)
 
 
+def r_guaranteed_return(f):
+    """承诺保本 / 固定回报 / 到期回购 —— 变相还本付息。"""
+    v = _g(f, "scheme", "guaranteed_return")
+    return None if v is None else bool(v)
+
+
+def r_extreme_yield(f):
+    """日化 ≥ 10%：一年 1000 倍以上，属明显异常，单列一条。"""
+    d = _g(f, "yield", "daily_rate")
+    if d is None:
+        return None
+    return d >= 10.0
+
+
+def r_price_manipulation(f):
+    """价格可被平台操控：自买自卖抬价、后台改价、单边只涨不跌。
+
+    数藏平台、山寨交易所的核心风险点 —— 价格不由市场形成，
+    意味着账面浮盈无法兑现，随时可以被反向操作。
+    """
+    v = _g(f, "funds", "price_manipulable")
+    return None if v is None else bool(v)
+
+
 RULES = [
     # id,   维度, 分值, 名称, 判定, 依据
     ("A1", "A", 8, "备案主体非企业",
@@ -198,6 +222,10 @@ RULES = [
      r_entry_fee, "需缴纳激活费/会员费/购买指定产品才能参与"),
     ("B5", "B", 5, "锁仓或释放需复投",
      r_lockup, "本金锁仓，或解锁释放需再次购入"),
+    ("B6", "B", 6, "承诺保本 / 固定回报 / 回购",
+     r_guaranteed_return, "宣称保本、固定收益、到期溢价回购 —— 变相还本付息"),
+    ("B7", "B", 8, "日化收益率 ≥ 10%（极端）",
+     r_extreme_yield, "日化 ≥ 10%，一年 1000 倍以上，无任何实体经营可支撑"),
 
     ("C1", "C", 10, "提现受限",
      r_withdrawal_limited, "限额 / 排队 / 手续费畸高 / 改积分代金券"),
@@ -207,6 +235,8 @@ RULES = [
      r_no_custody, "资金直接进入平台自有账户，无银行/持牌机构存管"),
     ("C4", "C", 4, "无真实造血业务",
      r_no_real_business, "未发现可对上账的实体经营收入"),
+    ("C5", "C", 6, "价格可被平台操控",
+     r_price_manipulation, "自买自卖抬价 / 后台改价 / 单边只涨不跌 —— 账面浮盈无法兑现"),
 
     ("D1", "D", 8, "监管或官方已发风险提示",
      r_regulator, "金融监管局/互金协会/公安等已公开提示"),
@@ -255,13 +285,37 @@ def audit(case: dict) -> dict:
         dim_score[k] = min(dim_score[k], dim_max[k])
 
     total = sum(dim_score.values())
-    # 信息缺口惩罚：核实项不足 60% 时，按缺失比例折算，防止"没查到就判绿"
+
+    # 信息缺口惩罚：核实项不足时不出评级，防止「没查到」被当成「没问题」
     total_rules = len(RULES)
     coverage = (total_rules - len(gaps)) / total_rules
 
+    hit_ids = {h["id"] for h in hits}
+
+    # ── 组合判定：庞氏结构三要素 ──
+    # 依据《禁止传销条例》第七条第(二)(三)项 + 刑法 224 条之一的构成描述：
+    #   拉人计酬 + 入门费 + 无真实造血 → 三者同时成立，已构成资金盘/传销结构，
+    #   此时不应因「未公布收益率」而降低评级。
+    COMBO = {"B3", "B4", "C4"}
+    combo_ponzi = COMBO.issubset(hit_ids)
+    if combo_ponzi:
+        total = max(total, 82)
+
+    # ── 极端收益率直接顶格 ──
+    extreme = "B7" in hit_ids
+    if extreme:
+        total = max(total, 80)
+
+    # ── 评级 ──
+    # 顺序很重要：分数已经顶格时，不该被「覆盖率不足」压成信息不足。
+    # 命中核心违规特征本身就是结论，不需要更多信息来确认。
     if total >= 80:
         level, label = "critical", "🔴 极高风险"
         meaning = "命中多项核心违规特征，与已知资金盘/传销结构高度一致"
+    elif coverage < 0.35:
+        level, label = "unknown", "⚪ 信息不足"
+        meaning = ("已核实项不足 35%%（%d / %d），无法形成有效评级。"
+                   "这不是「没问题」，是「还不知道」" % (total_rules - len(gaps), total_rules))
     elif total >= 60:
         level, label = "high", "🟠 高风险"
         meaning = "存在多项无法解释的异常，强烈建议不参与"
@@ -284,6 +338,8 @@ def audit(case: dict) -> dict:
         "missed": missed,
         "gaps": gaps,
         "coverage": round(coverage, 3),
+        "combo_ponzi": combo_ponzi,
+        "extreme_yield": extreme,
     }
 
 

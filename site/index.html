@@ -528,9 +528,206 @@ footer{
   font-size:11.5px;color:var(--text-2);line-height:1.65;
 }
 
+/* ══════════════════════════════════════════════════════════
+   作者信息条
+   ══════════════════════════════════════════════════════════ */
+.author-bar{
+  background:linear-gradient(90deg,rgba(201,162,39,.12),rgba(201,162,39,.03) 60%,transparent);
+  border-bottom:1px solid var(--line);
+  border-top:1px solid rgba(201,162,39,.18);
+}
+.author-in{
+  max-width:1180px;margin:0 auto;padding:0 32px;
+  height:38px;display:flex;align-items:center;gap:0;
+  font-size:12px;color:var(--text-3);
+  overflow-x:auto;white-space:nowrap;
+}
+.ab-name{
+  color:var(--gold-lt);font-weight:700;font-size:12.5px;
+  display:flex;align-items:center;gap:7px;
+}
+.ab-name::before{
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 8px var(--gold);
+}
+.ab-sep{color:var(--text-4);margin:0 12px;font-size:10px}
+.ab-item{color:var(--text-3)}
+.ab-item b{color:var(--text-2);font-family:var(--mono);font-weight:500}
+.ab-right{
+  margin-left:auto;padding-left:20px;
+  color:var(--gold);font-size:11.5px;cursor:pointer;
+  font-family:var(--mono);letter-spacing:.04em;
+}
+.ab-right:hover{color:var(--gold-lt)}
+
+/* 导航新增按钮 */
+.nav-guide{
+  color:var(--gold-lt)!important;
+  border:1px solid rgba(201,162,39,.3);
+  background:var(--gold-dim);
+}
+.nav-guide:hover{background:rgba(201,162,39,.2)!important}
+.nav-feedback{cursor:pointer}
+
+/* ══════════════════════════════════════════════════════════
+   弹窗（反馈 / 留言）
+   ══════════════════════════════════════════════════════════ */
+.modal-mask{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(3,9,17,.82);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.modal-mask.on{display:flex}
+.modal{
+  width:100%;max-width:560px;max-height:88vh;overflow-y:auto;
+  background:linear-gradient(180deg,var(--navy-800),var(--navy-900));
+  border:1px solid var(--line-strong);border-radius:14px;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
+}
+.modal-head{
+  padding:22px 26px 0;display:flex;align-items:flex-start;justify-content:space-between;
+}
+.modal-title{font-size:18px;font-weight:700}
+.modal-sub{font-size:12px;color:var(--text-3);margin-top:5px}
+.modal-x{
+  cursor:pointer;color:var(--text-3);font-size:22px;line-height:1;
+  padding:2px 6px;border-radius:5px;
+}
+.modal-x:hover{color:var(--text);background:var(--navy-700)}
+.modal-tabs{
+  display:flex;gap:6px;padding:18px 26px 0;
+}
+.mtab{
+  cursor:pointer;font-size:13px;color:var(--text-3);
+  padding:8px 16px;border-radius:7px 7px 0 0;
+  border:1px solid transparent;border-bottom:none;
+}
+.mtab.on{
+  color:var(--gold-lt);background:var(--navy-850);
+  border-color:var(--line-strong);
+}
+.modal-body{padding:20px 26px 26px;background:var(--navy-850);border-top:1px solid var(--line-strong)}
+.mpanel{display:none}
+.mpanel.on{display:block}
+
+.mopt{
+  display:flex;gap:14px;padding:15px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.mopt:last-child{border-bottom:none}
+.mopt-n{
+  width:26px;height:26px;border-radius:7px;flex-shrink:0;
+  background:var(--gold-dim);border:1px solid rgba(201,162,39,.3);
+  color:var(--gold-lt);font-family:var(--mono);font-size:12px;
+  display:grid;place-items:center;
+}
+.mopt-b{flex:1}
+.mopt-t{font-size:13.5px;font-weight:600;margin-bottom:5px;color:var(--text)}
+.mopt-d{font-size:12px;color:var(--text-3);line-height:1.65}
+.mopt-d code{
+  font-family:var(--mono);color:var(--gold-lt);
+  background:rgba(201,162,39,.1);padding:1px 6px;border-radius:3px;
+}
+.mbtn{
+  display:inline-block;margin-top:9px;cursor:pointer;
+  font-size:12px;font-family:var(--mono);
+  border:1px solid var(--line-strong);background:var(--navy-700);
+  color:var(--text-2);padding:6px 13px;border-radius:6px;
+  text-decoration:none;transition:.15s;
+}
+.mbtn:hover{border-color:rgba(201,162,39,.45);color:var(--gold-lt)}
+.mbtn.primary{
+  background:linear-gradient(180deg,var(--gold-lt),var(--gold));
+  color:#1A1400;border-color:transparent;font-weight:700;
+}
+.mbtn.primary:hover{filter:brightness(1.08);color:#1A1400}
+
+.mnote{
+  margin-top:16px;padding:12px 14px;border-radius:7px;
+  background:rgba(201,162,39,.07);border-left:2px solid var(--gold);
+  font-size:11.5px;color:var(--text-3);line-height:1.7;
+}
+
+/* ══════════════════════════════════════════════════════════
+   央国企上岸指南
+   ══════════════════════════════════════════════════════════ */
+.guide{
+  background:
+    radial-gradient(700px 300px at 85% 0%,rgba(201,162,39,.09),transparent 65%),
+    linear-gradient(180deg,var(--navy-900),var(--navy-950));
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.guide-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  color:var(--gold);border:1px solid rgba(201,162,39,.3);
+  background:var(--gold-dim);padding:5px 12px;border-radius:100px;
+  margin-bottom:16px;
+}
+.guide h2{
+  font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.35;
+  margin-bottom:12px;
+}
+.guide h2 em{
+  font-style:normal;color:var(--gold-lt);
+}
+.guide-lead{font-size:14px;color:var(--text-2);max-width:660px;margin-bottom:30px;line-height:1.75}
+
+.g-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.g-card{
+  border:1px solid var(--line);border-radius:11px;
+  background:var(--navy-850);padding:20px 18px;
+  cursor:pointer;transition:.18s;position:relative;
+}
+.g-card:hover{border-color:rgba(201,162,39,.4);background:var(--navy-800);transform:translateY(-3px)}
+.g-card.on{border-color:rgba(201,162,39,.55);background:var(--navy-800)}
+.g-n{font-family:var(--mono);font-size:10px;color:var(--text-4);letter-spacing:.12em;margin-bottom:10px}
+.g-t{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.g-d{font-size:11.8px;color:var(--text-3);line-height:1.6}
+.g-card.on .g-t{color:var(--gold-lt)}
+
+.g-detail{
+  border:1px solid var(--line-strong);border-radius:12px;
+  background:var(--navy-850);padding:26px 28px;
+  display:none;
+}
+.g-detail.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.g-detail h3{
+  font-size:17px;font-weight:700;margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:9px;
+}
+.g-detail h3 span{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.1em}
+.g-item{
+  font-size:13px;color:var(--text-2);line-height:1.8;
+  padding:11px 0 11px 20px;position:relative;
+  border-bottom:1px solid var(--line-soft);
+}
+.g-item:last-child{border-bottom:none}
+.g-item::before{
+  content:"";position:absolute;left:4px;top:19px;
+  width:5px;height:5px;border-radius:1px;background:var(--gold);
+}
+.g-item b{color:var(--text);font-weight:600}
+.g-item em{
+  font-style:normal;color:var(--gold-lt);font-family:var(--mono);font-size:12px;
+}
+
+.g-foot{
+  margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:11.5px;color:var(--text-4);line-height:1.75;
+}
+
 /* 响应式 */
 @media (max-width:900px){
   .wrap,.nav-in{padding:0 20px}
+  .author-in{padding:0 20px;height:auto;padding-top:8px;padding-bottom:8px;flex-wrap:wrap;gap:4px 0}
+  .ab-right{margin-left:0;padding-left:0;width:100%;padding-top:4px}
+  .g-cards{grid-template-columns:1fr 1fr}
+  .modal{max-width:100%}
   .sc-grid{grid-template-columns:1fr}
   .sc-result{position:static}
   .hero h1{font-size:28px}
@@ -561,15 +758,28 @@ footer{
       <span class="brand-mark"></span>
       <span class="brand-text">
         <span class="brand-name">金融防骗预警</span>
-        <span class="brand-sub">Risk Audit</span>
+        <span class="brand-sub">janecoolman · Risk Audit</span>
       </span>
     </a>
     <div class="nav-links">
-      <a href="#result">查询结果</a>
-      <a href="#selfcheck">特征自查</a>
+      <a href="#result">查询</a>
+      <a href="#selfcheck">自查</a>
       <a href="#method">方法论</a>
-      <a href="#foot">关于</a>
+      <a href="#guide" class="nav-guide">央国企上岸指南</a>
+      <a href="javascript:void(0)" class="nav-feedback" onclick="openFeedback('bug')">反馈 / 留言</a>
       <a href="https://github.com/janecoolman515/fund-anti-fraud" target="_blank" class="nav-cta">开源仓库 ↗</a>
+    </div>
+  </div>
+  <div class="author-bar">
+    <div class="author-in">
+      <span class="ab-name">金融防骗预警</span>
+      <span class="ab-sep">◆</span>
+      <span class="ab-item">公众号ID <b>jiancoolman</b></span>
+      <span class="ab-sep">◆</span>
+      <span class="ab-item">微信号 <b>jiancoolman01</b></span>
+      <span class="ab-sep">◆</span>
+      <span class="ab-item">视频号 <b>Janecoolman01</b></span>
+      <span class="ab-right" onclick="copyText('jiancoolman01','微信号')">复制微信号 →</span>
     </div>
   </div>
 </nav>
@@ -577,7 +787,7 @@ footer{
 <!-- ══════════ HERO ══════════ -->
 <header class="hero">
   <div class="wrap">
-    <div class="hero-eyebrow"><i></i> 基于 18 项核查 · 100 分风险评分</div>
+    <div class="hero-eyebrow"><i></i> 金融防骗预警 · 18 项核查 · 100 分风险评分</div>
     <h1>投之前，先查一遍。<br>看它<em>哪里解释不通</em>。</h1>
     <p class="lead">
       输入项目名称、收益制度或推广话术，从备案主体、收益结构、资金流向、工商司法、外部信号五个层面做穿透式核查。
@@ -729,6 +939,17 @@ footer{
               </select>
             </div>
           </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>承诺保本 / 固定回报 / 回购</label>
+              <select id="f_guarantee">
+                <option value="unknown">不清楚</option>
+                <option value="yes">有承诺</option>
+                <option value="no">没有</option>
+              </select>
+            </div>
+            <div class="sc-f"></div>
+          </div>
           <label class="sc-check"><input type="checkbox" id="f_cap"> 推荐奖有封顶上限</label>
         </div>
 
@@ -771,6 +992,17 @@ footer{
               </select>
             </div>
           </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>价格可被平台操控</label>
+              <select id="f_manip">
+                <option value="unknown">不清楚</option>
+                <option value="yes">是（自买自卖 / 后台改价 / 只涨不跌）</option>
+                <option value="no">否，价格由市场形成</option>
+              </select>
+            </div>
+            <div class="sc-f"></div>
+          </div>
         </div>
 
         <div class="sc-group">
@@ -806,6 +1038,86 @@ footer{
           留空的项不计分，但会列进「信息缺口」。
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 央国企上岸指南 ══════════ -->
+<section class="section guide" id="guide">
+  <div class="wrap">
+    <div class="guide-badge">◆ 另一条路 · 央国企求职</div>
+    <h2>不想在盘里赌，可以<em>换一条稳的路</em>。</h2>
+    <p class="guide-lead">
+      这里整理了一套央国企 / 事业单位求职的方法：央企国企怎么分、什么专业能报什么岗、网申简历怎么写、笔试面试怎么过、什么时候该动手。
+      内容来自公开课程的整理，讲的是「怎么把求职当技能练」，不是「怎么走捷径」。
+    </p>
+
+    <div class="g-cards">
+      <div class="g-card on" data-g="0">
+        <div class="g-n">MODULE 01</div>
+        <div class="g-t">先搞懂体系</div>
+        <div class="g-d">央企和国企差在哪、编制有几种、选调生和人才引进是什么</div>
+      </div>
+      <div class="g-card" data-g="1">
+        <div class="g-n">MODULE 02</div>
+        <div class="g-t">把岗位放大</div>
+        <div class="g-d">四个关键词，让你的可报岗位从几十个变成几千个</div>
+      </div>
+      <div class="g-card" data-g="2">
+        <div class="g-n">MODULE 03</div>
+        <div class="g-t">网申与笔试</div>
+        <div class="g-d">简历怎么写、网申怎么过、笔试考什么、面试怎么答</div>
+      </div>
+      <div class="g-card" data-g="3">
+        <div class="g-n">MODULE 04</div>
+        <div class="g-t">时间线</div>
+        <div class="g-d">三个黄金节点，错过一个少一半机会</div>
+      </div>
+    </div>
+
+    <div class="g-detail on" data-d="0">
+      <h3><span>MODULE 01</span> 先搞懂体系：央企、国企、事业编、公务员</h3>
+      <div class="g-item"><b>一句话记牢：</b>央企就是 985，国企就是 211。所有央企都是国企，但不是所有国企都是央企。</div>
+      <div class="g-item"><b>央企构成：</b>实业 98 家 · 金融 27 家 · 文化 3 家 · 行政 4 家（铁路、烟草、邮政、北大荒）。</div>
+      <div class="g-item"><b>别看层级判断身份：</b>乡镇供电所也是央企；央企的子公司、孙公司，一路下去都还是央企。</div>
+      <div class="g-item"><b>编制不是只有一种：</b>正式编制、合同制、劳务派遣、外包，待遇与稳定性差别很大，签之前一定要问清是哪一种。</div>
+      <div class="g-item"><b>三条特殊通道：</b>选调生（党员 + 学生干部是硬门槛）、人才引进（多要求硕博）、定向招录（部分院校专业对口）。</div>
+      <div class="g-item"><b>算收入的正确方式：</b>「1:3 原则」—— 国企 1 万 ≈ 私企 3 万。要比真实性、性价比、稳定性、长期性、多元性五个维度，不能只看月薪数字。</div>
+    </div>
+
+    <div class="g-detail" data-d="1">
+      <h3><span>MODULE 02</span> 把可报岗位放大：四个关键词</h3>
+      <div class="g-item"><b>关键词一 · 专业名称：</b>最窄，只有完全对口的岗位能报。</div>
+      <div class="g-item"><b>关键词二 · 专业相关：</b>放宽到相近专业，岗位数量翻几倍。</div>
+      <div class="g-item"><b>关键词三 · 专业类别：</b>按学科门类报（如「管理学类」），这是大多数人的主战场。</div>
+      <div class="g-item"><b>关键词四 · 专业不限：</b>最宽，但竞争也最激烈。</div>
+      <div class="g-item"><b>核心结论：</b>很多人不是没岗位，是<b>只搜了第一个关键词</b>就放弃了。四个关键词轮着搜，可报岗位能从几十个变成几千个。</div>
+      <div class="g-item"><b>求职漏斗（要有心理准备）：</b>可报 5000~1 万家 → 实报 300~500 家 → 网申过 5%~15% → 50~80 场笔试 → 20~50 场面试 → 最后 10 个 offer。<b>核心是基数要大。</b></div>
+    </div>
+
+    <div class="g-detail" data-d="2">
+      <h3><span>MODULE 03</span> 网申、笔试、面试：每一关在筛什么</h3>
+      <div class="g-item"><b>网申筛六项：</b>政治面貌、实习经历、证书、学生干部经历、文体特长、荣誉奖项。这六项也是在校期间最该攒的东西。</div>
+      <div class="g-item"><b>成绩单是硬门槛：</b>国网等单位要上传教务处盖章成绩单，<b>挂科记录直接影响网申资格</b>。别挂科，这不是玩笑。</div>
+      <div class="g-item"><b>简历只写三件事：</b>你做过什么、做出了什么结果、这个结果和岗位有什么关系。形容词一律删掉。</div>
+      <div class="g-item"><b>笔试考什么：</b>行测（文/理）、公共基础知识、申论、部分单位加专业科目。提前三个月开始刷题是常态。</div>
+      <div class="g-item"><b>面试考什么：</b>结构化 + 半结构化。考的不是口才，是<b>你对自己经历的熟悉程度</b>—— 编的经历一问就露。</div>
+      <div class="g-item"><b>offer 怎么比：</b>别只看起薪。看五件事：真实到手、公积金比例、晋升通道、工作地点、行业周期。</div>
+    </div>
+
+    <div class="g-detail" data-d="3">
+      <h3><span>MODULE 04</span> 时间线：三个黄金节点</h3>
+      <div class="g-item"><b>节点一 · 大三暑假提前批：</b>竞争最小，很多人还不知道有这个窗口。<em>竞争比秋招低一个量级</em></div>
+      <div class="g-item"><b>节点二 · 大四上秋招：</b>放出全年约 <em>80%</em> 的岗位，是主战场。错过这个，后面都是补录。</div>
+      <div class="g-item"><b>节点三 · 大四下春招：</b>补录性质，岗位少、竞争反而更激烈，是最后机会。</div>
+      <div class="g-item"><b>在校期六个优先：</b>证书、实习、学生干部、奖学金、党员、文体特长。这六项同时是网申筛选的核心要项。</div>
+      <div class="g-item"><b>为什么党员要早：</b>入党需要两三年，等到大三大四才想起来，选调生这条路已经关了。</div>
+      <div class="g-item"><b>最硬的提醒：</b>求职是一项技能，不是「到点自然会有」的能力。同一所学校同一个宿舍，最后差别很大，差的是<b>认知差、时间差、信息差、技巧差</em></b>。</div>
+    </div>
+
+    <div class="g-foot">
+      内容整理自公开课程，仅供学习参考，不构成任何录取承诺。涉及具体招聘时间、报名入口的，一律以官方最新公告为准。
+      如涉版权问题请联系删除。
     </div>
   </div>
 </section>
@@ -923,6 +1235,87 @@ footer{
     </div>
   </div>
 </footer>
+
+<!-- ══════════ 反馈 / 留言 弹窗 ══════════ -->
+<div class="modal-mask" id="fbMask" onclick="if(event.target===this)closeFeedback()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">反馈与留言</div>
+        <div class="modal-sub">发现 bug、想加项目、有话想说，都从这里走</div>
+      </div>
+      <div class="modal-x" onclick="closeFeedback()">×</div>
+    </div>
+
+    <div class="modal-tabs">
+      <div class="mtab on" data-tab="bug" onclick="switchTab('bug')">BUG 反馈</div>
+      <div class="mtab" data-tab="msg" onclick="switchTab('msg')">留言</div>
+    </div>
+
+    <div class="modal-body">
+      <!-- BUG -->
+      <div class="mpanel on" data-panel="bug">
+        <div class="mopt">
+          <div class="mopt-n">1</div>
+          <div class="mopt-b">
+            <div class="mopt-t">最快的：直接加微信</div>
+            <div class="mopt-d">微信号 <code>jiancoolman01</code>，备注「bug」优先通过。截图 + 你当时填了什么，能复现就能修。</div>
+            <span class="mbtn primary" onclick="copyText('jiancoolman01','微信号')">复制微信号</span>
+          </div>
+        </div>
+        <div class="mopt">
+          <div class="mopt-n">2</div>
+          <div class="mopt-b">
+            <div class="mopt-t">技术型：提到 GitHub</div>
+            <div class="mopt-d">有 GitHub 账号的话直接开 issue，带上浏览器版本和操作步骤，修完你能看到记录。</div>
+            <a class="mbtn" href="https://github.com/janecoolman515/fund-anti-fraud/issues/new?labels=bug&title=%5BBUG%5D+" target="_blank">去提 issue →</a>
+          </div>
+        </div>
+        <div class="mopt">
+          <div class="mopt-n">3</div>
+          <div class="mopt-b">
+            <div class="mopt-t">想补充项目线索</div>
+            <div class="mopt-d">把项目名、收益制度截图、推广话术发过来，核查完会补进库。</div>
+          </div>
+        </div>
+        <div class="mnote">
+          这个页面是纯静态的，不收集、不上传任何数据。你在自查里填的内容只留在你自己的浏览器里，关掉就没了。
+        </div>
+      </div>
+
+      <!-- 留言 -->
+      <div class="mpanel" data-panel="msg">
+        <div class="mopt">
+          <div class="mopt-n">1</div>
+          <div class="mopt-b">
+            <div class="mopt-t">加微信留言</div>
+            <div class="mopt-d">微信号 <code>jiancoolman01</code>。想问项目、提建议、说你踩过的坑，都行。</div>
+            <span class="mbtn primary" onclick="copyText('jiancoolman01','微信号')">复制微信号</span>
+          </div>
+        </div>
+        <div class="mopt">
+          <div class="mopt-n">2</div>
+          <div class="mopt-b">
+            <div class="mopt-t">关注公众号留言</div>
+            <div class="mopt-d">公众号「金融防骗预警」，ID <code>jiancoolman</code>。后台直接留言，我会看。</div>
+            <span class="mbtn" onclick="copyText('jiancoolman','公众号ID')">复制公众号ID</span>
+          </div>
+        </div>
+        <div class="mopt">
+          <div class="mopt-n">3</div>
+          <div class="mopt-b">
+            <div class="mopt-t">公开讨论</div>
+            <div class="mopt-d">GitHub Issues，适合规则建议和技术讨论。</div>
+            <a class="mbtn" href="https://github.com/janecoolman515/fund-anti-fraud/issues" target="_blank">去讨论区 →</a>
+          </div>
+        </div>
+        <div class="mnote">
+          留言区不做实时公开展示 —— 这类内容一旦公开，容易被项目方盯上，也容易误伤无辜。所有反馈都是单线联系。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ══════════════════════════════════════════════════════════
@@ -1182,10 +1575,13 @@ const SC_RULES = [
   ['B3','B', 8,'推荐奖层级且无封顶',  f=> f.level===null?null:(f.level>=1&&!f.cap)],
   ['B4','B', 5,'存在入门门槛费',      f=> f.fee===null?null:(f.fee>0)],
   ['B5','B', 5,'锁仓或强制复投',      f=> f.lock===null?null:f.lock==='yes'],
+  ['B6','B', 6,'承诺保本/固定回报/回购', f=> f.guaranteed===null?null:f.guaranteed==='yes'],
+  ['B7','B', 8,'日化收益率 ≥ 10%（极端）', f=> f.daily===null?null:(f.daily>=10)],
   ['C1','C',10,'提现受限',            f=> f.wd===null?null:f.wd==='yes'],
   ['C2','C', 6,'收款方为个人',        f=> f.payee===null?null:f.payee==='personal'],
   ['C3','C', 5,'无第三方存管',        f=> f.cust===null?null:f.cust==='no'],
   ['C4','C', 4,'无真实造血业务',      f=> f.biz===null?null:(f.biz==='none'||f.biz==='weak')],
+  ['C5','C', 6,'价格可被平台操控',    f=> f.manip===null?null:f.manip==='yes'],
   ['D1','D', 8,'监管已发风险提示',    f=> f.reg?true:null],
   ['D2','D', 6,'投诉集中',            f=> f.complaint===null?null:(f.complaint>=10)],
   ['D3','D', 6,'已有立案或判决',      f=> f.legal===null?null:f.legal==='yes'],
@@ -1204,7 +1600,9 @@ function readForm(){
     status: sel('f_status'), domain: num('f_domain'),
     daily: num('f_daily'), level: num('f_level'), fee: num('f_fee'),
     lock: sel('f_lock'), cap: chk('f_cap'),
+    guaranteed: sel('f_guarantee'),
     wd: sel('f_wd'), payee: sel('f_payee'), cust: sel('f_cust'), biz: sel('f_biz'),
+    manip: sel('f_manip'),
     complaint: num('f_complaint'), legal: sel('f_legal'),
     reg: chk('f_reg'), deny: chk('f_deny'),
   };
@@ -1220,23 +1618,40 @@ function calcScore(f){
     else if (r) { dims[dim] += w; hits.push({id,dim,w,name}); }
   }
   for (const k in dims) dims[k] = Math.min(dims[k], DIM_MAX[k]);
-  const total = Object.values(dims).reduce((a,b)=>a+b,0);
+  let total = Object.values(dims).reduce((a,b)=>a+b,0);
   const coverage = (SC_RULES.length - gaps.length) / SC_RULES.length;
-  return {dims,total,hits,gaps,coverage};
+
+  /* ── 组合判定：庞氏结构三要素 ──
+     拉人计酬 + 入门费 + 无真实造血，三者同时成立即构成资金盘/传销结构。
+     此时不应因「未公布收益率」而降低评级。 */
+  const ids = new Set(hits.map(h=>h.id));
+  const comboPonzi = ['B3','B4','C4'].every(id=>ids.has(id));
+  if (comboPonzi) total = Math.max(total, 82);
+
+  /* ── 极端收益率直接顶格 ── */
+  const extremeYield = ids.has('B7');
+  if (extremeYield) total = Math.max(total, 80);
+
+  return {dims,total,hits,gaps,coverage,comboPonzi,extremeYield};
 }
 
 function renderSelfCheck(){
   const f = readForm();
-  const {dims,total,hits,gaps,coverage} = calcScore(f);
+  const {dims,total,hits,gaps,coverage,comboPonzi,extremeYield} = calcScore(f);
   const box = document.getElementById('scResult');
 
+  // 顺序：分数顶格时不该被「覆盖率不足」压成信息不足
   let lv, color, note;
-  if (coverage < 0.3){
+  if (total >= 80){
+    lv = '极高风险'; color = 'var(--red)';
+    note = comboPonzi
+      ? '命中「庞氏结构三要素」：拉人计酬 + 入门费 + 无真实造血'
+      : extremeYield
+        ? '日化收益率已达极端区间，任何实体经营都无法支撑'
+        : '命中多项核心违规特征，与已知资金盘结构高度一致';
+  } else if (coverage < 0.3){
     lv = '信息不足'; color = 'var(--text-3)';
     note = `已核实 ${SC_RULES.length-gaps.length} / ${SC_RULES.length} 项，太少，无法形成有效评级`;
-  } else if (total >= 80){
-    lv = '极高风险'; color = 'var(--red)';
-    note = '命中多项核心违规特征，与已知资金盘结构高度一致';
   } else if (total >= 60){
     lv = '高风险'; color = 'var(--orange)';
     note = '存在多项无法解释的异常，强烈建议不参与';
@@ -1294,6 +1709,94 @@ document.getElementById('btnReset').onclick = () => {
   document.getElementById('scResult').innerHTML =
     '<div class="sc-empty"><b>填左侧表单，点「计算风险分」</b>18 条规则逐项判断，只对<strong style="color:var(--text-2)">你确认过的事实</strong>计分。<br>留空的项不计分，但会列进「信息缺口」。</div>';
 };
+
+/* ══════════════════════════════════════════════════════════
+   央国企指南切换
+   ══════════════════════════════════════════════════════════ */
+document.querySelectorAll('.g-card').forEach(function (card) {
+  card.onclick = function () {
+    var i = card.dataset.g;
+    document.querySelectorAll('.g-card').forEach(function (c) {
+      c.classList.toggle('on', c === card);
+    });
+    document.querySelectorAll('.g-detail').forEach(function (d) {
+      d.classList.toggle('on', d.dataset.d === i);
+    });
+  };
+});
+
+/* ══════════════════════════════════════════════════════════
+   反馈弹窗
+   ══════════════════════════════════════════════════════════ */
+function openFeedback(tab) {
+  document.getElementById('fbMask').classList.add('on');
+  switchTab(tab || 'bug');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFeedback() {
+  document.getElementById('fbMask').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.mtab').forEach(function (t) {
+    t.classList.toggle('on', t.dataset.tab === tab);
+  });
+  document.querySelectorAll('.mpanel').forEach(function (p) {
+    p.classList.toggle('on', p.dataset.panel === tab);
+  });
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeFeedback();
+});
+
+/* ══════════════════════════════════════════════════════════
+   复制与提示
+   ══════════════════════════════════════════════════════════ */
+function copyText(text, label) {
+  var done = function () { toast('已复制' + (label || '') + '：' + text); };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(function () {
+      fallbackCopy(text, done);
+    });
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, cb) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    cb();
+  } catch (e) {
+    toast('复制失败，请手动复制：' + text);
+  }
+  document.body.removeChild(ta);
+}
+
+function toast(msg) {
+  var t = document.getElementById('__toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '__toast';
+    t.style.cssText = 'position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:300;' +
+      'background:#102C4C;border:1px solid #2A4C70;color:#E8C55C;font-size:13px;' +
+      'padding:11px 20px;border-radius:8px;box-shadow:0 10px 30px -10px rgba(0,0,0,.8);' +
+      'opacity:0;transition:opacity .2s;pointer-events:none;max-width:80vw;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t.__tid);
+  t.__tid = setTimeout(function () { t.style.opacity = '0'; }, 2200);
+}
 
 bindChips();
 render("星辰国际");

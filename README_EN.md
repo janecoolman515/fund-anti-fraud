@@ -40,7 +40,7 @@ An audit workflow. Input: whatever you have — a project name, a reward structu
 It is **not** "I can tell it's a scam at a glance." It is the opposite: a deliberately slow, itemized, reviewable process.
 
 ```
-Input  →  Fact sheet  →  18 checks  →  100-point scorecard  →  Report
+Input  →  Fact sheet  →  21 checks  →  100-point scorecard  →  Report
          (facts vs.     (six tracks)    (A/B/C/D dimensions)   (rating + evidence
           unknowns)                                              + next steps)
 ```
