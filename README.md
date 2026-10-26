@@ -13,7 +13,7 @@
 [![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](tools/)
 [![Language](https://img.shields.io/badge/lang-中文-red)](README_EN.md)
 
-[中文](README.md) · [English](README_EN.md) · [快速开始](#-五分钟快速开始) · [方法论](docs/01-methodology.md) · [示例报告](examples/sample-report.md)
+[中文](README.md) · [English](README_EN.md) · **[🔍 在线体验](https://janecoolman515.github.io/fund-anti-fraud/)** · [快速开始](#-五分钟快速开始) · [方法论](docs/01-methodology.md) · [示例报告](examples/sample-report.md)
 
 </div>
 
