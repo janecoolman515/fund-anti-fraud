@@ -721,6 +721,73 @@ footer{
   font-size:11.5px;color:var(--text-4);line-height:1.75;
 }
 
+/* 模式切换 */
+.sc-tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line);padding-bottom:0}
+.sc-tab{
+  cursor:pointer;font-size:13.5px;color:var(--text-3);
+  padding:11px 20px;border-radius:8px 8px 0 0;
+  border:1px solid transparent;border-bottom:none;margin-bottom:-1px;
+  transition:.15s;
+}
+.sc-tab:hover{color:var(--text-2)}
+.sc-tab.on{
+  color:var(--gold-lt);background:var(--navy-850);
+  border-color:var(--line-strong);border-bottom-color:var(--navy-850);
+}
+.sc-panel{display:none}
+.sc-panel.on{display:block}
+.sc-tab-desc{font-size:12px;color:var(--text-4);margin-bottom:16px;line-height:1.7}
+
+/* 简单模式表单 */
+.easy-f{display:flex;flex-direction:column;gap:16px}
+.ef-item{display:flex;flex-direction:column;gap:7px}
+.ef-item label{font-size:12.5px;color:var(--text-2);display:flex;align-items:center;gap:7px}
+.ef-item label .req{color:var(--red);font-size:11px}
+.ef-item label .hint{color:var(--text-4);font-size:11px;font-weight:400}
+.ef-item input,.ef-item select,.ef-item textarea{
+  background:var(--navy-900);border:1px solid var(--line);
+  color:var(--text);font-size:13.5px;font-family:var(--sans);
+  padding:11px 13px;border-radius:7px;outline:none;transition:.15s;
+  width:100%;resize:vertical;
+}
+.ef-item textarea{min-height:88px;line-height:1.7}
+.ef-item input:focus,.ef-item select:focus,.ef-item textarea:focus{
+  border-color:rgba(201,162,39,.5);box-shadow:0 0 0 3px rgba(201,162,39,.09);
+}
+.ef-item input::placeholder,.ef-item textarea::placeholder{color:var(--text-4);font-size:12.5px}
+
+/* 免责提示 */
+.disclaim-box{
+  border:1px solid rgba(201,162,39,.45);
+  background:linear-gradient(135deg,rgba(201,162,39,.13),rgba(201,162,39,.05));
+  border-radius:9px;padding:14px 16px;margin-bottom:18px;
+}
+.disclaim-box .dt{
+  font-size:12.5px;font-weight:700;color:var(--gold-lt);
+  display:flex;align-items:center;gap:8px;margin-bottom:8px;
+}
+.disclaim-box .dt::before{
+  content:"!";width:16px;height:16px;border-radius:50%;
+  background:var(--gold);color:#1A1400;font-size:11px;font-weight:900;
+  display:grid;place-items:center;flex-shrink:0;
+}
+.disclaim-box p{font-size:11.8px;color:var(--text-2);line-height:1.75;margin:0}
+.disclaim-box p+p{margin-top:7px}
+.disclaim-box b{color:var(--gold-lt)}
+
+/* 解析结果 */
+.parse-list{margin-top:14px;border-top:1px solid var(--line);padding-top:13px}
+.parse-item{
+  display:flex;justify-content:space-between;gap:12px;
+  font-size:11.5px;padding:6px 0;border-bottom:1px solid var(--line-soft);
+}
+.parse-item:last-child{border-bottom:none}
+.parse-k{color:var(--text-3);flex-shrink:0}
+.parse-v{font-family:var(--mono);text-align:right}
+.parse-v.ok{color:var(--green)}
+.parse-v.no{color:var(--text-4)}
+.parse-v.warn{color:var(--orange)}
+
 /* 响应式 */
 @media (max-width:900px){
   .wrap,.nav-in{padding:0 20px}
@@ -763,6 +830,7 @@ footer{
     </a>
     <div class="nav-links">
       <a href="#result">查询</a>
+      <a href="#submit">提交资料</a>
       <a href="#selfcheck">自查</a>
       <a href="#method">方法论</a>
       <a href="#guide" class="nav-guide">央国企上岸指南</a>
@@ -851,6 +919,99 @@ footer{
       </div>
     </div>
     <div id="reportBox"></div>
+  </div>
+</section>
+
+<!-- ══════════ 提交资料 ══════════ -->
+<section class="section submit" id="submit">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Submit Materials</div>
+        <div class="section-h">把手上的资料丢进来，我帮你分析</div>
+        <div class="section-desc">
+          不用懂术语。群里的话术、朋友圈的截图文字、制度说明，复制粘贴进来就行 ——
+          系统会自动从里面提取关键信息，算一个风险分。
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-grid">
+      <div class="sc-form">
+        <div class="easy-f">
+
+          <div class="ef-item">
+            <label>项目名称 <span class="req">*必填</span></label>
+            <input id="e_name" type="text" placeholder="它叫什么？有别名/曾用名一起写上，换皮盘常改名">
+          </div>
+
+          <div class="ef-item">
+            <label>项目类型 <span class="hint">不确定就选「说不上来」</span></label>
+            <select id="e_type">
+              <option value="unknown">说不上来</option>
+              <option value="理财">理财 / 投资 / 分红</option>
+              <option value="挖矿">挖矿 / 算力 / 矿机</option>
+              <option value="商城">商城返利 / 消费返利</option>
+              <option value="交易所">交易所 / 炒币 / 合约</option>
+              <option value="数藏">数字藏品 / NFT</option>
+              <option value="抢单">抢单 / 互助 / 抢拍</option>
+              <option value="外汇">外汇 / 黄金 / 期货</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+
+          <div class="ef-item">
+            <label>项目网站 / APP 名称 <span class="hint">有就填，没有留空</span></label>
+            <input id="e_site" type="text" placeholder="例：www.xxx.com 或在应用商店搜到的名字">
+          </div>
+
+          <div class="ef-item">
+            <label>它说能赚多少 <span class="hint">原话照抄，别自己换算</span></label>
+            <input id="e_yield" type="text" placeholder="例：日化 1.8% / 月化 30% / 7 天回本 / 投 1 万每天返 300">
+          </div>
+
+          <div class="ef-item">
+            <label>制度模式 <span class="hint">几级分销、有没有门槛费、要不要锁仓</span></label>
+            <textarea id="e_scheme" placeholder="例：直推 3 代，8%/5%/3%；要买 998 的套餐才能激活；本金锁仓 30 天，想提前取要再买一份"></textarea>
+          </div>
+
+          <div class="ef-item">
+            <label>宣传话术 / 鸡汤 <span class="hint">群里怎么说的、朋友圈怎么发的，整段贴进来</span></label>
+            <textarea id="e_pitch" placeholder="例：国资背景、实体产业托底、早进场早收益、拉三个人就回本、错过这波再等十年……"></textarea>
+          </div>
+
+          <div class="ef-item">
+            <label>你现在的情况</label>
+            <select id="e_stage">
+              <option value="pre">还没投，在犹豫</option>
+              <option value="normal">已经投了，能正常提现</option>
+              <option value="slow">已经投了，提现变慢 / 限额</option>
+              <option value="deposit">它让我再充钱才能提现</option>
+              <option value="gone">群解散了 / 客服联系不上</option>
+            </select>
+          </div>
+
+          <div class="ef-item">
+            <label>你还想知道什么 <span class="hint">选填</span></label>
+            <textarea id="e_question" placeholder="例：这钱还能拿回来吗？我要不要报警？怎么跟家里人说？" style="min-height:66px"></textarea>
+          </div>
+
+        </div>
+
+        <div class="sc-actions">
+          <button class="btn-calc" id="btnParse">分析这些资料</button>
+          <button class="btn-reset" id="btnEasyReset">清空</button>
+        </div>
+      </div>
+
+      <div class="sc-result" id="easyResult">
+        <div class="sc-empty">
+          <b>左边填完，点「分析这些资料」</b>
+          系统会从你贴的文字里自动找：收益承诺、分销层级、门槛费、锁仓、保本承诺。<br>
+          找到几项算几项，找不到的会明确告诉你「没找到」，不会瞎猜。
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1621,11 +1782,12 @@ function calcScore(f){
   let total = Object.values(dims).reduce((a,b)=>a+b,0);
   const coverage = (SC_RULES.length - gaps.length) / SC_RULES.length;
 
-  /* ── 组合判定：庞氏结构三要素 ──
-     拉人计酬 + 入门费 + 无真实造血，三者同时成立即构成资金盘/传销结构。
-     此时不应因「未公布收益率」而降低评级。 */
+  /* ── 组合判定：传销结构 ──
+     《禁止传销条例》第七条第（二）（三）项：
+       入门费 + 团队计酬，这两条本身就是传销的法定特征，不需要再等收益率。
+     所以只要 B3（拉人计酬）与 B4（门槛费）同时命中，结构即成立。 */
   const ids = new Set(hits.map(h=>h.id));
-  const comboPonzi = ['B3','B4','C4'].every(id=>ids.has(id));
+  const comboPonzi = ids.has('B3') && ids.has('B4');
   if (comboPonzi) total = Math.max(total, 82);
 
   /* ── 极端收益率直接顶格 ── */
@@ -1797,6 +1959,247 @@ function toast(msg) {
   clearTimeout(t.__tid);
   t.__tid = setTimeout(function () { t.style.opacity = '0'; }, 2200);
 }
+
+/* ══════════════════════════════════════════════════════════
+   评级（分数优先于覆盖率）
+   ══════════════════════════════════════════════════════════ */
+function gradeOf(total, coverage) {
+  if (total >= 80) return { level: 'critical', text: '极高风险', color: 'var(--red)' };
+  if (coverage < 0.3) return { level: 'unknown', text: '信息不足', color: 'var(--text-3)' };
+  if (total >= 60) return { level: 'high', text: '高风险', color: 'var(--orange)' };
+  if (total >= 40) return { level: 'medium', text: '中风险', color: 'var(--yellow)' };
+  return { level: 'low', text: '暂未发现明显违规', color: 'var(--green)' };
+}
+
+/* ══════════════════════════════════════════════════════════
+   资料解析引擎 —— 从用户贴的自然语言里提取关键事实
+   原则：只提取「文本里确实出现过的」，找不到就留空，不瞎猜
+   ══════════════════════════════════════════════════════════ */
+function parseMaterials() {
+  const g = id => (document.getElementById(id).value || '').trim();
+  const stage = document.getElementById('e_stage').value;
+
+  const raw = [g('e_yield'), g('e_scheme'), g('e_pitch'), g('e_site')].join('\n');
+  const t = raw.replace(/\s+/g, ' ');
+
+  const found = {};   // 字段 → {v: 值, ev: 原文依据}
+
+  /* ── 1. 收益率 ── */
+  let m = t.match(/日[化息率收益]{1,3}[^\d%]{0,10}(\d+(?:\.\d+)?)\s*%/);
+  if (m) {
+    found.daily = { v: parseFloat(m[1]), ev: m[0] };
+  } else {
+    m = t.match(/月[化息率收益]{1,3}[^\d%]{0,10}(\d+(?:\.\d+)?)\s*%/);
+    if (m) {
+      const mv = parseFloat(m[1]);
+      const dv = (Math.pow(1 + mv / 100, 1 / 30) - 1) * 100;
+      found.daily = { v: +dv.toFixed(3), ev: m[0] + '（按月化折算日化）' };
+    }
+  }
+  if (!found.daily) {
+    // 「投 1 万每天返 300」
+    m = t.match(/投\s*(\d+(?:\.\d+)?)\s*(万)?[^\d]{0,8}(?:每天|每日|一天)[^\d]{0,6}(?:返|赚|收益|给)\s*(\d+(?:\.\d+)?)/);
+    if (m) {
+      const p = parseFloat(m[1]) * (m[2] ? 10000 : 1);
+      const d = parseFloat(m[3]);
+      if (p > 0) found.daily = { v: +(d / p * 100).toFixed(3), ev: m[0] };
+    }
+  }
+  if (!found.daily) {
+    // 「7 天回本」
+    m = t.match(/(\d+)\s*天(?:就)?回本/);
+    if (m) {
+      const days = parseInt(m[1]);
+      if (days > 0) found.daily = { v: +(100 / days).toFixed(2), ev: m[0] + '（按回本周期倒推）' };
+    }
+  }
+
+  /* ── 2. 分销层级（支持「直推3代」和「推荐三个人」）── */
+  const CN_NUM = { '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10 };
+  m = t.match(/(?:直推|推荐|分销|代理|团队|层级|拉)[^\d一二两三四五六七八九十]{0,10}([一二两三四五六七八九十]|\d+)\s*(?:代|级|层|个|人)/);
+  if (!m) m = t.match(/([一二两三四五六七八九十]|\d+)\s*(?:代|级|层)\s*(?:分销|分佣|返佣|返利|推荐)/);
+  if (m) {
+    const raw = m[1];
+    const n = CN_NUM[raw] !== undefined ? CN_NUM[raw] : parseInt(raw);
+    found.level = { v: n >= 1 ? n : 1, ev: m[0] };
+  } else if (/三代|三级|三层|多代|多层|无限代/.test(t)) {
+    found.level = { v: 3, ev: '出现「三级 / 三代 / 多层 / 无限代」字样' };
+  } else if (/直推|推荐奖|拉人|发展下线|团队奖|间推|邀请奖励|分享奖励/.test(t)) {
+    found.level = { v: 1, ev: '出现推荐奖 / 拉人 / 团队奖相关表述' };
+  }
+
+  /* ── 3. 门槛费 ──
+     先匹配「998 的套餐」这种数字在前的语序（更常见也更准），
+     再匹配「套餐 998」；关键词后的距离限制在 6 字内，防止跨句抓错数字 */
+  m = t.match(/(\d+(?:\.\d+)?)\s*(?:元|块)?\s*(?:的)?\s*(?:套餐|会员|激活|门槛|入会|会费|礼包)/);
+  if (!m) m = t.match(/(?:门槛费|激活费|会员费|入会费|入门费|套餐费|会费)[^\d]{0,6}(\d+(?:\.\d+)?)/);
+  if (!m) m = t.match(/(?:买|购|交|付|充)\s*(\d+(?:\.\d+)?)\s*(?:元|块)?/);
+  if (m) {
+    const v = parseFloat(m[1] !== undefined ? m[1] : m[0].replace(/\D/g, ''));
+    if (v >= 1) found.fee = { v: v, ev: m[0] };
+  }
+
+  /* ── 4. 锁仓 / 复投 ── */
+  if (/锁仓|冻结|锁定|不能取|复投|强制复投|到期才能|释放/.test(t)) {
+    found.lock = { v: 'yes', ev: '出现锁仓 / 冻结 / 复投 / 释放相关表述' };
+  }
+
+  /* ── 5. 保本 / 回购承诺 ── */
+  if (/保本|保收益|托底|包赔|兜底|不会亏|保证收益|回购|溢价回收/.test(t)) {
+    found.guaranteed = { v: 'yes', ev: '出现保本 / 托底 / 包赔 / 回购承诺' };
+  }
+
+  /* ── 6. 提现受限 ── */
+  if (['slow', 'deposit', 'gone'].indexOf(stage) >= 0) {
+    found.wd = { v: 'yes', ev: '你选择的状态是「' + document.querySelector('#e_stage option:checked').textContent + '」' };
+  } else if (/(?:提现|到账|出金)[^。；]{0,20}(?:限额|排队|审核|手续费|不能|无法|限制)/.test(t)) {
+    found.wd = { v: 'yes', ev: '文本提及提现限额 / 排队 / 无法到账' };
+  }
+
+  /* ── 7. 造血业务 ── */
+  if (/没有实际业务|无实际业务|空壳|没有真实|不存在真实|纯拉人|只靠拉人/.test(t)) {
+    found.biz = { v: 'none', ev: '文本提及无真实业务 / 纯拉人' };
+  }
+
+  /* ── 8. 价格操控 ── */
+  if (/只涨不跌|单边上涨|平台控盘|自买自卖|后台改价|拉升币价|控盘/.test(t)) {
+    found.manip = { v: 'yes', ev: '出现只涨不跌 / 控盘 / 自买自卖' };
+  }
+
+  /* ── 9. 收款方 ── */
+  if (/个人收款|私人账户|转账给个人|收款码/.test(t)) {
+    found.payee = { v: 'personal', ev: '出现个人收款 / 私人账户' };
+  }
+
+  /* ── 10. 否定表述：明确说「没有」的，要记成 no，不能当未知 ──
+     「明确没有」和「不知道」是两件事，混在一起会让分数失真 */
+  if (/不需要交钱|无需门槛|免费加入|不用交钱|没有门槛|无门槛/.test(t)) {
+    found.fee = { v: 0, ev: '文本明确说明无需门槛费' };
+  }
+  if (/没有锁仓|不锁仓|随时可以取|随时提现|无锁仓|不冻结/.test(t)) {
+    found.lock = { v: 'no', ev: '文本明确说明无锁仓' };
+  }
+  if (/对公账户|公司账户|可开发票|开发票/.test(t)) {
+    found.payee = { v: 'company', ev: '文本提及对公账户 / 可开发票' };
+  }
+  /* 封顶：先排除否定说法，「无封顶」不能算成「有封顶」 */
+  if (/无封顶|没有封顶|不封顶|无上限|不限层级/.test(t)) {
+    found.cap = false;
+  } else if (/有封顶|最高不超过|有上限|封顶/.test(t)) {
+    found.cap = true;
+  }
+
+  return { found: found, raw: raw, name: g('e_name'), type: g('e_type'), stage: stage,
+           site: g('e_site'), question: g('e_question') };
+}
+
+/* 把解析结果映射成 calcScore 需要的 facts */
+function toFacts(found) {
+  const f = {
+    icp: null, match: null, paid: null, status: null, domain: null,
+    daily: null, level: null, fee: null, lock: null, cap: false,
+    guaranteed: null, wd: null, payee: null, cust: null, biz: null,
+    manip: null, complaint: null, legal: null, reg: false, deny: false
+  };
+  if (found.daily) f.daily = found.daily.v;
+  if (found.level) f.level = found.level.v;
+  if (found.fee) f.fee = found.fee.v;
+  if (found.lock) f.lock = found.lock.v;
+  if (found.guaranteed) f.guaranteed = found.guaranteed.v;
+  if (found.wd) f.wd = found.wd.v;
+  if (found.biz) f.biz = found.biz.v;
+  if (found.manip) f.manip = found.manip.v;
+  if (found.payee) f.payee = found.payee.v;
+  if (found.cap) f.cap = true;
+  return f;
+}
+
+const STAGE_ADVICE = {
+  pre: ['还没投 —— 这是最好的时候', '先把这份报告看完再决定。日化超过 0.1%、收益和拉人挂钩的项目，只有「什么时候崩」，没有「会不会崩」。'],
+  normal: ['能提现，先提出来', '不要有「再赚一轮」的念头。绝大多数亏损都发生在这个念头之后。提现到账后不要再复投。'],
+  slow: ['提现变慢 = 资金链收紧', '停止一切追加，保留转账记录、聊天记录、制度截图，向属地公安经侦报案。'],
+  deposit: ['它让你再充钱才能提现', '一分钱都不要再打。所谓「解冻金」「保证金」「税费」是二次收割，打进去不会解锁任何东西。'],
+  gone: ['群解散 / 客服失联', '立即报案，提供全部转账流水。警惕换皮新盘：同一批人换名字重开，早期会允许老会员「平移资产」重建信任。']
+};
+
+function renderParse() {
+  const p = parseMaterials();
+  const box = document.getElementById('easyResult');
+
+  if (!p.name) {
+    toast('请先填项目名称');
+    document.getElementById('e_name').focus();
+    return;
+  }
+
+  const facts = toFacts(p.found);
+  const r = calcScore(facts);
+  const g = gradeOf(r.total, r.coverage);
+
+  const known = Object.keys(p.found).filter(k => k !== 'cap');   // cap 是 B3 的修饰项，不单列
+  const knownRows = known.length ? known.map(k => {
+    const label = {
+      daily: '收益率', level: '分销层级', fee: '门槛费', lock: '锁仓 / 复投',
+      guaranteed: '保本 / 回购承诺', wd: '提现受限', biz: '真实造血业务',
+      manip: '价格可操控', payee: '收款方'
+    }[k] || k;
+    return '<div class="parse-item"><span class="parse-k">' + label +
+      '</span><span class="parse-v ok">已识别</span></div>' +
+      '<div style="font-size:11px;color:var(--text-4);padding:0 0 8px 0;line-height:1.6">依据：' +
+      escapeHtml(p.found[k].ev) + '</div>';
+  }).join('') : '<div style="font-size:12px;color:var(--text-4)">没有从你的文字里识别出任何可判定的事实。</div>';
+
+  const adv = STAGE_ADVICE[p.stage] || STAGE_ADVICE.pre;
+
+  box.innerHTML = `
+    <div class="sc-score">
+      <div class="sc-ring" style="--pct:${r.total};--rc:${g.color}"><span>${r.total}</span></div>
+      <div>
+        <div class="sc-lv" style="color:${g.color}">${g.text}</div>
+        <div class="sc-lv-sub">${escapeHtml(p.name)}</div>
+      </div>
+    </div>
+
+    <div class="disclaim-box">
+      <div class="dt">这个分数只代表你提交的这些资料</div>
+      <p>你填得越少，分数越<strong>不准</strong> —— 不是偏高，是<b>偏低</b>。
+      没提供的项系统不会扣分，<b>不代表它没问题</b>。</p>
+      <p>比如你没说提现规则，系统就不会因为提现受限扣那 10 分。
+      要更准，请补齐下方「没找到的信息」，或把资料发给我人工核查。</p>
+    </div>
+
+    <div class="block-title" style="margin-bottom:10px">从你的资料里识别出</div>
+    <div class="parse-list">${knownRows}</div>
+
+    <div class="block-title" style="margin:18px 0 10px">没找到的信息</div>
+    <div style="font-size:11.5px;color:var(--text-4);line-height:1.75">
+      ${r.gaps.slice(0, 8).map(x => '· ' + x.name).join('<br>')}
+      ${r.gaps.length > 8 ? '<br>· 等共 ' + r.gaps.length + ' 项' : ''}
+    </div>
+
+    <div class="sc-warn" style="margin-top:18px">
+      <strong>${adv[0]}</strong><br>${adv[1]}
+    </div>
+
+    <div style="margin-top:16px;font-size:11.5px;color:var(--text-4);line-height:1.7">
+      识别依据全部来自你自己贴的文字，系统没有联网、没有猜测。
+      如需人工复核，把项目名和截图发到微信 <span style="color:var(--gold-lt);font-family:var(--mono)">jiancoolman01</span>。
+    </div>
+  `;
+}
+
+document.getElementById('btnParse').onclick = renderParse;
+document.getElementById('btnEasyReset').onclick = function () {
+  ['e_name', 'e_site', 'e_yield', 'e_scheme', 'e_pitch', 'e_question'].forEach(function (id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('e_type').value = 'unknown';
+  document.getElementById('e_stage').value = 'pre';
+  document.getElementById('easyResult').innerHTML =
+    '<div class="sc-empty"><b>左边填完，点「分析这些资料」</b>' +
+    '系统会从你贴的文字里自动找：收益承诺、分销层级、门槛费、锁仓、保本承诺。<br>' +
+    '找到几项算几项，找不到的会明确告诉你「没找到」，不会瞎猜。</div>';
+};
 
 bindChips();
 render("星辰国际");
