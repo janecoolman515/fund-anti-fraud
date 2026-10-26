@@ -19,7 +19,9 @@
 
 ---
 
-> 维护者 **janecoolman** ｜ 公众号「**金融防骗预警**」（ID：`jiancoolman`）
+> 维护者 **janecoolman** ｜ 公众号「**金融防骗预警**」
+>
+> 公众号ID `jiancoolman` · 微信号 `jiancoolman01` · 视频号 `Janecoolman01`
 >
 > 这个项目源于一件事：过去几年里，每天都有人把同一个问题丢过来——
 > **「这个项目能不能投？」**
@@ -586,6 +588,6 @@ python tools/report_builder.py examples/sample-case.json -o REPORT.md
 
 **如果这份手册帮你避开了一个坑，请把它转给下一个可能踩进去的人。**
 
-公众号「**金融防骗预警**」 · ID `jiancoolman` · 视频号 `Janecoolman01`
+公众号「**金融防骗预警**」 · 公众号ID `jiancoolman` · 微信号 `jiancoolman01` · 视频号 `Janecoolman01`
 
 </div>
