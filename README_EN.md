@@ -8,7 +8,7 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Docs: CC BY-NC-SA 4.0](https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-DOCS)
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](tools/)
 
 [中文](README.md) · English · [Quick Start](#-quick-start) · [Methodology](docs/01-methodology.md) · [Sample Report](examples/sample-report.md)
@@ -148,7 +148,7 @@ git clone https://github.com/janecoolman515/fund-anti-fraud.git "$env:USERPROFIL
 git clone https://github.com/janecoolman515/fund-anti-fraud.git
 cd fund-anti-fraud
 
-# Zero dependencies. Python 3.8+ runs it directly.
+# Zero dependencies. Python 3.9+ runs it directly.
 python tools/apr_calculator.py --daily 1.8
 python tools/scheme_audit.py examples/sample-case.json
 python tools/report_builder.py examples/sample-case.json -o REPORT.md
