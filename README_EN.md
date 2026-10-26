@@ -18,7 +18,9 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 
 ---
 
-> Maintained by **janecoolman** — WeChat account 「金融防骗预警」 (ID: `jiancoolman`)
+> Maintained by **janecoolman** — WeChat Official Account 「金融防骗预警」
+>
+> Official Account ID `jiancoolman` · WeChat ID `jiancoolman01` · Channels `Janecoolman01`
 >
 > This project started with one question people kept asking:
 > **"Can I invest in this?"**
@@ -364,6 +366,6 @@ the methodology is years of accumulated field notes that shouldn't be repackaged
 
 **If this handbook helped you dodge one bad decision, pass it to the next person who might not.**
 
-WeChat 「金融防骗预警」 · ID `jiancoolman` · Channels `Janecoolman01`
+WeChat Official Account 「金融防骗预警」 · Official Account ID `jiancoolman` · WeChat ID `jiancoolman01` · Channels `Janecoolman01`
 
 </div>
