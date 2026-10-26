@@ -6,6 +6,7 @@
 
 Turn a vague suspicion into a scored, source-traceable risk report.
 
+[![CI](https://github.com/janecoolman515/fund-anti-fraud/actions/workflows/ci.yml/badge.svg)](https://github.com/janecoolman515/fund-anti-fraud/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Docs: CC BY-NC-SA 4.0](https://img.shields.io/badge/docs-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-DOCS)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
