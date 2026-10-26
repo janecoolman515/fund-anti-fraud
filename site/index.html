@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金融防骗预警 · 投资项目风险查询</title>
+<style>
+/* ══════════════════════════════════════════════════════════
+   设计令牌
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --navy-950:#050E1B;
+  --navy-900:#071426;
+  --navy-850:#091A2F;
+  --navy-800:#0B1F38;
+  --navy-750:#0D2542;
+  --navy-700:#102C4C;
+  --navy-600:#163A62;
+  --navy-500:#1E4B7A;
+  --navy-400:#2A6099;
+
+  --line:#16334F;
+  --line-soft:rgba(58,116,170,.18);
+  --line-strong:rgba(58,116,170,.34);
+
+  --gold:#C9A227;
+  --gold-lt:#E8C55C;
+  --gold-dim:rgba(201,162,39,.14);
+
+  --text:#E4EDF7;
+  --text-2:#A8BFD6;
+  --text-3:#6E88A6;
+  --text-4:#4A6280;
+
+  --red:#D9433F;
+  --red-bg:rgba(217,67,63,.12);
+  --orange:#E07B39;
+  --orange-bg:rgba(224,123,57,.12);
+  --yellow:#C9A227;
+  --yellow-bg:rgba(201,162,39,.12);
+  --green:#2E9E5B;
+  --green-bg:rgba(46,158,91,.12);
+
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:var(--sans);
+  background:var(--navy-950);
+  color:var(--text);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* 全局网格底纹 */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(58,116,170,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(58,116,170,.045) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ══════════════════════════════════════════════════════════
+   顶部导航
+   ══════════════════════════════════════════════════════════ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,14,27,.88);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:1180px;margin:0 auto;padding:0 32px;
+  height:64px;display:flex;align-items:center;gap:28px;
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text)}
+.brand-mark{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(145deg,var(--navy-500),var(--navy-700));
+  border:1px solid var(--line-strong);
+  display:grid;place-items:center;
+  position:relative;
+  box-shadow:0 0 0 1px rgba(201,162,39,.12) inset;
+}
+.brand-mark::after{
+  content:"";
+  width:11px;height:11px;
+  border:1.6px solid var(--gold);
+  border-radius:2px;
+  transform:rotate(45deg);
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.2}
+.brand-name{font-size:14.5px;font-weight:700;letter-spacing:.02em}
+.brand-sub{font-size:10.5px;color:var(--text-3);letter-spacing:.1em;font-family:var(--mono);text-transform:uppercase}
+
+.nav-links{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav-links a{
+  font-size:13px;color:var(--text-2);text-decoration:none;
+  padding:7px 13px;border-radius:6px;transition:.15s;
+}
+.nav-links a:hover{color:var(--text);background:var(--navy-700)}
+.nav-cta{
+  font-size:12.5px;font-family:var(--mono);
+  border:1px solid var(--line-strong);border-radius:6px;
+  padding:7px 14px;color:var(--gold-lt)!important;
+  background:var(--gold-dim);
+}
+.nav-cta:hover{background:rgba(201,162,39,.2)!important}
+
+/* ══════════════════════════════════════════════════════════
+   HERO + 搜索
+   ══════════════════════════════════════════════════════════ */
+.hero{
+  padding:64px 0 48px;
+  position:relative;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(900px 320px at 50% -10%,rgba(30,75,122,.55),transparent 70%),
+    linear-gradient(180deg,var(--navy-900),var(--navy-950));
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  color:var(--gold);text-transform:uppercase;
+  border:1px solid rgba(201,162,39,.28);
+  background:var(--gold-dim);
+  padding:5px 12px;border-radius:100px;margin-bottom:20px;
+}
+.hero-eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--gold);display:block;
+  box-shadow:0 0 8px var(--gold);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.hero h1{
+  font-size:40px;line-height:1.28;font-weight:800;
+  letter-spacing:-.01em;margin-bottom:14px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(100deg,var(--gold-lt),var(--gold) 60%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p.lead{font-size:15px;color:var(--text-2);max-width:640px;margin-bottom:32px}
+
+/* 搜索框 */
+.search-shell{
+  position:relative;
+  background:linear-gradient(180deg,var(--navy-800),var(--navy-850));
+  border:1px solid var(--line-strong);
+  border-radius:12px;
+  padding:7px;
+  display:flex;gap:7px;
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.85),0 0 0 1px rgba(201,162,39,.06) inset;
+  max-width:820px;
+}
+.search-shell:focus-within{
+  border-color:rgba(201,162,39,.5);
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.85),0 0 0 3px rgba(201,162,39,.1);
+}
+.search-icon{
+  display:grid;place-items:center;padding-left:14px;color:var(--text-3);
+}
+.search-icon svg{width:17px;height:17px}
+#q{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-size:15.5px;font-family:var(--sans);
+  padding:13px 6px;
+}
+#q::placeholder{color:var(--text-4)}
+.btn-search{
+  border:none;cursor:pointer;
+  background:linear-gradient(180deg,var(--gold-lt),var(--gold));
+  color:#1A1400;font-weight:700;font-size:14px;
+  padding:0 28px;border-radius:8px;
+  font-family:var(--sans);letter-spacing:.02em;
+  transition:.15s;
+  box-shadow:0 4px 14px -4px rgba(201,162,39,.5);
+}
+.btn-search:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-search:active{transform:translateY(0)}
+
+.hot{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  margin-top:16px;font-size:12.5px;color:var(--text-3);
+}
+.hot b{font-weight:500;color:var(--text-4);font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+.chip{
+  cursor:pointer;
+  border:1px solid var(--line);background:var(--navy-800);
+  color:var(--text-2);font-size:12.5px;
+  padding:5px 12px;border-radius:100px;transition:.15s;
+}
+.chip:hover{border-color:var(--line-strong);color:var(--text);background:var(--navy-700)}
+
+/* 统计条 */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);
+  background:var(--navy-900);
+}
+.stat{padding:20px 24px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--text-4);text-transform:uppercase;margin-bottom:6px}
+.stat-v{font-family:var(--mono);font-size:23px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat-v small{font-size:12px;color:var(--text-3);font-weight:400;margin-left:4px}
+.stat-v.red{color:var(--red)}
+.stat-v.gold{color:var(--gold-lt)}
+
+/* ══════════════════════════════════════════════════════════
+   结果区
+   ══════════════════════════════════════════════════════════ */
+.section{padding:52px 0}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:20px;flex-wrap:wrap}
+.section-title{font-size:12px;font-family:var(--mono);letter-spacing:.16em;color:var(--text-4);text-transform:uppercase;margin-bottom:7px}
+.section-h{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.section-desc{font-size:13.5px;color:var(--text-3);margin-top:6px;max-width:560px}
+
+/* 报告卡 */
+.report{
+  border:1px solid var(--line-strong);
+  border-radius:14px;
+  background:linear-gradient(180deg,var(--navy-850),var(--navy-900));
+  overflow:hidden;
+  box-shadow:0 30px 70px -40px rgba(0,0,0,.9);
+}
+.report-top{
+  padding:26px 30px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  background:linear-gradient(180deg,rgba(217,67,63,.06),transparent);
+}
+.report-title{flex:1;min-width:260px}
+.report-name{font-size:25px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.report-name .tag-demo{
+  font-size:10px;font-family:var(--mono);letter-spacing:.08em;
+  border:1px solid var(--line-strong);color:var(--text-3);
+  padding:2px 7px;border-radius:4px;font-weight:400;
+}
+.report-meta{font-size:12.5px;color:var(--text-3);margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+.report-meta span{display:flex;align-items:center;gap:5px}
+.report-meta code{font-family:var(--mono);color:var(--text-2);font-size:12px}
+
+/* 评分环 */
+.score-box{display:flex;align-items:center;gap:20px}
+.ring{
+  --pct:86;
+  --ring-color:var(--red);
+  width:96px;height:96px;border-radius:50%;
+  background:conic-gradient(var(--ring-color) calc(var(--pct)*1%),rgba(255,255,255,.05) 0);
+  display:grid;place-items:center;
+  position:relative;
+  flex-shrink:0;
+}
+.ring::before{
+  content:"";position:absolute;inset:7px;border-radius:50%;
+  background:var(--navy-900);
+  box-shadow:0 0 0 1px var(--line) inset;
+}
+.ring-in{position:relative;text-align:center;line-height:1}
+.ring-num{font-family:var(--mono);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.ring-of{font-size:9.5px;color:var(--text-4);font-family:var(--mono);margin-top:4px;letter-spacing:.06em}
+
+.verdict{display:flex;flex-direction:column;gap:6px}
+.verdict-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:700;
+  padding:7px 15px;border-radius:7px;
+  border:1px solid;
+}
+.verdict-badge .dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 10px currentColor}
+.v-critical{color:var(--red);background:var(--red-bg);border-color:rgba(217,67,63,.34)}
+.v-high{color:var(--orange);background:var(--orange-bg);border-color:rgba(224,123,57,.34)}
+.v-medium{color:var(--yellow);background:var(--yellow-bg);border-color:rgba(201,162,39,.34)}
+.v-low{color:var(--green);background:var(--green-bg);border-color:rgba(46,158,91,.34)}
+.verdict-note{font-size:11.5px;color:var(--text-4);font-family:var(--mono)}
+
+/* 四维 */
+.dims{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);
+}
+.dim{padding:20px 22px;border-right:1px solid var(--line)}
+.dim:last-child{border-right:none}
+.dim-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px}
+.dim-name{font-size:12.5px;color:var(--text-2);font-weight:600}
+.dim-val{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums}
+.dim-val small{font-size:10.5px;color:var(--text-4);font-weight:400}
+.dim-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.055);overflow:hidden;margin-bottom:9px}
+.dim-fill{height:100%;border-radius:2px;transition:width .7s cubic-bezier(.22,1,.36,1)}
+.dim-tags{font-size:10.5px;color:var(--text-4);line-height:1.45;font-family:var(--mono)}
+
+/* 证据表 */
+.evidence{padding:26px 30px 6px}
+.block-title{
+  font-size:12px;font-family:var(--mono);letter-spacing:.12em;
+  color:var(--text-4);text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:9px;
+}
+.block-title::after{content:"";flex:1;height:1px;background:var(--line)}
+table.ev{width:100%;border-collapse:collapse;font-size:12.8px}
+table.ev th{
+  text-align:left;font-weight:600;color:var(--text-3);
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:9px 12px;border-bottom:1px solid var(--line-strong);
+  font-family:var(--mono);white-space:nowrap;
+}
+table.ev td{
+  padding:12px;border-bottom:1px solid var(--line-soft);
+  color:var(--text-2);vertical-align:top;line-height:1.55;
+}
+table.ev tr:last-child td{border-bottom:none}
+table.ev tr:hover td{background:rgba(30,75,122,.14)}
+table.ev td:first-child{font-family:var(--mono);color:var(--text-4);font-size:11.5px;white-space:nowrap}
+table.ev td.fact{color:var(--text);font-weight:500}
+table.ev td.src{font-size:11.5px;color:var(--text-3);font-family:var(--mono)}
+.ev-note{
+  margin:16px 0 0;padding:13px 16px;
+  border-left:2px solid var(--gold);
+  background:var(--gold-dim);
+  font-size:12.5px;color:var(--text-2);line-height:1.65;
+}
+
+/* 结局推演 */
+.outlook{padding:26px 30px 30px;border-top:1px solid var(--line)}
+.chain{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:4px 0 18px}
+.chain-step{
+  font-size:11.5px;font-family:var(--mono);
+  padding:6px 12px;border-radius:5px;
+  border:1px solid var(--line);background:var(--navy-800);
+  color:var(--text-3);white-space:nowrap;
+}
+.chain-step.on{
+  border-color:rgba(217,67,63,.4);background:var(--red-bg);color:#F09A97;
+  box-shadow:0 0 14px -4px rgba(217,67,63,.5);
+}
+.chain-arrow{color:var(--text-4);font-size:11px;padding:0 7px;font-family:var(--mono)}
+.advice{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.advice-item{
+  border:1px solid var(--line);border-radius:9px;
+  padding:14px 16px;background:var(--navy-850);
+  font-size:12.8px;color:var(--text-2);line-height:1.62;
+}
+.advice-item b{display:block;color:var(--text);font-size:12px;margin-bottom:6px;letter-spacing:.02em}
+.advice-item b::before{content:"→ ";color:var(--gold)}
+
+/* 未收录 */
+.empty{
+  border:1px dashed var(--line-strong);border-radius:14px;
+  padding:52px 32px;text-align:center;background:var(--navy-900);
+}
+.empty h3{font-size:17px;margin-bottom:9px}
+.empty p{font-size:13.5px;color:var(--text-3);max-width:440px;margin:0 auto 20px}
+
+/* ══════════════════════════════════════════════════════════
+   方法论
+   ══════════════════════════════════════════════════════════ */
+.method{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+.flow{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  margin-bottom:36px;
+}
+.flow-step{
+  padding:22px 20px;border-right:1px solid var(--line);
+  background:var(--navy-850);position:relative;
+}
+.flow-step:last-child{border-right:none}
+.flow-step::after{
+  content:"";position:absolute;right:-5px;top:50%;
+  width:9px;height:9px;border-top:1px solid var(--line-strong);
+  border-right:1px solid var(--line-strong);
+  transform:translateY(-50%) rotate(45deg);
+  background:var(--navy-850);z-index:2;
+}
+.flow-step:last-child::after{display:none}
+.flow-n{font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.12em;margin-bottom:9px}
+.flow-t{font-size:14.5px;font-weight:700;margin-bottom:7px}
+.flow-d{font-size:12px;color:var(--text-3);line-height:1.6}
+
+/* 六线网格 */
+.six{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px}
+.line-card{
+  border:1px solid var(--line);border-radius:10px;
+  padding:18px 19px;background:var(--navy-850);
+  transition:.18s;
+}
+.line-card:hover{border-color:var(--line-strong);background:var(--navy-800);transform:translateY(-2px)}
+.line-id{
+  font-family:var(--mono);font-size:10px;color:var(--text-4);
+  letter-spacing:.12em;margin-bottom:8px;
+}
+.line-t{font-size:14px;font-weight:700;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.line-t .sq{width:6px;height:6px;background:var(--gold);border-radius:1px;flex-shrink:0}
+.line-d{font-size:11.8px;color:var(--text-3);line-height:1.65}
+
+/* 原理公式 */
+.principle{
+  border:1px solid rgba(201,162,39,.24);border-radius:12px;
+  background:linear-gradient(135deg,rgba(201,162,39,.055),transparent 60%),var(--navy-850);
+  padding:28px 32px;
+}
+.principle-q{font-size:12px;font-family:var(--mono);color:var(--gold);letter-spacing:.1em;margin-bottom:14px}
+.principle-main{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:18px;letter-spacing:-.01em}
+.principle-main em{font-style:normal;color:var(--gold-lt)}
+.principle-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.pg-item{font-size:12.5px;color:var(--text-2);line-height:1.7;padding-left:16px;position:relative}
+.pg-item::before{
+  content:"";position:absolute;left:0;top:8px;
+  width:5px;height:5px;border-radius:50%;background:var(--navy-400);
+}
+.pg-item b{color:var(--text)}
+
+/* ══════════════════════════════════════════════════════════
+   页脚
+   ══════════════════════════════════════════════════════════ */
+footer{
+  padding:40px 0 48px;border-top:1px solid var(--line);
+  background:var(--navy-950);
+}
+.foot-in{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-start}
+.foot-brand{display:flex;gap:12px;align-items:flex-start;max-width:420px}
+.foot-txt{font-size:12.5px;color:var(--text-3);line-height:1.75}
+.foot-txt b{color:var(--text-2);font-weight:600}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap}
+.foot-links a{font-size:12.5px;color:var(--text-3);text-decoration:none;transition:.15s}
+.foot-links a:hover{color:var(--gold-lt)}
+.disclaim{
+  margin-top:28px;padding-top:20px;border-top:1px solid var(--line-soft);
+  font-size:11.5px;color:var(--text-4);line-height:1.75;max-width:900px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   自查面板
+   ══════════════════════════════════════════════════════════ */
+.selfcheck{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));border-top:1px solid var(--line)}
+.sc-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:start}
+.sc-form{
+  border:1px solid var(--line-strong);border-radius:12px;
+  background:var(--navy-850);overflow:hidden;
+}
+.sc-group{padding:18px 20px;border-bottom:1px solid var(--line)}
+.sc-group:last-child{border-bottom:none}
+.sc-gt{
+  font-size:11px;font-family:var(--mono);letter-spacing:.12em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:13px;
+  display:flex;align-items:center;gap:8px;
+}
+.sc-gt::after{content:"";flex:1;height:1px;background:var(--line)}
+.sc-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
+.sc-row:last-child{margin-bottom:0}
+.sc-f{display:flex;flex-direction:column;gap:6px}
+.sc-f label{font-size:11.5px;color:var(--text-3)}
+.sc-f input,.sc-f select{
+  background:var(--navy-900);border:1px solid var(--line);
+  color:var(--text);font-family:var(--mono);font-size:13px;
+  padding:9px 11px;border-radius:6px;outline:none;transition:.15s;
+  width:100%;
+}
+.sc-f input:focus,.sc-f select:focus{
+  border-color:rgba(201,162,39,.5);box-shadow:0 0 0 3px rgba(201,162,39,.09);
+}
+.sc-f input::placeholder{color:var(--text-4)}
+.sc-check{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text-2);cursor:pointer;padding:5px 0}
+.sc-check input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.sc-actions{display:flex;gap:10px;padding:16px 20px;background:var(--navy-800);border-top:1px solid var(--line)}
+.btn-calc{
+  flex:1;border:none;cursor:pointer;border-radius:7px;
+  background:linear-gradient(180deg,var(--gold-lt),var(--gold));
+  color:#1A1400;font-weight:700;font-size:13.5px;padding:11px;
+  font-family:var(--sans);transition:.15s;
+}
+.btn-calc:hover{filter:brightness(1.08)}
+.btn-reset{
+  border:1px solid var(--line-strong);background:transparent;color:var(--text-3);
+  border-radius:7px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:var(--sans);transition:.15s;
+}
+.btn-reset:hover{color:var(--text);background:var(--navy-700)}
+
+/* 自查结果 */
+.sc-result{
+  border:1px solid var(--line-strong);border-radius:12px;
+  background:linear-gradient(180deg,var(--navy-800),var(--navy-900));
+  padding:24px;position:sticky;top:84px;
+}
+.sc-empty{text-align:center;padding:34px 12px;color:var(--text-4);font-size:13px;line-height:1.8}
+.sc-empty b{display:block;color:var(--text-3);font-size:14px;margin-bottom:8px}
+.sc-score{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+.sc-ring{
+  --pct:0;--rc:var(--text-4);
+  width:84px;height:84px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--rc) calc(var(--pct)*1%),rgba(255,255,255,.05) 0);
+  display:grid;place-items:center;position:relative;
+}
+.sc-ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--navy-900);box-shadow:0 0 0 1px var(--line) inset}
+.sc-ring span{position:relative;font-family:var(--mono);font-size:24px;font-weight:700}
+.sc-lv{font-size:16px;font-weight:700;margin-bottom:5px}
+.sc-lv-sub{font-size:11.5px;color:var(--text-4);line-height:1.6}
+.sc-hits{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.sc-hit{
+  font-size:11px;font-family:var(--mono);
+  border:1px solid rgba(217,67,63,.3);background:var(--red-bg);color:#F09A97;
+  padding:3px 8px;border-radius:4px;
+}
+.sc-gap{
+  font-size:11.5px;color:var(--text-4);line-height:1.7;
+  border-top:1px solid var(--line);padding-top:13px;margin-top:4px;
+}
+.sc-gap b{color:var(--text-3)}
+.sc-warn{
+  margin-top:14px;padding:11px 13px;border-radius:6px;
+  border-left:2px solid var(--gold);background:var(--gold-dim);
+  font-size:11.5px;color:var(--text-2);line-height:1.65;
+}
+
+/* 响应式 */
+@media (max-width:900px){
+  .wrap,.nav-in{padding:0 20px}
+  .sc-grid{grid-template-columns:1fr}
+  .sc-result{position:static}
+  .hero h1{font-size:28px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
+  .dims{grid-template-columns:1fr 1fr}
+  .dim:nth-child(2){border-right:none}
+  .dim:nth-child(1),.dim:nth-child(2){border-bottom:1px solid var(--line)}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow-step:nth-child(2){border-right:none}
+  .flow-step::after{display:none}
+  .six{grid-template-columns:1fr}
+  .advice{grid-template-columns:1fr}
+  .principle-grid{grid-template-columns:1fr}
+  .nav-links a:not(.nav-cta){display:none}
+  table.ev{font-size:11.5px}
+  table.ev th,table.ev td{padding:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ 导航 ══════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="#" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-text">
+        <span class="brand-name">金融防骗预警</span>
+        <span class="brand-sub">Risk Audit</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#result">查询结果</a>
+      <a href="#selfcheck">特征自查</a>
+      <a href="#method">方法论</a>
+      <a href="#foot">关于</a>
+      <a href="https://github.com/janecoolman515/fund-anti-fraud" target="_blank" class="nav-cta">开源仓库 ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow"><i></i> 基于 18 项核查 · 100 分风险评分</div>
+    <h1>投之前，先查一遍。<br>看它<em>哪里解释不通</em>。</h1>
+    <p class="lead">
+      输入项目名称、收益制度或推广话术，从备案主体、收益结构、资金流向、工商司法、外部信号五个层面做穿透式核查。
+      不给情绪，只给可复核的证据。
+    </p>
+
+    <div class="search-shell">
+      <span class="search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+        </svg>
+      </span>
+      <input id="q" type="text" placeholder="输入项目名称，如「星辰国际」" autocomplete="off" spellcheck="false">
+      <button class="btn-search" id="go">查询风险</button>
+    </div>
+
+    <div class="hot">
+      <b>热门查询</b>
+      <span class="chip" data-k="星辰国际">星辰国际</span>
+      <span class="chip" data-k="云矿宝">云矿宝</span>
+      <span class="chip" data-k="数藏星河">数藏星河</span>
+      <span class="chip" data-k="惠民优选">惠民优选</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ 统计 ══════════ -->
+<div class="wrap" style="padding:0">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-k">核查检查项</div>
+      <div class="stat-v" id="s1">18<small>项</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">风险维度</div>
+      <div class="stat-v red" id="s2">4<small>维</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">评分满分</div>
+      <div class="stat-v gold" id="s3">100<small>分</small></div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">证据可溯源率</div>
+      <div class="stat-v" id="s4">100<small>%</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 查询结果 ══════════ -->
+<section class="section" id="result">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Query Result</div>
+        <div class="section-h" id="resTitle">风险审查报告</div>
+        <div class="section-desc" id="resDesc">示例数据 · 项目名称与信息均为虚构，仅用于演示核查流程</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-4);text-align:right;line-height:1.8">
+        报告编号 <span id="rid" style="color:var(--text-2)">RA-20261026-0086</span><br>
+        核查时间 <span style="color:var(--text-2)">2026-10-26 17:12</span>
+      </div>
+    </div>
+    <div id="reportBox"></div>
+  </div>
+</section>
+
+<!-- ══════════ 特征自查 ══════════ -->
+<section class="section selfcheck" id="selfcheck">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Self Check</div>
+        <div class="section-h">不知道项目名？用特征自查</div>
+        <div class="section-desc">
+          把它宣称的收益制度填进来，18 条规则实时算分。不注册、不上传、不联网 —— 全部在你本地浏览器里算完。
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-grid">
+      <div class="sc-form">
+        <div class="sc-group">
+          <div class="sc-gt">A · 主体资质</div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>备案主体</label>
+              <select id="f_icp">
+                <option value="unknown">不清楚</option>
+                <option value="individual">个人 / 个体户</option>
+                <option value="company">企业</option>
+                <option value="none">无备案</option>
+              </select>
+            </div>
+            <div class="sc-f">
+              <label>备案主体与宣传主体</label>
+              <select id="f_match">
+                <option value="unknown">不清楚</option>
+                <option value="yes">一致</option>
+                <option value="no">不一致</option>
+              </select>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>实缴资本（万元）</label>
+              <input id="f_paid" type="number" placeholder="留空 = 不清楚" min="0">
+            </div>
+            <div class="sc-f">
+              <label>工商状态</label>
+              <select id="f_status">
+                <option value="unknown">不清楚</option>
+                <option value="normal">正常</option>
+                <option value="abnormal">经营异常 / 注销</option>
+              </select>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>域名注册时长（月）</label>
+              <input id="f_domain" type="number" placeholder="留空 = 不清楚" min="0">
+            </div>
+            <div class="sc-f"></div>
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-gt">B · 收益结构</div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>日化收益率（%）</label>
+              <input id="f_daily" type="number" step="0.01" placeholder="如 1.8" min="0">
+            </div>
+            <div class="sc-f">
+              <label>推荐奖层级（代）</label>
+              <input id="f_level" type="number" placeholder="0 = 没有" min="0">
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>入门门槛费（元）</label>
+              <input id="f_fee" type="number" placeholder="0 = 没有" min="0">
+            </div>
+            <div class="sc-f">
+              <label>锁仓 / 强制复投</label>
+              <select id="f_lock">
+                <option value="unknown">不清楚</option>
+                <option value="yes">有</option>
+                <option value="no">没有</option>
+              </select>
+            </div>
+          </div>
+          <label class="sc-check"><input type="checkbox" id="f_cap"> 推荐奖有封顶上限</label>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-gt">C · 资金安全</div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>提现是否受限</label>
+              <select id="f_wd">
+                <option value="unknown">不清楚</option>
+                <option value="yes">受限（限额 / 排队 / 高手续费）</option>
+                <option value="no">正常</option>
+              </select>
+            </div>
+            <div class="sc-f">
+              <label>收款方</label>
+              <select id="f_payee">
+                <option value="unknown">不清楚</option>
+                <option value="personal">个人账户</option>
+                <option value="company">对公账户</option>
+              </select>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>第三方资金存管</label>
+              <select id="f_cust">
+                <option value="unknown">不清楚</option>
+                <option value="yes">有</option>
+                <option value="no">没有</option>
+              </select>
+            </div>
+            <div class="sc-f">
+              <label>真实造血业务</label>
+              <select id="f_biz">
+                <option value="unknown">不清楚</option>
+                <option value="real">有，能对上账</option>
+                <option value="weak">有，但对不上账</option>
+                <option value="none">没有</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-gt">D · 外部信号</div>
+          <div class="sc-row">
+            <div class="sc-f">
+              <label>公开投诉数量（条）</label>
+              <input id="f_complaint" type="number" placeholder="留空 = 不清楚" min="0">
+            </div>
+            <div class="sc-f">
+              <label>立案 / 判决记录</label>
+              <select id="f_legal">
+                <option value="unknown">不清楚</option>
+                <option value="yes">有</option>
+                <option value="no">没有</option>
+              </select>
+            </div>
+          </div>
+          <label class="sc-check"><input type="checkbox" id="f_reg"> 监管或官方已发风险提示</label>
+          <label class="sc-check"><input type="checkbox" id="f_deny"> 被冒名机构已发声明撇清</label>
+        </div>
+
+        <div class="sc-actions">
+          <button class="btn-calc" id="btnCalc">计算风险分</button>
+          <button class="btn-reset" id="btnReset">重置</button>
+        </div>
+      </div>
+
+      <div class="sc-result" id="scResult">
+        <div class="sc-empty">
+          <b>填左侧表单，点「计算风险分」</b>
+          18 条规则逐项判断，只对<strong style="color:var(--text-2)">你确认过的事实</strong>计分。<br>
+          留空的项不计分，但会列进「信息缺口」。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 方法论 ══════════ -->
+<section class="section method" id="method">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Methodology</div>
+        <div class="section-h">不看它怎么说，只看它哪里露了</div>
+        <div class="section-desc">
+          项目方的自我描述不算证据。唯一方向是：它为了支撑那个说法，花了多少钱、办了多少事。
+          该花的钱没花 —— 就是破绽。破绽串起来就是结论。
+        </div>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-n">STEP 01</div>
+        <div class="flow-t">收料</div>
+        <div class="flow-d">把「已确定的事实」和「待核实的信息」分开，先不下结论。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-n">STEP 02</div>
+        <div class="flow-t">快筛</div>
+        <div class="flow-d">收益从哪来 · 收益率多少 · 要不要拉人。三问定生死。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-n">STEP 03</div>
+        <div class="flow-t">深查</div>
+        <div class="flow-d">六条核查主线取证，四把推理刀穿透逻辑。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-n">STEP 04</div>
+        <div class="flow-t">出报告</div>
+        <div class="flow-d">100 分评分卡定级，每条结论都可溯源、可复核。</div>
+      </div>
+    </div>
+
+    <div class="six">
+      <div class="line-card">
+        <div class="line-id">TRACK 01</div>
+        <div class="line-t"><span class="sq"></span>技术与资质</div>
+        <div class="line-d">域名年龄与到期时间 · 备案主体是个人还是企业 · 源码是否同模板 · APP 服务器位置</div>
+      </div>
+      <div class="line-card">
+        <div class="line-id">TRACK 02</div>
+        <div class="line-t"><span class="sq"></span>背书真伪</div>
+        <div class="line-d">国资背景查股权关系 · 明星站台查是否 P 图 · 证书编号查颁发对象 · 官方是否撇清</div>
+      </div>
+      <div class="line-card">
+        <div class="line-id">TRACK 03</div>
+        <div class="line-t"><span class="sq"></span>制度结构</div>
+        <div class="line-d">门槛费 · 推荐奖层级有无封顶 · 日化是否超司法保护上限 · 锁仓与释放是否强制复投</div>
+      </div>
+      <div class="line-card">
+        <div class="line-id">TRACK 04</div>
+        <div class="line-t"><span class="sq"></span>资金流向</div>
+        <div class="line-d">提现是否受限 · 收款方是个人还是对公 · 有无第三方存管 · 有无可对上账的造血业务</div>
+      </div>
+      <div class="line-card">
+        <div class="line-id">TRACK 05</div>
+        <div class="line-t"><span class="sq"></span>工商与司法</div>
+        <div class="line-d">注册资本 vs 实缴 · 年报资产与负债 · 经营异常记录 · 裁判文书与立案信息</div>
+      </div>
+      <div class="line-card">
+        <div class="line-id">TRACK 06</div>
+        <div class="line-t"><span class="sq"></span>外部信号</div>
+        <div class="line-d">监管风险提示 · 投诉量与内容模式 · 媒体曝光层级 · 社群内是否有设托与狗推</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="principle-q">CORE PRINCIPLE</div>
+      <div class="principle-main">
+        它说自己"有国资背景" —— 不算证据。<br>
+        它<em>有没有在工商股权里体现</em> —— 这才算。
+      </div>
+      <div class="principle-grid">
+        <div class="pg-item"><b>该花的钱没花 = 破绽。</b>二手域名、个人备案、摆拍招商会、P 图团队 —— 每一项缺失都对应一笔它省掉的成本。</div>
+        <div class="pg-item"><b>破绽串起来 = 结论。</b>结论不是"我觉得它是骗子"，而是"这些事实互相无法解释"。</div>
+        <div class="pg-item"><b>信息不足不计分。</b>未核实的项记 0 分，但必须列进「信息缺口」——不让"没查到"变成"没问题"。</div>
+        <div class="pg-item"><b>只做特征比对。</b>不写"某某是骗子"，只写"提现受限、备案主体不符"。定性权在司法机关。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 页脚 ══════════ -->
+<footer id="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-brand">
+        <span class="brand-mark" style="flex-shrink:0"></span>
+        <div class="foot-txt">
+          <b>金融防骗预警 · 投资项目风险查询</b><br>
+          公众号ID <b>jiancoolman</b> ｜ 微信号 <b>jiancoolman01</b> ｜ 视频号 <b>Janecoolman01</b><br>
+          方法论开源：github.com/janecoolman515/fund-anti-fraud
+        </div>
+      </div>
+      <div class="foot-links">
+        <a href="#result">查询结果</a>
+        <a href="#method">方法论</a>
+        <a href="https://github.com/janecoolman515/fund-anti-fraud" target="_blank">开源仓库</a>
+        <a href="https://github.com/janecoolman515/fund-anti-fraud/blob/main/docs/02-checklist.md" target="_blank">自查清单</a>
+      </div>
+    </div>
+    <div class="disclaim">
+      免责声明：本平台基于公开渠道信息与用户提供材料做特征比对，仅作风险提示之用，不构成法律意见、投资建议或对任何主体的事实认定。
+      报告中「查到的事实」均可溯源至公开来源，「说明什么」为基于事实的推断，二者严格区分。项目性质的最终认定权在司法机关。
+      评级为「暂未发现明显违规」时，仅表示本次核查范围内未发现异常，不代表该项目安全或合法。
+      页面内所有项目名称、数据均为虚构示例，仅用于演示核查流程。
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   示例数据（全部虚构）
+   ══════════════════════════════════════════════════════════ */
+const DB = {
+  "星辰国际": {
+    name:"星辰国际", tag:"示例·虚构", aliases:["星辰财富","Star Capital"],
+    type:"跨境电商 + 理财", claim:"日化 1.8%，7 天一轮结算", channel:"微信群 + 线下招商会",
+    score:86, level:"critical", levelText:"极高风险", ringColor:"var(--red)",
+    meaning:"命中多项核心违规特征，与已知资金盘结构高度一致",
+    dims:[
+      {k:"A",n:"主体资质",v:25,m:25,tags:"个人备案 / 实缴为零 / 工商异常"},
+      {k:"B",n:"收益结构",v:30,m:30,tags:"日化1.8% / 三级无封顶 / 门槛费"},
+      {k:"C",n:"资金安全",v:25,m:25,tags:"提现限额 / 个人收款 / 无存管"},
+      {k:"D",n:"外部信号",v:6,m:20,tags:"投诉 47 条集中爆发"}
+    ],
+    ev:[
+      {i:"ICP 备案主体",f:"备案主体为个人，备案人姓氏与宣称集团无关联",w:"宣称的「集团背景」在备案层面无对应主体",s:"工信部备案系统"},
+      {i:"工商登记",f:"注册资本 1000 万元，实缴 0 元；2026-09 列入经营异常",w:"宣称的资本实力无实缴支撑，且已出现监管异常",s:"国家企业信用信息公示系统"},
+      {i:"域名注册",f:"注册于 2026-06，到期 2027-01（剩余 75 天）",w:"注册仅 4 个月、到期不足 3 个月，短周期运营特征",s:"WHOIS 查询"},
+      {i:"收益制度页",f:"静态日化 1.8%，7 天一轮；直推 3 代 8/5/3%，无封顶",w:"年化约 673 倍，收益与拉人层级直接挂钩",s:"APP 内制度页截图"},
+      {i:"收款方式",f:"充值页展示个人收款码，收款人姓名与平台主体不一致",w:"资金未进入对公账户，无第三方存管，追索困难",s:"充值页截图"},
+      {i:"用户投诉",f:"黑猫投诉 47 条，集中在 2026-09 之后",w:"内容为「提现不到账」「要求补缴解冻金」，兑付已系统性延迟",s:"黑猫投诉平台"}
+    ],
+    stage:2, advice:[
+      {b:"如果尚未参与",t:"不参与。日化 1.8% 且收益与拉人挂钩的项目，只有「什么时候崩」，没有「会不会崩」。"},
+      {b:"如果能提现",t:"立即全额提现。不要有「再赚一轮」的念头 —— 绝大多数亏损都发生在这个念头之后。"},
+      {b:"如果提现变慢",t:"停止追加，保留全部转账与聊天记录，向属地公安经侦报案。"},
+      {b:"如果要求再充值",t:"一分钱都不要再打。所谓「解冻金」「保证金」是二次收割，打进去不会解锁任何东西。"}
+    ]
+  },
+
+  "云矿宝": {
+    name:"云矿宝", tag:"示例·虚构", aliases:["云矿宝科技","CloudMiner"],
+    type:"云算力挖矿", claim:"日化 0.45%，买矿机享 180 天固定收益", channel:"抖音 + 币圈社群",
+    score:72, level:"high", levelText:"高风险", ringColor:"var(--orange)",
+    meaning:"存在多项无法解释的异常，强烈建议不参与",
+    dims:[
+      {k:"A",n:"主体资质",v:16,m:25,tags:"域名 8 个月 / 实缴偏低"},
+      {k:"B",n:"收益结构",v:24,m:30,tags:"日化0.45% / 锁仓180天 / 无封顶"},
+      {k:"C",n:"资金安全",v:19,m:25,tags:"提现排队 / 无存管 / 算力无凭据"},
+      {k:"D",n:"外部信号",v:13,m:20,tags:"投诉 21 条 / 无监管提示"}
+    ],
+    ev:[
+      {i:"工商登记",f:"注册资本 500 万，实缴 38 万；参保人数 2 人",w:"与「专业矿场运营团队」的宣称不匹配",s:"国家企业信用信息公示系统"},
+      {i:"收益制度页",f:"日化 0.45%，矿机 180 天固定收益，到期返还本金",w:"年化约 4.1 倍，且承诺固定回报，属还本付息特征",s:"APP 制度页截图"},
+      {i:"算力凭证",f:"未提供矿场地址、电费单据或算力分配凭据",w:"无法验证真实算力，收益来源不可核",s:"客服沟通记录"},
+      {i:"提现规则",f:"T+7 到账，单日限额 2000 元，超出需排队",w:"提现受限，资金流出被主动控制",s:"APP 提现页截图"}
+    ],
+    stage:1, advice:[
+      {b:"如果尚未参与",t:"不参与。承诺固定日收益 + 无法验证真实算力，属于典型的收益不可核结构。"},
+      {b:"如果能提现",t:"先提现再判断。能提出来的钱才是你的钱。"},
+      {b:"如果已锁仓",t:"保留矿机购买协议、转账记录与收益截图，关注公司工商变更与经营异常。"},
+      {b:"如果提现排队",t:"停止追加，准备报案材料。"}
+    ]
+  },
+
+  "数藏星河": {
+    name:"数藏星河", tag:"示例·虚构", aliases:["星河数藏"],
+    type:"数字藏品平台", claim:"首发藏品 30 天溢价回购，邀请返 5%", channel:"微信群 + 小程序",
+    score:51, level:"medium", levelText:"中风险", ringColor:"var(--yellow)",
+    meaning:"部分异常或信息不足，需补充核查后再判断",
+    dims:[
+      {k:"A",n:"主体资质",v:11,m:25,tags:"企业备案 / 实缴待核"},
+      {k:"B",n:"收益结构",v:22,m:30,tags:"承诺回购 / 邀请返佣 / 二级对赌"},
+      {k:"C",n:"资金安全",v:10,m:25,tags:"提现待核 / 无存管信息"},
+      {k:"D",n:"外部信号",v:8,m:20,tags:"信息不足"}
+    ],
+    ev:[
+      {i:"平台模式",f:"平台自营账号在二级市场挂单收购自家藏品",w:"存在自买自卖抬价嫌疑，价格不由市场形成",s:"平台二级市场截图"},
+      {i:"回购承诺",f:"宣称「首发 30 天溢价 15% 回购」",w:"以固定溢价承诺回购，属变相还本付息承诺",s:"活动海报"},
+      {i:"邀请机制",f:"邀请新用户购买返 5% 现金",w:"收益与拉新直接挂钩，需进一步核实层级",s:"APP 邀请页截图"},
+      {i:"备案信息",f:"备案主体为企业，业务范围含「数字内容服务」",w:"主体资质形式上合规，需核实是否具备交易场所资质",s:"工信部备案系统"}
+    ],
+    stage:0, advice:[
+      {b:"如果尚未参与",t:"先补核查：平台是否具备交易场所资质、回购资金从哪来。"},
+      {b:"如果已参与",t:"不追加。自买自卖与固定回购承诺同时出现，是价格被操控的强信号。"},
+      {b:"补充材料",t:"提供平台用户协议、回购条款原文，可提升核查完整度。"},
+      {b:"信息缺口",t:"资金存管、实缴资本、实际控制人三项未核实，评分未计入。"}
+    ]
+  },
+
+  "惠民优选": {
+    name:"惠民优选", tag:"示例·虚构", aliases:["惠民优选商城"],
+    type:"社区团购 + 消费返利", claim:"消费满 500 返 20%，推荐好友再返 3%", channel:"小区团长 + 微信群",
+    score:28, level:"low", levelText:"暂未发现明显违规", ringColor:"var(--green)",
+    meaning:"本次核查范围内未发现明显违规特征，但不代表安全或合法",
+    dims:[
+      {k:"A",n:"主体资质",v:8,m:25,tags:"企业备案 / 实缴 200 万"},
+      {k:"B",n:"收益结构",v:10,m:30,tags:"返利比例低 / 一级返佣"},
+      {k:"C",n:"资金安全",v:7,m:25,tags:"对公收款 / 提现正常"},
+      {k:"D",n:"外部信号",v:3,m:20,tags:"投诉 2 条 / 无监管提示"}
+    ],
+    ev:[
+      {i:"工商登记",f:"注册资本 300 万，实缴 200 万；参保 26 人",w:"有真实经营团队，资本与业务规模匹配",s:"国家企业信用信息公示系统"},
+      {i:"收益结构",f:"消费返利 20%，推荐一级返 3%，无多层级计酬",w:"返利来自商品毛利，无入门费、无团队计酬",s:"平台规则页"},
+      {i:"收款方式",f:"对公账户收款，可开发票",w:"资金进入企业账户，具备可追溯性",s:"下单页截图"},
+      {i:"造血能力",f:"有实体仓配与本地供应商，商品价格与市场持平",w:"存在可对账的真实经营收入",s:"实地核查 + 比价"}
+    ],
+    stage:0, advice:[
+      {b:"本次结论",t:"未发现资金盘或传销结构特征，但消费返利模式的可持续性仍需观察。"},
+      {b:"仍需注意",t:"返利比例若随规模上升、或引入多层级分销，性质会改变，需持续跟踪。"},
+      {b:"信息缺口",t:"资金存管方式、返利资金来源明细未公开，未计入评分。"},
+      {b:"提醒",t:"绿色评级只代表「本次未发现」，不等于合法、不等于安全。"}
+    ]
+  }
+};
+
+/* ══════════════════════════════════════════════════════════
+   渲染
+   ══════════════════════════════════════════════════════════ */
+const CHAIN = ["维稳","拖延提现","改积分","重启","换皮","停盘","跑路","开新盘"];
+
+function render(key){
+  const box = document.getElementById('reportBox');
+  const d = DB[key];
+
+  if(!d){
+    document.getElementById('resTitle').textContent = "未收录该项目";
+    document.getElementById('resDesc').textContent = "可在下方提交线索，核查后收录";
+    box.innerHTML = `
+      <div class="empty">
+        <h3>「${escapeHtml(key)}」暂未收录</h3>
+        <p>这个项目还没有进入核查库。换个方式：把它宣称的收益制度填进「特征自查」，18 条规则照样能算分。</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="#selfcheck" style="text-decoration:none;background:linear-gradient(180deg,var(--gold-lt),var(--gold));color:#1A1400;font-weight:700;font-size:13px;padding:10px 22px;border-radius:7px">用特征自查 →</a>
+          <span class="chip" data-k="星辰国际">看看示例：星辰国际</span>
+        </div>
+      </div>`;
+    bindChips();
+    return;
+  }
+
+  document.getElementById('resTitle').textContent = d.name + " · 风险审查报告";
+  document.getElementById('resDesc').textContent =
+    `${d.type} ｜ 宣称：${d.claim} ｜ 渠道：${d.channel}`;
+  document.getElementById('rid').textContent =
+    "RA-20261026-" + String(d.score).padStart(4,'0');
+
+  const dimHtml = d.dims.map(x=>{
+    const pct = x.v/x.m*100;
+    const col = pct>=0.8?'var(--red)':pct>=0.55?'var(--orange)':pct>=0.3?'var(--yellow)':'var(--green)';
+    return `<div class="dim">
+      <div class="dim-head">
+        <span class="dim-name">${x.k} ${x.n}</span>
+        <span class="dim-val">${x.v}<small>/${x.m}</small></span>
+      </div>
+      <div class="dim-bar"><div class="dim-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="dim-tags">${x.tags}</div>
+    </div>`;
+  }).join('');
+
+  const evHtml = d.ev.map((e,i)=>`<tr>
+      <td>${String(i+1).padStart(2,'0')}</td>
+      <td style="white-space:nowrap;color:var(--text-2)">${e.i}</td>
+      <td class="fact">${e.f}</td>
+      <td>${e.w}</td>
+      <td class="src">${e.s}</td>
+    </tr>`).join('');
+
+  const chainHtml = CHAIN.map((c,i)=>{
+    const on = i===d.stage ? ' on' : '';
+    return `<span class="chain-step${on}">${c}</span>` +
+           (i<CHAIN.length-1 ? `<span class="chain-arrow">›</span>` : '');
+  }).join('');
+
+  const advHtml = d.advice.map(a=>`<div class="advice-item"><b>${a.b}</b>${a.t}</div>`).join('');
+
+  box.innerHTML = `
+  <div class="report">
+    <div class="report-top">
+      <div class="report-title">
+        <div class="report-name">${d.name}<span class="tag-demo">${d.tag}</span></div>
+        <div class="report-meta">
+          <span>别名 <code>${d.aliases.join(' / ')}</code></span>
+          <span>类型 <code>${d.type}</code></span>
+        </div>
+      </div>
+      <div class="score-box">
+        <div class="ring" style="--pct:${d.score};--ring-color:${d.ringColor}">
+          <div class="ring-in">
+            <div class="ring-num">${d.score}</div>
+            <div class="ring-of">/ 100</div>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="verdict-badge v-${d.level}"><span class="dot"></span>${d.levelText}</span>
+          <span class="verdict-note">${d.meaning}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dims">${dimHtml}</div>
+
+    <div class="evidence">
+      <div class="block-title">Evidence · 证据表</div>
+      <table class="ev">
+        <thead><tr>
+          <th>#</th><th>核查项</th><th>查到的事实</th><th>说明什么</th><th>来源</th>
+        </tr></thead>
+        <tbody>${evHtml}</tbody>
+      </table>
+      <div class="ev-note">
+        「查到的事实」与「说明什么」严格分栏 —— 前者是证据，后者是基于证据的推断。
+        读者可以不同意推断，但不能绕过事实。这是本报告能被采信的前提。
+      </div>
+    </div>
+
+    <div class="outlook">
+      <div class="block-title">Projection · 结局推演</div>
+      <div class="chain">${chainHtml}</div>
+      <div class="advice">${advHtml}</div>
+    </div>
+  </div>`;
+
+  bindChips();
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function bindChips(){
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.onclick = ()=>{
+      const k = c.dataset.k;
+      document.getElementById('q').value = k;
+      render(k);
+      document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+    };
+  });
+}
+
+function doSearch(){
+  const v = document.getElementById('q').value.trim();
+  if(!v) return;
+  const hit = Object.keys(DB).find(k=>k===v || DB[k].aliases.some(a=>a===v))
+           || Object.keys(DB).find(k=>k.includes(v) || v.includes(k));
+  render(hit || v);
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.getElementById('go').onclick = doSearch;
+document.getElementById('q').addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(); });
+/* ══════════════════════════════════════════════════════════
+   自查引擎 —— 18 条规则，纯前端计算
+   ══════════════════════════════════════════════════════════ */
+const SC_RULES = [
+  ['A1','A', 8,'备案主体非企业',      f=> f.icp===null?null:(f.icp==='individual'||f.icp==='none')],
+  ['A2','A', 4,'备案与宣传主体不符',  f=> f.match===null?null:f.match==='no'],
+  ['A3','A', 5,'实缴资本极低',        f=> f.paid===null?null:(f.paid<=10)],
+  ['A4','A', 6,'工商状态异常',        f=> f.status===null?null:f.status==='abnormal'],
+  ['A5','A', 6,'域名注册不足一年',    f=> f.domain===null?null:(f.domain<12)],
+  ['B1','B',12,'日化收益率 ≥ 1%',     f=> f.daily===null?null:(f.daily>=1)],
+  ['B2','B', 6,'日化 0.1%~1%',        f=> f.daily===null?null:(f.daily>=0.1&&f.daily<1)],
+  ['B3','B', 8,'推荐奖层级且无封顶',  f=> f.level===null?null:(f.level>=1&&!f.cap)],
+  ['B4','B', 5,'存在入门门槛费',      f=> f.fee===null?null:(f.fee>0)],
+  ['B5','B', 5,'锁仓或强制复投',      f=> f.lock===null?null:f.lock==='yes'],
+  ['C1','C',10,'提现受限',            f=> f.wd===null?null:f.wd==='yes'],
+  ['C2','C', 6,'收款方为个人',        f=> f.payee===null?null:f.payee==='personal'],
+  ['C3','C', 5,'无第三方存管',        f=> f.cust===null?null:f.cust==='no'],
+  ['C4','C', 4,'无真实造血业务',      f=> f.biz===null?null:(f.biz==='none'||f.biz==='weak')],
+  ['D1','D', 8,'监管已发风险提示',    f=> f.reg?true:null],
+  ['D2','D', 6,'投诉集中',            f=> f.complaint===null?null:(f.complaint>=10)],
+  ['D3','D', 6,'已有立案或判决',      f=> f.legal===null?null:f.legal==='yes'],
+  ['D4','D', 4,'官方已撇清关系',      f=> f.deny?true:null],
+];
+const DIM_MAX  = {A:25,B:30,C:25,D:20};
+const DIM_NAME = {A:'主体资质',B:'收益结构',C:'资金安全',D:'外部信号'};
+
+function readForm(){
+  const v = id => document.getElementById(id).value;
+  const num = id => { const x = v(id); return x===''?null:parseFloat(x); };
+  const sel = id => { const x = v(id); return x==='unknown'?null:x; };
+  const chk = id => document.getElementById(id).checked;
+  return {
+    icp: sel('f_icp'), match: sel('f_match'), paid: num('f_paid'),
+    status: sel('f_status'), domain: num('f_domain'),
+    daily: num('f_daily'), level: num('f_level'), fee: num('f_fee'),
+    lock: sel('f_lock'), cap: chk('f_cap'),
+    wd: sel('f_wd'), payee: sel('f_payee'), cust: sel('f_cust'), biz: sel('f_biz'),
+    complaint: num('f_complaint'), legal: sel('f_legal'),
+    reg: chk('f_reg'), deny: chk('f_deny'),
+  };
+}
+
+function calcScore(f){
+  const dims = {A:0,B:0,C:0,D:0};
+  const hits = [], gaps = [];
+  for (const [id,dim,w,name,test] of SC_RULES){
+    let r = null;
+    try { r = test(f); } catch(e){ r = null; }
+    if (r === null) gaps.push({id,name});
+    else if (r) { dims[dim] += w; hits.push({id,dim,w,name}); }
+  }
+  for (const k in dims) dims[k] = Math.min(dims[k], DIM_MAX[k]);
+  const total = Object.values(dims).reduce((a,b)=>a+b,0);
+  const coverage = (SC_RULES.length - gaps.length) / SC_RULES.length;
+  return {dims,total,hits,gaps,coverage};
+}
+
+function renderSelfCheck(){
+  const f = readForm();
+  const {dims,total,hits,gaps,coverage} = calcScore(f);
+  const box = document.getElementById('scResult');
+
+  let lv, color, note;
+  if (coverage < 0.3){
+    lv = '信息不足'; color = 'var(--text-3)';
+    note = `已核实 ${SC_RULES.length-gaps.length} / ${SC_RULES.length} 项，太少，无法形成有效评级`;
+  } else if (total >= 80){
+    lv = '极高风险'; color = 'var(--red)';
+    note = '命中多项核心违规特征，与已知资金盘结构高度一致';
+  } else if (total >= 60){
+    lv = '高风险'; color = 'var(--orange)';
+    note = '存在多项无法解释的异常，强烈建议不参与';
+  } else if (total >= 40){
+    lv = '中风险'; color = 'var(--yellow)';
+    note = '部分异常或信息不足，需补充核查后再判断';
+  } else {
+    lv = '暂未发现明显违规'; color = 'var(--green)';
+    note = '本次自查范围内未发现，不代表安全或合法';
+  }
+
+  const dimBars = Object.keys(dims).map(k=>{
+    const pct = dims[k]/DIM_MAX[k]*100;
+    return `<div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3);margin-bottom:5px">
+        <span>${k} ${DIM_NAME[k]}</span>
+        <span style="font-family:var(--mono);color:var(--text-2)">${dims[k]}/${DIM_MAX[k]}</span>
+      </div>
+      <div style="height:3px;border-radius:2px;background:rgba(255,255,255,.055);overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:2px"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const hitHtml = hits.length
+    ? hits.sort((a,b)=>b.w-a.w).map(h=>`<span class="sc-hit">+${h.w} ${h.name}</span>`).join('')
+    : '<span style="font-size:11.5px;color:var(--text-4)">未命中任何规则</span>';
+
+  const gapHtml = gaps.length
+    ? `<div class="sc-gap"><b>信息缺口（${gaps.length} 项未计分）</b><br>${gaps.map(g=>g.name).join(' · ')}</div>`
+    : '<div class="sc-gap"><b>18 项全部已核实</b></div>';
+
+  box.innerHTML = `
+    <div class="sc-score">
+      <div class="sc-ring" style="--pct:${total};--rc:${color}"><span>${total}</span></div>
+      <div>
+        <div class="sc-lv" style="color:${color}">${lv}</div>
+        <div class="sc-lv-sub">${note}</div>
+      </div>
+    </div>
+    <div style="margin-bottom:16px">${dimBars}</div>
+    <div class="sc-hits">${hitHtml}</div>
+    ${gapHtml}
+    <div class="sc-warn">
+      自查只覆盖「你已经知道的事实」。没填的项不计分，但会记进信息缺口 ——
+      <strong>缺口多，说明信息不够，不代表项目干净。</strong>
+    </div>`;
+}
+
+document.getElementById('btnCalc').onclick = renderSelfCheck;
+document.getElementById('btnReset').onclick = () => {
+  document.querySelectorAll('.sc-form input[type=number]').forEach(i=>i.value='');
+  document.querySelectorAll('.sc-form select').forEach(s=>s.value='unknown');
+  document.querySelectorAll('.sc-form input[type=checkbox]').forEach(c=>c.checked=false);
+  document.getElementById('scResult').innerHTML =
+    '<div class="sc-empty"><b>填左侧表单，点「计算风险分」</b>18 条规则逐项判断，只对<strong style="color:var(--text-2)">你确认过的事实</strong>计分。<br>留空的项不计分，但会列进「信息缺口」。</div>';
+};
+
+bindChips();
+render("星辰国际");
+</script>
+</body>
+</html>
