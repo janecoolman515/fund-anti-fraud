@@ -529,6 +529,59 @@ footer{
 }
 
 /* ══════════════════════════════════════════════════════════
+   已知案例卡（真实已判决项目）
+   ══════════════════════════════════════════════════════════ */
+.case-report{
+  border-color:rgba(217,67,63,.42);
+  background:linear-gradient(180deg,rgba(217,67,63,.06),var(--navy-900) 45%);
+}
+.tag-case{
+  font-size:10px;font-family:var(--mono);letter-spacing:.08em;
+  color:#F09A97;background:rgba(217,67,63,.14);
+  border:1px solid rgba(217,67,63,.42);
+  padding:3px 9px;border-radius:4px;font-weight:700;
+}
+.case-verdict{
+  display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+}
+.case-vd-badge{
+  font-size:14px;font-weight:700;color:var(--red);
+  border:1px solid rgba(217,67,63,.42);background:var(--red-bg);
+  padding:7px 16px;border-radius:7px;white-space:nowrap;
+}
+.case-vd-note{font-size:11px;color:var(--text-4);font-family:var(--mono)}
+.case-body{padding:8px 30px 26px}
+.case-row{
+  display:grid;grid-template-columns:110px 1fr;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--line-soft);
+  font-size:13px;
+}
+.case-row:last-of-type{border-bottom:none}
+.case-row dt{color:var(--text-4);font-size:12px;font-family:var(--mono);letter-spacing:.04em}
+.case-row dd{color:var(--text);line-height:1.65;margin:0}
+.case-row dd.hl{color:var(--red);font-weight:600}
+.case-feats{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 0}
+.case-feat{
+  font-size:11px;font-family:var(--mono);
+  border:1px solid rgba(217,67,63,.32);background:var(--red-bg);
+  color:#F09A97;padding:4px 10px;border-radius:4px;
+}
+.case-lesson{
+  margin-top:18px;padding:14px 17px;border-radius:8px;
+  border-left:2px solid var(--gold);background:var(--gold-dim);
+  font-size:12.8px;color:var(--text-2);line-height:1.75;
+}
+.case-lesson b{color:var(--gold-lt)}
+.case-src{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--text-4);line-height:1.8;
+}
+.case-src b{color:var(--text-3);font-weight:600}
+.case-warn{
+  margin-top:14px;font-size:11.5px;color:var(--text-4);line-height:1.7;
+}
+
+/* ══════════════════════════════════════════════════════════
    作者信息条
    ══════════════════════════════════════════════════════════ */
 .author-bar{
@@ -755,6 +808,25 @@ footer{
   border-color:rgba(201,162,39,.5);box-shadow:0 0 0 3px rgba(201,162,39,.09);
 }
 .ef-item input::placeholder,.ef-item textarea::placeholder{color:var(--text-4);font-size:12.5px}
+
+/* 命中已知案例的警示条 */
+.case-alert{
+  border:1px solid rgba(217,67,63,.45);
+  background:linear-gradient(135deg,rgba(217,67,63,.16),rgba(217,67,63,.04));
+  border-radius:9px;padding:15px 17px;margin-bottom:18px;
+}
+.ca-title{
+  font-size:12.5px;font-weight:700;color:#F09A97;
+  margin-bottom:8px;display:flex;align-items:center;gap:8px;
+}
+.ca-body{font-size:12px;color:var(--text-2);line-height:1.8}
+.ca-body b{color:var(--text);font-weight:600}
+.ca-body em{font-style:normal;color:#F09A97}
+.ca-link{
+  margin-top:11px;font-size:11.5px;color:var(--gold-lt);
+  cursor:pointer;font-family:var(--mono);display:inline-block;
+}
+.ca-link:hover{text-decoration:underline}
 
 /* 免责提示 */
 .disclaim-box{
@@ -1482,6 +1554,158 @@ footer{
 /* ══════════════════════════════════════════════════════════
    示例数据（全部虚构）
    ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   已知案例库 —— 已生效判决 / 官方通报的真实项目
+   ⚠️ 所有内容均引用公开判决书与官方通报，不做新的法律定性
+   ══════════════════════════════════════════════════════════ */
+const KNOWN_CASES = {
+  '善心汇': {
+    name: '善心汇',
+    aliases: ['善心汇众扶互生大系统', '深圳市善心汇文化传播有限公司'],
+    type: '互助盘 / 庞氏骗局',
+    badge: '已判决',
+    crime: '组织、领导传销活动罪',
+    principal: '张天明',
+    sentence: '有期徒刑十七年，并处罚金一亿元；其余 9 名被告获刑一年六个月至十年',
+    court: '湖南省双牌县人民法院',
+    judged: '2018-12-14 一审（2019-05 二审维持原判）',
+    scale: '会员 598 万余人，涉案金额 1046 亿元',
+    pattern: '以「扶贫济困」为幌子，购买「善种子」获取会员资格，发展下线返利',
+    features: ['门槛费（买善种子）', '拉人计酬', '无真实造血', '以公益为名'],
+    lesson: '典型互助盘：用新会员的钱付老会员的收益。2017 年 7 月主要成员被采取刑事强制措施，598 万人受损。',
+    extra: '2024 年 1 月被公安部列入民族资产解冻类诈骗项目名单。',
+    sources: ['湖南省双牌县人民法院一审判决（2018-12-14）', '中国网、中国质量新闻网报道', '公安部 2024-01 通报']
+  },
+
+  'e租宝': {
+    name: 'e租宝',
+    aliases: ['钰诚集团', '安徽钰诚控股集团', '钰诚国际控股集团'],
+    type: 'P2P 集资诈骗',
+    badge: '已判决',
+    crime: '集资诈骗罪 / 非法吸收公众存款罪',
+    principal: '丁宁',
+    sentence: '丁宁无期徒刑，处罚金一亿元；26 人获刑；被告单位罚金 19 亿元',
+    court: '北京市第一中级人民法院',
+    judged: '2017-09-12 一审宣判',
+    scale: '涉案 762 亿元，未兑付 380 亿元，约 90 万受害者',
+    pattern: '「一元起投」+ 承诺 9%–14.6% 年化收益，虚构融资项目',
+    features: ['承诺固定收益', '虚构标的', '无真实造血', '公开宣传'],
+    lesson: '打着「普惠金融」旗号，实际是借新还旧。资产仅剩约 150 亿，覆盖不了四成待还余额。',
+    extra: '2018 年 5 月二审终结，累计 111 人入狱。',
+    sources: ['北京市第一中级人民法院一审判决（2017-09-12）', '最高人民检察院 2016-12-17 公诉通报', '人民日报、环球网报道']
+  },
+
+  '钱宝网': {
+    name: '钱宝网',
+    aliases: ['钱旺网络科技', '南京钱宝信息传媒'],
+    type: '非法集资 / 集资诈骗',
+    badge: '已判决',
+    crime: '集资诈骗罪',
+    principal: '张小雷',
+    sentence: '有期徒刑十五年，并处没收个人财产一亿元',
+    court: '江苏省南京市中级人民法院',
+    judged: '2019-06 一审宣判（本人服判未上诉）',
+    scale: '非法集资规模 1554 亿元，未兑付本金约 300 亿元',
+    pattern: '「保证金任务」「微商下乡」，宣称年化收益 20%–60%',
+    features: ['收益率脱离实体', '借新还旧', '无真实造血'],
+    lesson: '操盘手 2017-12-26 主动投案，承认用借新还旧维持资金链。7 年后受害人拿回不到本金四分之一。',
+    extra: '',
+    sources: ['南京市中级人民法院一审判决（2019-06）', '央视网、新京报报道']
+  },
+
+  '云联惠': {
+    name: '云联惠',
+    aliases: ['广东云联惠网络科技有限公司'],
+    type: '消费返利盘',
+    badge: '已判决',
+    crime: '组织、领导传销活动罪',
+    principal: '黄明',
+    sentence: '有期徒刑十五年，并处罚金，没收违法所得',
+    court: '一审法院公开宣判',
+    judged: '2021-08 一审宣判',
+    scale: '涉案规模巨大，全国多省市参与',
+    pattern: '「消费全返」—— 消费多少，按日返还多少，靠新会员消费填坑',
+    features: ['消费返利', '拉人计酬', '无真实造血', '返利来源不可持续'],
+    lesson: '消费返利盘的核心漏洞：返利的钱不来自商品利润，来自后来者的消费。',
+    extra: '',
+    sources: ['泉州市市场监督管理局转载案例警示（2021-08-27）', '一审法院判决']
+  },
+
+  'PlusToken': {
+    name: 'PlusToken',
+    aliases: ['Plus Token', 'plustoken'],
+    type: '数字货币钱包 / 传销',
+    badge: '已判决',
+    crime: '组织、领导传销活动罪',
+    principal: '陈波等',
+    sentence: '主犯陈波有期徒刑十一年，并处罚金六百万元；16 人获刑 2–11 年',
+    court: '江苏省盐城市中级人民法院',
+    judged: '2020-11 二审裁定驳回上诉，维持原判',
+    scale: '会员 200 余万人，收取数字货币 948 万余个，折合人民币 500 多亿；层级高达 3293 层',
+    pattern: '以「智能搬砖套利」为名，存币生息 + 发展下线返佣',
+    features: ['拉人计酬（3293 层）', '承诺固定收益', '无真实造血', '境外服务器'],
+    lesson: '币圈第一大传销案。所谓「搬砖套利」从未真实发生，收益全靠新会员充币。',
+    extra: '2019 年 6 月后仍有大量数字货币流入，部分已无法追回。',
+    sources: ['江苏省盐城市中级人民法院二审裁定（2020-11）', '中国裁判文书网', '央视《经济半小时》报道']
+  },
+
+  '海汇国际': {
+    name: '海汇国际',
+    aliases: ['海汇平台', 'DRC', 'Haihui International'],
+    type: '外汇投资幌子 / 传销',
+    badge: '已判决',
+    crime: '组织、领导传销活动罪',
+    principal: '刘俊伟',
+    sentence: '有期徒刑八年，并处罚金二百万元',
+    court: '湖南省衡阳市中级人民法院',
+    judged: '2025-07 二审维持原判（截至 2025-07 已审结 109 件 191 人）',
+    scale: '涉案资金超百亿元，涉及多省市及东南亚',
+    pattern: '最低入会门槛 1500 美元，邀请码形成上下线，以下线人数、层级、团队入金总量计酬',
+    features: ['门槛费（1500 美元）', '拉人计酬', '无真实交易', '外汇为幌子'],
+    lesson: '法院认定：平台实际未进行外汇交易，无法获得收益支持返利。这是「结构判定」的典型——不看它说做外汇，看它有没有真的做。',
+    extra: '',
+    sources: ['湖南省衡阳市中级人民法院审判情况通报（2025-07-16）', '公安部 2022-07 部署 23 省市打击']
+  },
+
+  '五行币': {
+    name: '五行币',
+    aliases: ['五行币传销', '云数贸'],
+    type: '传销 / 虚拟币',
+    badge: '已判决',
+    crime: '组织、领导传销活动罪',
+    principal: '张健（宋密秋）',
+    sentence: '依法判处有期徒刑并处罚金',
+    court: '法院公开宣判',
+    judged: '已判决',
+    scale: '全国多省市参与，涉案金额巨大',
+    pattern: '以「五行币」数字货币为名，交钱入会、拉人返利，宣称「一币一别墅」',
+    features: ['门槛费', '拉人计酬', '虚假背书', '无真实造血'],
+    lesson: '「云数贸」系列换皮多次，同一操盘手反复开新盘。跑路不是终点，是换皮的起点。',
+    extra: '',
+    sources: ['公开判决', '公安机关通报']
+  }
+};
+
+/* 别名 → 主名 的反查表 */
+const CASE_ALIAS = {};
+Object.keys(KNOWN_CASES).forEach(function (k) {
+  CASE_ALIAS[k.toLowerCase()] = k;
+  (KNOWN_CASES[k].aliases || []).forEach(function (a) {
+    CASE_ALIAS[a.toLowerCase()] = k;
+  });
+});
+
+function findKnownCase(kw) {
+  if (!kw) return null;
+  const t = kw.trim().toLowerCase();
+  if (CASE_ALIAS[t]) return KNOWN_CASES[CASE_ALIAS[t]];
+  // 模糊匹配
+  const hit = Object.keys(KNOWN_CASES).filter(function (k) {
+    return k.toLowerCase().indexOf(t) >= 0 || t.indexOf(k.toLowerCase()) >= 0;
+  })[0];
+  return hit ? KNOWN_CASES[hit] : null;
+}
+
 const DB = {
   "星辰国际": {
     name:"星辰国际", tag:"示例·虚构", aliases:["星辰财富","Star Capital"],
@@ -1591,8 +1815,63 @@ const DB = {
    ══════════════════════════════════════════════════════════ */
 const CHAIN = ["维稳","拖延提现","改积分","重启","换皮","停盘","跑路","开新盘"];
 
+/* ══════════════════════════════════════════════════════════
+   已知案例卡渲染
+   ══════════════════════════════════════════════════════════ */
+function renderCase(c) {
+  document.getElementById('resTitle').textContent = c.name + ' · 已知案例';
+  document.getElementById('resDesc').textContent = c.type + ' ｜ ' + c.crime;
+  document.getElementById('rid').textContent = 'KC-ARCHIVE';
+
+  const feats = (c.features || []).map(function (f) {
+    return '<span class="case-feat">' + escapeHtml(f) + '</span>';
+  }).join('');
+  const srcs = (c.sources || []).map(function (s) {
+    return '· ' + escapeHtml(s);
+  }).join('<br>');
+  const aliasLine = (c.aliases && c.aliases.length)
+    ? '<span>别名 <code>' + escapeHtml(c.aliases.slice(0, 2).join(' / ')) + '</code></span>' : '';
+
+  document.getElementById('reportBox').innerHTML =
+    '<div class="report case-report">' +
+      '<div class="report-top">' +
+        '<div class="report-title">' +
+          '<div class="report-name">' + escapeHtml(c.name) +
+            '<span class="tag-case">' + escapeHtml(c.badge) + '</span></div>' +
+          '<div class="report-meta">' +
+            '<span>类型 <code>' + escapeHtml(c.type) + '</code></span>' + aliasLine +
+          '</div>' +
+        '</div>' +
+        '<div class="case-verdict">' +
+          '<div class="case-vd-badge">已定性 · 有生效判决</div>' +
+          '<div class="case-vd-note">不属于待评估项目</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="case-body">' +
+        '<div class="case-row"><dt>判决罪名</dt><dd class="hl">' + escapeHtml(c.crime) + '</dd></div>' +
+        '<div class="case-row"><dt>主犯</dt><dd>' + escapeHtml(c.principal) + '</dd></div>' +
+        '<div class="case-row"><dt>判决结果</dt><dd>' + escapeHtml(c.sentence) + '</dd></div>' +
+        '<div class="case-row"><dt>审理法院</dt><dd>' + escapeHtml(c.court) + '</dd></div>' +
+        '<div class="case-row"><dt>宣判时间</dt><dd>' + escapeHtml(c.judged) + '</dd></div>' +
+        '<div class="case-row"><dt>涉案规模</dt><dd class="hl">' + escapeHtml(c.scale) + '</dd></div>' +
+        '<div class="case-row"><dt>运作模式</dt><dd>' + escapeHtml(c.pattern) + '</dd></div>' +
+        '<div class="case-feats">' + feats + '</div>' +
+        '<div class="case-lesson"><b>为什么记它：</b>' + escapeHtml(c.lesson) +
+          (c.extra ? ' ' + escapeHtml(c.extra) : '') + '</div>' +
+        '<div class="case-src"><b>信息来源</b><br>' + srcs + '</div>' +
+        '<div class="case-warn">以上内容全部引用公开判决书与官方通报，未作新的法律定性。' +
+          '案件事实以法院生效判决为准。</div>' +
+      '</div>' +
+    '</div>';
+}
+
 function render(key){
   const box = document.getElementById('reportBox');
+
+  /* ① 先查已知案例库（真实已判决项目）*/
+  const kc = findKnownCase(key);
+  if (kc) { renderCase(kc); return; }
+
   const d = DB[key];
 
   if(!d){
@@ -2136,6 +2415,23 @@ function renderParse() {
   const r = calcScore(facts);
   const g = gradeOf(r.total, r.coverage);
 
+  /* 项目名是否命中已知案例库 —— 命中时置顶警示 */
+  const kc = findKnownCase(p.name);
+  const caseHtml = kc ? (
+    '<div class="case-alert">' +
+      '<div class="ca-title">这个名字在已知案例库里</div>' +
+      '<div class="ca-body">' +
+        '<b>' + escapeHtml(kc.name) + '</b>（' + escapeHtml(kc.type) + '）<br>' +
+        escapeHtml(kc.judged) + '，' + escapeHtml(kc.court) + '判决：' +
+        '<em>' + escapeHtml(kc.crime) + '</em>。<br>' +
+        escapeHtml(kc.sentence) + '。<br>' +
+        '涉案规模：' + escapeHtml(kc.scale) + '。' +
+      '</div>' +
+      '<span class="ca-link" onclick="document.getElementById(\'q\').value=' +
+        JSON.stringify(kc.name) + ';doSearch()">查看完整案例档案 →</span>' +
+    '</div>'
+  ) : '';
+
   const known = Object.keys(p.found).filter(k => k !== 'cap');   // cap 是 B3 的修饰项，不单列
   const knownRows = known.length ? known.map(k => {
     const label = {
@@ -2152,6 +2448,7 @@ function renderParse() {
   const adv = STAGE_ADVICE[p.stage] || STAGE_ADVICE.pre;
 
   box.innerHTML = `
+    ${caseHtml}
     <div class="sc-score">
       <div class="sc-ring" style="--pct:${r.total};--rc:${g.color}"><span>${r.total}</span></div>
       <div>
