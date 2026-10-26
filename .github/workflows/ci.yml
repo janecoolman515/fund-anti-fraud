@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: 工具链自测
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 确认无第三方依赖
+        run: |
+          python -c "
+          import ast, pathlib, sys
+          stdlib = set(sys.stdlib_module_names)
+          local = {'apr_calculator', 'scheme_audit', 'report_builder'}
+          bad = []
+          for p in pathlib.Path('tools').glob('*.py'):
+              tree = ast.parse(p.read_text(encoding='utf-8'))
+              for n in ast.walk(tree):
+                  if isinstance(n, ast.Import):
+                      for a in n.names:
+                          root = a.name.split('.')[0]
+                          if root not in stdlib and root not in local:
+                              bad.append(f'{p.name}: {root}')
+                  elif isinstance(n, ast.ImportFrom) and n.module and n.level == 0:
+                      root = n.module.split('.')[0]
+                      if root not in stdlib and root not in local:
+                          bad.append(f'{p.name}: {root}')
+          if bad:
+              print('发现第三方依赖：', bad); sys.exit(1)
+          print('OK：仅使用标准库')
+          "
+
+      - name: 收益反算
+        run: python tools/apr_calculator.py --daily 1.8 --cycle 7 --principal 10000 --members 1000
+
+      - name: 收益反算 · JSON 输出可解析
+        run: python tools/apr_calculator.py --daily 1.8 --json | python -c "import json,sys; json.load(sys.stdin); print('JSON OK')"
+
+      - name: 制度特征审查
+        run: python tools/scheme_audit.py examples/sample-case.json --explain
+
+      - name: 制度审查 · JSON 输出可解析
+        run: python tools/scheme_audit.py examples/sample-case.json --json | python -c "import json,sys; d=json.load(sys.stdin); assert 0<=d['score']<=100; print('score =', d['score'])"
+
+      - name: 报告生成
+        run: python tools/report_builder.py examples/sample-case.json -o /tmp/REPORT.md
+
+      - name: 报告非空且含关键章节
+        run: |
+          test -s /tmp/REPORT.md
+          for kw in "证据表" "风险维度评分" "行动建议" "免责声明" "未能核实项"; do
+            grep -q "$kw" /tmp/REPORT.md || { echo "缺少章节：$kw"; exit 1; }
+          done
+          echo "报告章节完整"
+
+      - name: 示例报告与生成器同步
+        run: |
+          python tools/report_builder.py examples/sample-case.json -o /tmp/check.md
+          if diff -q /tmp/check.md examples/sample-report.md > /dev/null; then
+            echo "示例报告与生成器输出一致"
+          else
+            echo "::warning::examples/sample-report.md 与生成器输出不一致，建议重新生成"
+          fi
+
+      - name: 文档内部链接检查
+        run: |
+          python - <<'PY'
+          import re, pathlib, sys
+          bad = []
+          for md in pathlib.Path('.').rglob('*.md'):
+              if '.git' in md.parts:
+                  continue
+              for m in re.finditer(r'\]\(([^)#][^)]*)\)', md.read_text(encoding='utf-8')):
+                  t = m.group(1)
+                  if t.startswith(('http', 'mailto', '#')):
+                      continue
+                  if not (md.parent / t.split('#')[0]).resolve().exists():
+                      bad.append(f'{md}: {t}')
+          if bad:
+              print('断链：'); [print(' ', b) for b in bad]; sys.exit(1)
+          print('内部链接全部有效')
+          PY
+
+      - name: 检查是否误提交敏感文件
+        run: |
+          if git ls-files | grep -Ei '(^|/)(my-case|\.env|config\.json|credential)'; then
+            echo "::error::疑似敏感文件被提交"; exit 1
+          fi
+          echo "未发现敏感文件"
