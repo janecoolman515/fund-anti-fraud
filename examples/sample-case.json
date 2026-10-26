@@ -1,0 +1,96 @@
+{
+  "_note": "示例案件 —— 项目名称、域名、数据均为虚构，仅用于演示格式。域名使用 RFC 2606 保留的 .invalid，不可解析。",
+  "project": {
+    "name": "星辰国际（示例·虚构）",
+    "aliases": ["星辰财富", "Star Capital"],
+    "claimed_type": "跨境电商 + 理财",
+    "claimed_yield": "日化 1.8%，7 天一轮结算",
+    "url": "https://example-scam.invalid",
+    "start_date": "2026-03",
+    "channel": "微信群 + 线下招商会",
+    "auditor": "janecoolman",
+    "audit_date": "2026-10-26"
+  },
+  "facts": {
+    "entity": {
+      "icp_entity_type": "individual",
+      "icp_entity_matches_claim": false,
+      "registered_capital": 10000000,
+      "paid_in_capital": 0,
+      "business_status": "abnormal",
+      "domain_age_days": 120,
+      "domain_expires_days": 75
+    },
+    "yield": {
+      "daily_rate": 1.8,
+      "cycle_days": 7
+    },
+    "scheme": {
+      "referral_levels": 3,
+      "referral_capped": false,
+      "entry_fee": 998,
+      "lockup": true,
+      "release_requires_repurchase": true
+    },
+    "funds": {
+      "withdrawal_limited": true,
+      "withdrawal_notes": "满 1000 元方可提现，手续费 30%，到账 T+7",
+      "payee_type": "personal",
+      "third_party_custody": false,
+      "real_business": "weak"
+    },
+    "external": {
+      "regulator_warning": false,
+      "complaints": 47,
+      "complaint_pattern": "提现不到账、要求补缴保证金",
+      "legal_cases": 0,
+      "official_denial": false
+    }
+  },
+  "evidence": [
+    {
+      "item": "ICP 备案主体",
+      "fact": "备案主体为个人，备案人姓氏与项目宣称的集团公司无关联",
+      "implication": "宣称的「集团背景」在备案层面无任何对应主体",
+      "source": "工信部 ICP/IP 地址/域名信息备案管理系统",
+      "date": "2026-10-20"
+    },
+    {
+      "item": "域名注册信息",
+      "fact": "域名注册于 2026 年 6 月，到期时间 2027 年 1 月",
+      "implication": "注册仅 4 个月、到期不足 3 个月，属短周期运营特征",
+      "source": "WHOIS 查询",
+      "date": "2026-10-20"
+    },
+    {
+      "item": "工商登记",
+      "fact": "注册资本 1000 万元，实缴 0 元；2026 年 9 月被列入经营异常名录",
+      "implication": "宣称的资本实力无实缴支撑，且已出现监管异常",
+      "source": "国家企业信用信息公示系统",
+      "date": "2026-10-21"
+    },
+    {
+      "item": "收益制度页",
+      "fact": "静态日化 1.8%，7 天一轮；直推 3 代，各 8%/5%/3%，无封顶",
+      "implication": "年化约 685 倍，且收益与拉人层级直接挂钩",
+      "source": "项目 APP 内制度页截图",
+      "date": "2026-10-22"
+    },
+    {
+      "item": "收款方式",
+      "fact": "充值页展示个人收款码，收款人姓名与平台主体不一致",
+      "implication": "资金未进入对公账户，无第三方存管，追索困难",
+      "source": "充值页截图",
+      "date": "2026-10-22"
+    },
+    {
+      "item": "用户投诉",
+      "fact": "黑猫投诉 47 条，集中在 2026 年 9 月后，内容为「提现不到账」「要求补缴解冻金」",
+      "implication": "兑付已出现系统性延迟，符合资金链收紧的早期特征",
+      "source": "黑猫投诉平台",
+      "date": "2026-10-23"
+    }
+  ],
+  "stage": "withdrawal_slow",
+  "notes": "示例数据，用于演示报告生成格式。实际使用时请逐项填入已核实的事实，未核实项留空。"
+}

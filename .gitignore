@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# 本地案件文件（含真实项目资料，不要提交）
+cases/
+my-case.json
+*.case.json
+
+# 生成的报告（示例报告除外）
+REPORT.md
+report-*.md
+!examples/sample-report.md
+
+# 抓取的原始素材
+captures/
+screenshots/
+*.png
+*.jpg
+!assets/*.png
+!assets/*.svg
+
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*~
+
+# 日志与临时
+*.log
+tmp/
