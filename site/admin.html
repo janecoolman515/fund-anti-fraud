@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>后台 · 资料审核</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0A1C33; color: #E8F0F8;
+    font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  input, textarea, select { font-family: inherit; }
+
+  /* ══════ 登录 ══════ */
+  #login {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background: radial-gradient(700px 400px at 50% 20%, rgba(40,95,150,.25), transparent 70%), #0A1C33;
+  }
+  .login-box {
+    width: 100%; max-width: 380px;
+    background: linear-gradient(180deg, #1A4270, #13355C);
+    border: 1px solid #33628F; border-radius: 14px;
+    padding: 32px 28px 28px;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,.9);
+  }
+  .login-box h1 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .login-box .sub { font-size: 12px; color: #7189A6; margin-bottom: 24px; }
+  .lf { margin-bottom: 14px; }
+  .lf label { display: block; font-size: 12px; color: #94AECB; margin-bottom: 6px; }
+  .lf input {
+    width: 100%; background: #0A1C33; border: 1px solid #33628F;
+    border-radius: 7px; padding: 11px 13px; color: #E8F0F8; font-size: 14px;
+    outline: none; transition: .15s;
+  }
+  .lf input:focus { border-color: #C9A227; box-shadow: 0 0 0 3px rgba(201,162,39,.12); }
+  .cap-row { display: flex; gap: 10px; align-items: stretch; }
+  .cap-row input { flex: 1; }
+  #capCanvas {
+    width: 100px; height: 42px; border-radius: 7px;
+    background: #0F2A4A; border: 1px solid #33628F;
+    cursor: pointer; flex: none;
+  }
+  .btn-login {
+    width: 100%; margin-top: 8px;
+    background: linear-gradient(180deg, #E8C55C, #C9A227);
+    color: #1A1400; border: none; border-radius: 8px;
+    padding: 12px; font-size: 14px; font-weight: 700;
+    transition: .15s;
+  }
+  .btn-login:hover { filter: brightness(1.08); }
+  .login-err {
+    margin-top: 12px; font-size: 12px; color: #F09A97;
+    text-align: center; min-height: 18px;
+  }
+  .login-note {
+    margin-top: 18px; padding-top: 16px; border-top: 1px solid #245380;
+    font-size: 11px; color: #7189A6; line-height: 1.7;
+  }
+
+  /* ══════ 后台主体 ══════ */
+  #app { display: none; min-height: 100vh; }
+  #app.on { display: block; }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(19,53,92,.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid #33628F;
+    padding: 0 20px; height: 56px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  header .logo { font-size: 15px; font-weight: 800; letter-spacing: .5px; }
+  header .logo span { color: #C9A227; }
+  header .stat {
+    font-size: 12px; color: #94AECB; font-family: Consolas, monospace;
+    display: flex; gap: 14px;
+  }
+  header .stat b { color: #E8C55C; }
+  header .spacer { flex: 1; }
+  header .hbtn {
+    font-size: 12.5px; color: #BED2E6;
+    background: #1A4270; border: 1px solid #33628F;
+    border-radius: 6px; padding: 7px 13px;
+  }
+  header .hbtn:hover { background: #245488; }
+  header .hbtn.danger { color: #F09A97; border-color: rgba(217,67,63,.4); }
+
+  .toolbar {
+    position: sticky; top: 56px; z-index: 90;
+    background: #0A1C33; border-bottom: 1px solid #1E4874;
+    padding: 12px 20px;
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  .toolbar .chip {
+    font-size: 12px; color: #BED2E6;
+    background: #15365A; border: 1px solid #33628F;
+    border-radius: 100px; padding: 5px 13px;
+  }
+  .toolbar .chip.on { background: #C9A227; border-color: #C9A227; color: #1A1400; font-weight: 700; }
+  .toolbar .chip .c { opacity: .65; font-size: 10.5px; margin-left: 4px; }
+  .toolbar .spacer { flex: 1; }
+  .toolbar .btn {
+    font-size: 12.5px; padding: 7px 14px; border-radius: 6px;
+    border: 1px solid #33628F; background: #1A4270; color: #BED2E6;
+  }
+  .toolbar .btn:hover { background: #245488; }
+  .toolbar .btn.primary {
+    background: linear-gradient(180deg, #E8C55C, #C9A227);
+    color: #1A1400; border-color: transparent; font-weight: 700;
+  }
+
+  .main { display: flex; align-items: flex-start; gap: 0; min-height: calc(100vh - 120px); }
+
+  /* 左侧列表 */
+  .side {
+    width: 340px; flex: none;
+    border-right: 1px solid #1E4874;
+    max-height: calc(100vh - 120px); overflow-y: auto;
+    position: sticky; top: 120px;
+  }
+  .side::-webkit-scrollbar { width: 6px; }
+  .side::-webkit-scrollbar-thumb { background: #33628F; border-radius: 3px; }
+
+  .card {
+    padding: 13px 16px;
+    border-bottom: 1px solid #1E4874;
+    cursor: pointer; transition: .12s;
+    position: relative;
+  }
+  .card:hover { background: #15365A; }
+  .card.on { background: #1A4270; border-left: 3px solid #C9A227; padding-left: 13px; }
+  .card .top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .card .nm {
+    font-size: 14px; font-weight: 600; flex: 1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .card .badge {
+    font-size: 10px; font-family: Consolas, monospace;
+    padding: 2px 7px; border-radius: 4px; flex: none;
+  }
+  .badge.pending { color: #F0B080; background: rgba(224,123,57,.14); border: 1px solid rgba(224,123,57,.35); }
+  .badge.approved { color: #7FD69B; background: rgba(46,158,91,.14); border: 1px solid rgba(46,158,91,.35); }
+  .badge.rejected { color: #F09A97; background: rgba(217,67,63,.14); border: 1px solid rgba(217,67,63,.35); }
+  .card .meta { font-size: 11.5px; color: #7189A6; display: flex; gap: 10px; }
+  .card .multi {
+    font-size: 10.5px; color: #C9A227; font-family: Consolas, monospace;
+    margin-top: 4px;
+  }
+
+  /* 右侧详情 */
+  .detail {
+    flex: 1; min-width: 0; padding: 24px 28px 60px;
+    max-width: 900px;
+  }
+  .empty {
+    text-align: center; padding: 80px 20px; color: #7189A6;
+  }
+  .empty b { display: block; color: #BED2E6; font-size: 16px; margin-bottom: 10px; }
+
+  .d-head { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #1E4874; }
+  .d-head h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .d-head .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .d-head .tag {
+    font-size: 11px; font-family: Consolas, monospace;
+    padding: 3px 10px; border-radius: 4px;
+    color: #BED2E6; background: rgba(255,255,255,.06); border: 1px solid #33628F;
+  }
+
+  .sub-list { margin-bottom: 22px; }
+  .sub-item {
+    background: #15365A; border: 1px solid #1E4874;
+    border-radius: 9px; padding: 14px 16px; margin-bottom: 10px;
+  }
+  .sub-item .sh {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    padding-bottom: 9px; border-bottom: 1px solid #1E4874;
+  }
+  .sub-item .sh .idx {
+    font-size: 11px; font-family: Consolas, monospace; color: #C9A227;
+    background: rgba(201,162,39,.1); border: 1px solid rgba(201,162,39,.3);
+    padding: 2px 8px; border-radius: 4px;
+  }
+  .sub-item .sh .time { font-size: 11.5px; color: #7189A6; font-family: Consolas, monospace; }
+  .sub-item .sh .spacer { flex: 1; }
+
+  .kv { display: grid; grid-template-columns: 88px 1fr; gap: 10px; padding: 6px 0; font-size: 12.5px; }
+  .kv dt { color: #7189A6; font-family: Consolas, monospace; font-size: 11.5px; }
+  .kv dd { color: #E8F0F8; margin: 0; word-break: break-word; }
+  .kv dd.diff { color: #F0B080; }
+  .kv dd.empty-val { color: #4A6280; }
+
+  .merged-box {
+    background: rgba(201,162,39,.07);
+    border: 1px solid rgba(201,162,39,.3);
+    border-radius: 9px; padding: 15px 18px; margin-bottom: 20px;
+  }
+  .merged-box h4 { font-size: 13px; color: #E8C55C; margin-bottom: 10px; }
+
+  .actions {
+    display: flex; gap: 10px; padding-top: 18px;
+    border-top: 1px solid #1E4874;
+    position: sticky; bottom: 0; background: #0A1C33;
+    padding-bottom: 14px;
+  }
+  .btn-act {
+    padding: 11px 24px; border-radius: 8px; font-size: 13.5px; font-weight: 700;
+    border: 1px solid transparent;
+  }
+  .btn-approve { background: linear-gradient(180deg, #4FBF7A, #2E9E5B); color: #04150A; }
+  .btn-reject { background: rgba(217,67,63,.15); color: #F09A97; border-color: rgba(217,67,63,.4); }
+  .btn-approve:hover, .btn-reject:hover { filter: brightness(1.1); }
+
+  /* 导入弹窗 */
+  .mask {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(5,15,28,.85); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .mask.on { display: flex; }
+  .dialog {
+    width: 100%; max-width: 620px; max-height: 86vh; overflow-y: auto;
+    background: linear-gradient(180deg, #1A4270, #13355C);
+    border: 1px solid #4475A8; border-radius: 14px; padding: 24px 26px;
+  }
+  .dialog h3 { font-size: 18px; margin-bottom: 6px; }
+  .dialog p { font-size: 12px; color: #94AECB; margin-bottom: 14px; line-height: 1.7; }
+  .dialog textarea {
+    width: 100%; min-height: 200px;
+    background: #0A1C33; border: 1px solid #33628F; border-radius: 8px;
+    color: #E8F0F8; font-size: 12.5px; padding: 12px;
+    font-family: Consolas, monospace; outline: none; resize: vertical;
+  }
+  .dialog textarea:focus { border-color: #C9A227; }
+  .dialog .dbtns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+  .dialog .dbtn {
+    padding: 9px 20px; border-radius: 7px; font-size: 13px;
+    border: 1px solid #33628F; background: #1A4270; color: #BED2E6;
+  }
+  .dialog .dbtn.primary {
+    background: linear-gradient(180deg, #E8C55C, #C9A227);
+    color: #1A1400; border-color: transparent; font-weight: 700;
+  }
+  .dialog .dmsg { margin-top: 12px; font-size: 12px; color: #7FD69B; min-height: 18px; }
+
+  @media (max-width: 820px) {
+    .side { width: 100%; position: static; max-height: 40vh; }
+    .main { flex-direction: column; }
+    .detail { padding: 18px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ 登录 ══════ -->
+<div id="login">
+  <div class="login-box">
+    <h1>资料审核后台</h1>
+    <div class="sub">仅限管理员登录</div>
+
+    <div class="lf">
+      <label>用户名</label>
+      <input id="u" type="text" autocomplete="off" placeholder="用户名">
+    </div>
+    <div class="lf">
+      <label>密码</label>
+      <input id="p" type="password" autocomplete="off" placeholder="密码">
+    </div>
+    <div class="lf">
+      <label>验证码（点图片可换）</label>
+      <div class="cap-row">
+        <input id="c" type="text" maxlength="4" autocomplete="off" placeholder="4 位数字">
+        <canvas id="capCanvas" width="100" height="42"></canvas>
+      </div>
+    </div>
+
+    <button class="btn-login" id="btnLogin">登 录</button>
+    <div class="login-err" id="loginErr"></div>
+
+    <div class="login-note">
+      本页面为独立后台，未在任何公开页面留下入口。<br>
+      登录状态保存在本机浏览器，7 天后自动失效。
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 后台 ══════ -->
+<div id="app">
+  <header>
+    <span class="logo">资料审核 <span>·</span> 后台</span>
+    <span class="stat">
+      待审 <b id="sPending">0</b> ·
+      已通过 <b id="sApproved">0</b> ·
+      已拒绝 <b id="sRejected">0</b>
+    </span>
+    <span class="spacer"></span>
+    <button class="hbtn" id="btnImport">导入提交码</button>
+    <button class="hbtn" id="btnExport">导出已通过</button>
+    <button class="hbtn danger" id="btnLogout">退出</button>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <span class="chip on" data-f="pending">待审核<span class="c" id="cPending"></span></span>
+    <span class="chip" data-f="approved">已通过<span class="c" id="cApproved"></span></span>
+    <span class="chip" data-f="rejected">已拒绝<span class="c" id="cRejected"></span></span>
+    <span class="chip" data-f="all">全部<span class="c" id="cAll"></span></span>
+    <span class="spacer"></span>
+    <button class="btn" id="btnSeed">载入演示数据</button>
+    <button class="btn danger" id="btnClear" style="color:#F09A97">清空本地</button>
+  </div>
+
+  <div class="main">
+    <div class="side" id="side"></div>
+    <div class="detail" id="detail">
+      <div class="empty">
+        <b>左侧选择一个项目</b>
+        同一项目多次提交会自动合并，右侧可对比各次提交的差异。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 导入弹窗 -->
+<div class="mask" id="importMask">
+  <div class="dialog">
+    <h3>导入提交码</h3>
+    <p>用户在「提交资料」页生成提交码后发给你，粘贴到这里即可导入待审核队列。<br>
+    支持一次粘贴多条，每条占一行。</p>
+    <textarea id="importText" placeholder="粘贴提交码，每行一条"></textarea>
+    <div class="dbtns">
+      <button class="dbtn" id="importCancel">取消</button>
+      <button class="dbtn primary" id="importOk">导入</button>
+    </div>
+    <div class="dmsg" id="importMsg"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   登录凭据（只存哈希，不存明文）
+   ══════════════════════════════════════════════ */
+const CRED_HASH = '34ba5529fcb44d04eca52aad7d4e602930e6edb5217a9efc2fc878addca7960a';
+const SESSION_KEY = 'admin_session_v1';
+const DATA_KEY = 'admin_submissions_v1';
+const SESSION_DAYS = 7;
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function (b) {
+    return b.toString(16).padStart(2, '0');
+  }).join('');
+}
+
+/* ══════════ 图形验证码 ══════════ */
+let capCode = '';
+
+function drawCaptcha() {
+  const cv = document.getElementById('capCanvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+
+  capCode = String(Math.floor(1000 + Math.random() * 9000));
+
+  ctx.fillStyle = '#0F2A4A';
+  ctx.fillRect(0, 0, W, H);
+
+  /* 干扰线 */
+  for (let i = 0; i < 4; i++) {
+    ctx.strokeStyle = 'rgba(120,160,200,' + (0.15 + Math.random() * 0.2) + ')';
+    ctx.beginPath();
+    ctx.moveTo(Math.random() * W, Math.random() * H);
+    ctx.lineTo(Math.random() * W, Math.random() * H);
+    ctx.stroke();
+  }
+
+  /* 数字 */
+  const colors = ['#E8C55C', '#7FD69B', '#8FC7F0', '#F0B080'];
+  ctx.font = 'bold 24px Consolas, monospace';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < 4; i++) {
+    ctx.save();
+    ctx.translate(16 + i * 22, H / 2 + (Math.random() * 6 - 3));
+    ctx.rotate((Math.random() - 0.5) * 0.35);
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+    ctx.fillText(capCode[i], -8, 0);
+    ctx.restore();
+  }
+}
+
+document.getElementById('capCanvas').addEventListener('click', drawCaptcha);
+
+/* ══════════ 登录 ══════════ */
+document.getElementById('btnLogin').addEventListener('click', async function () {
+  const u = document.getElementById('u').value.trim();
+  const p = document.getElementById('p').value;
+  const c = document.getElementById('c').value.trim();
+  const err = document.getElementById('loginErr');
+
+  if (!u || !p) { err.textContent = '请输入用户名和密码'; return; }
+  if (c !== capCode) { err.textContent = '验证码错误'; drawCaptcha(); document.getElementById('c').value = ''; return; }
+
+  const h = await sha256(u + ':' + p);
+  if (h !== CRED_HASH) {
+    err.textContent = '用户名或密码错误';
+    drawCaptcha();
+    document.getElementById('c').value = '';
+    return;
+  }
+
+  localStorage.setItem(SESSION_KEY, String(Date.now() + SESSION_DAYS * 864e5));
+  enterApp();
+});
+
+document.getElementById('p').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('btnLogin').click();
+});
+document.getElementById('c').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') document.getElementById('btnLogin').click();
+});
+
+function checkSession() {
+  const t = Number(localStorage.getItem(SESSION_KEY) || 0);
+  if (t && Date.now() < t) { enterApp(); return true; }
+  localStorage.removeItem(SESSION_KEY);
+  return false;
+}
+
+function enterApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+  loadData();
+  render();
+}
+
+document.getElementById('btnLogout').addEventListener('click', function () {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+});
+
+/* ══════════════════════════════════════════════
+   数据层
+   ══════════════════════════════════════════════ */
+let SUBS = [];       // 原始提交记录
+let GROUPS = [];     // 按项目名合并后的组
+let curFilter = 'pending';
+let curId = null;
+
+function loadData() {
+  try {
+    SUBS = JSON.parse(localStorage.getItem(DATA_KEY) || '[]');
+  } catch (e) { SUBS = []; }
+}
+
+function saveData() {
+  localStorage.setItem(DATA_KEY, JSON.stringify(SUBS));
+}
+
+/* 按项目名归一化后分组 */
+function buildGroups() {
+  const map = {};
+  SUBS.forEach(function (s) {
+    const key = String(s.name || '').replace(/\s/g, '').toLowerCase();
+    if (!key) return;
+    if (!map[key]) {
+      map[key] = {
+        key: key,
+        name: s.name,
+        subs: [],
+        status: 'pending',
+        firstAt: s.at,
+        lastAt: s.at,
+      };
+    }
+    map[key].subs.push(s);
+    map[key].lastAt = Math.max(map[key].lastAt, s.at);
+    map[key].firstAt = Math.min(map[key].firstAt, s.at);
+    /* 组状态：任一通过则通过，全拒绝则拒绝 */
+    if (s.status === 'approved') map[key].status = 'approved';
+    else if (s.status === 'rejected' && map[key].status !== 'approved') {
+      map[key].status = map[key].subs.every(function (x) { return x.status === 'rejected'; }) ? 'rejected' : 'pending';
+    }
+  });
+
+  GROUPS = Object.keys(map).map(function (k) { return map[k]; });
+  GROUPS.sort(function (a, b) { return b.lastAt - a.lastAt; });
+}
+
+/* ══════════ 渲染 ══════════ */
+function render() {
+  buildGroups();
+
+  const nPending = GROUPS.filter(function (g) { return g.status === 'pending'; }).length;
+  const nApproved = GROUPS.filter(function (g) { return g.status === 'approved'; }).length;
+  const nRejected = GROUPS.filter(function (g) { return g.status === 'rejected'; }).length;
+
+  document.getElementById('sPending').textContent = nPending;
+  document.getElementById('sApproved').textContent = nApproved;
+  document.getElementById('sRejected').textContent = nRejected;
+  document.getElementById('cPending').textContent = nPending;
+  document.getElementById('cApproved').textContent = nApproved;
+  document.getElementById('cRejected').textContent = nRejected;
+  document.getElementById('cAll').textContent = GROUPS.length;
+
+  const list = GROUPS.filter(function (g) {
+    return curFilter === 'all' || g.status === curFilter;
+  });
+
+  const side = document.getElementById('side');
+  if (!list.length) {
+    side.innerHTML = '<div class="empty" style="padding:40px 16px"><b>暂无数据</b>' +
+      '点上方「导入提交码」添加，或点「载入演示数据」看效果。</div>';
+    return;
+  }
+
+  side.innerHTML = list.map(function (g) {
+    const stText = g.status === 'approved' ? '已通过' : (g.status === 'rejected' ? '已拒绝' : '待审');
+    const multi = g.subs.length > 1 ? '<div class="multi">● ' + g.subs.length + ' 人提交，已合并</div>' : '';
+    return '<div class="card' + (curId === g.key ? ' on' : '') + '" data-k="' + g.key + '">' +
+      '<div class="top">' +
+        '<span class="nm">' + esc(g.name) + '</span>' +
+        '<span class="badge ' + g.status + '">' + stText + '</span>' +
+      '</div>' +
+      '<div class="meta"><span>' + g.subs.length + ' 条提交</span><span>' + fmtTime(g.lastAt) + '</span></div>' +
+      multi +
+    '</div>';
+  }).join('');
+
+  if (curId) {
+    const g = GROUPS.filter(function (x) { return x.key === curId; })[0];
+    if (g) renderDetail(g);
+  }
+}
+
+function fmtTime(ts) {
+  if (!ts) return '-';
+  const d = new Date(ts);
+  return (d.getMonth() + 1) + '-' + d.getDate() + ' ' +
+    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+/* ══════════ 详情 ══════════ */
+function renderDetail(g) {
+  const box = document.getElementById('detail');
+
+  /* 合并视图：取每个字段第一个非空值 */
+  const FIELDS = [
+    ['name', '项目名称'], ['start', '开始时间'], ['type', '项目类型'],
+    ['site', '网站/APP'], ['yield', '宣称收益'], ['scheme', '制度模式'],
+    ['pitch', '宣传话术'], ['stage', '当前状态'], ['question', '用户疑问']
+  ];
+
+  const merged = {};
+  const conflicts = [];
+  FIELDS.forEach(function (f) {
+    const vals = g.subs.map(function (s) { return (s[f[0]] || '').trim(); }).filter(Boolean);
+    const uniq = Array.from(new Set(vals));
+    merged[f[0]] = uniq[0] || '';
+    if (uniq.length > 1) conflicts.push(f[1] + '：' + uniq.join(' ／ '));
+  });
+
+  let html = '<div class="d-head">' +
+    '<h2>' + esc(g.name) + '</h2>' +
+    '<div class="tags">' +
+      '<span class="tag">' + g.subs.length + ' 条提交</span>' +
+      '<span class="tag">首次 ' + fmtTime(g.firstAt) + '</span>' +
+      '<span class="tag">最近 ' + fmtTime(g.lastAt) + '</span>' +
+      '<span class="tag">' + (g.status === 'approved' ? '已通过' : g.status === 'rejected' ? '已拒绝' : '待审核') + '</span>' +
+    '</div></div>';
+
+  /* 合并结果 */
+  html += '<div class="merged-box"><h4>合并后的资料（用于入库）</h4>';
+  FIELDS.forEach(function (f) {
+    const v = merged[f[0]];
+    html += '<div class="kv"><dt>' + f[1] + '</dt><dd class="' +
+      (v ? '' : 'empty-val') + '">' + (v ? esc(v) : '未提供') + '</dd></div>';
+  });
+  if (conflicts.length) {
+    html += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(201,162,39,.25);' +
+      'font-size:11.5px;color:#F0B080;line-height:1.8">' +
+      '<b>字段冲突（不同用户说法不一致）：</b><br>' + conflicts.map(esc).join('<br>') + '</div>';
+  }
+  html += '</div>';
+
+  /* 各次提交明细 */
+  html += '<h4 style="font-size:13px;color:#94AECB;margin-bottom:10px">各次提交明细</h4>';
+  html += '<div class="sub-list">';
+  g.subs.forEach(function (s, i) {
+    const st = s.status === 'approved' ? '已通过' : s.status === 'rejected' ? '已拒绝' : '待审';
+    html += '<div class="sub-item"><div class="sh">' +
+      '<span class="idx">#' + (i + 1) + '</span>' +
+      '<span class="time">' + fmtTime(s.at) + '</span>' +
+      '<span class="spacer"></span>' +
+      '<span class="badge ' + s.status + '">' + st + '</span>' +
+    '</div>';
+    FIELDS.forEach(function (f) {
+      if (f[0] === 'name') return;
+      const v = (s[f[0]] || '').trim();
+      if (!v) return;
+      html += '<div class="kv"><dt>' + f[1] + '</dt><dd>' + esc(v) + '</dd></div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  /* 操作 */
+  if (g.status === 'pending') {
+    html += '<div class="actions">' +
+      '<button class="btn-act btn-approve" data-act="approve">✓ 审核通过，允许入库</button>' +
+      '<button class="btn-act btn-reject" data-act="reject">✕ 拒绝</button>' +
+      '</div>';
+  } else {
+    html += '<div class="actions">' +
+      '<button class="btn-act btn-reject" data-act="reset">↺ 撤销，重新审核</button>' +
+      '</div>';
+  }
+
+  box.innerHTML = html;
+}
+
+/* ══════════ 事件 ══════════ */
+document.getElementById('side').addEventListener('click', function (e) {
+  const card = e.target.closest('.card');
+  if (!card) return;
+  curId = card.dataset.k;
+  render();
+});
+
+document.getElementById('detail').addEventListener('click', function (e) {
+  const btn = e.target.closest('[data-act]');
+  if (!btn) return;
+  const act = btn.dataset.act;
+  const g = GROUPS.filter(function (x) { return x.key === curId; })[0];
+  if (!g) return;
+
+  g.subs.forEach(function (s) {
+    if (act === 'approve') s.status = 'approved';
+    else if (act === 'reject') s.status = 'rejected';
+    else s.status = 'pending';
+  });
+  saveData();
+  render();
+});
+
+document.getElementById('toolbar').addEventListener('click', function (e) {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  this.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+  chip.classList.add('on');
+  curFilter = chip.dataset.f;
+  render();
+});
+
+/* ══════════ 导入提交码 ══════════ */
+document.getElementById('btnImport').addEventListener('click', function () {
+  document.getElementById('importMask').classList.add('on');
+  document.getElementById('importMsg').textContent = '';
+  document.getElementById('importText').value = '';
+});
+document.getElementById('importCancel').addEventListener('click', function () {
+  document.getElementById('importMask').classList.remove('on');
+});
+
+document.getElementById('importOk').addEventListener('click', function () {
+  const txt = document.getElementById('importText').value.trim();
+  const msg = document.getElementById('importMsg');
+  if (!txt) { msg.style.color = '#F09A97'; msg.textContent = '请先粘贴提交码'; return; }
+
+  const lines = txt.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+  let ok = 0, bad = 0;
+
+  lines.forEach(function (line) {
+    try {
+      const json = decodeURIComponent(escape(atob(line.replace(/^SUB:/, ''))));
+      const obj = JSON.parse(json);
+      if (!obj || !obj.name) throw new Error('no name');
+      obj.status = 'pending';
+      obj.at = obj.at || Date.now();
+      SUBS.push(obj);
+      ok++;
+    } catch (err) {
+      bad++;
+    }
+  });
+
+  if (ok) saveData();
+  msg.style.color = ok ? '#7FD69B' : '#F09A97';
+  msg.textContent = '导入成功 ' + ok + ' 条' + (bad ? '，失败 ' + bad + ' 条（格式不对）' : '');
+  render();
+
+  setTimeout(function () {
+    document.getElementById('importMask').classList.remove('on');
+  }, 1200);
+});
+
+/* ══════════ 导出已通过 ══════════ */
+document.getElementById('btnExport').addEventListener('click', function () {
+  buildGroups();
+  const approved = GROUPS.filter(function (g) { return g.status === 'approved'; });
+  if (!approved.length) { alert('还没有审核通过的项目'); return; }
+
+  const FIELDS = [['name'], ['start'], ['type'], ['site'], ['yield'], ['scheme'], ['pitch'], ['stage']];
+  const lines = approved.map(function (g) {
+    const merged = {};
+    FIELDS.forEach(function (f) {
+      const vals = g.subs.map(function (s) { return (s[f[0]] || '').trim(); }).filter(Boolean);
+      merged[f[0]] = vals[0] || '';
+    });
+    return [merged.name, merged.type || '未分类', '已收录',
+      (merged.scheme || merged.pitch || merged.yield || '').slice(0, 60) || '用户提交',
+      '用户提交'].join('|');
+  });
+
+  const out = lines.join('\n');
+  const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'approved_' + Date.now() + '.txt';
+  a.click();
+
+  alert('已导出 ' + approved.length + ' 条。\n\n格式为「名称|类型|状态|描述|来源」，\n可直接追加到 risk-list.js 的数据源里重新生成。');
+});
+
+/* ══════════ 演示数据 ══════════ */
+document.getElementById('btnSeed').addEventListener('click', function () {
+  if (!confirm('将写入 3 条演示提交（含 1 组同名合并），确定？')) return;
+
+  const now = Date.now();
+  const demo = [
+    { name: '演示·星辰国际', start: '2025 年 3 月', type: '理财', site: 'www.demo1.com',
+      yield: '日化 1.8%', scheme: '直推 3 代，8%/5%/3%，无封顶',
+      pitch: '国资背景，实体托底，早进场早收益', stage: '已经投了，提现变慢',
+      question: '这钱还能拿回来吗？', at: now - 864e5 * 2, status: 'pending' },
+    { name: '演示·星辰国际', start: '2025 年 3 月', type: '理财', site: '',
+      yield: '日化 1.8%', scheme: '要买 998 套餐才能激活，本金锁仓 30 天',
+      pitch: '拉三个人就回本', stage: '还没投，在犹豫',
+      question: '', at: now - 36e5 * 5, status: 'pending' },
+    { name: '演示·云矿宝', start: '2024 年底', type: '挖矿', site: 'www.demo2.com',
+      yield: '日化 0.4%', scheme: '购买矿机算力，固定收益，锁仓 180 天',
+      pitch: '躺赚被动收入', stage: '还没投，在犹豫',
+      question: '', at: now - 36e5 * 2, status: 'pending' }
+  ];
+
+  SUBS = SUBS.concat(demo);
+  saveData();
+  render();
+  alert('已载入 3 条演示提交，其中「演示·星辰国际」有 2 条，会自动合并显示。');
+});
+
+/* ══════════ 清空 ══════════ */
+document.getElementById('btnClear').addEventListener('click', function () {
+  if (!confirm('将清空本机所有提交记录（不可恢复），确定？')) return;
+  SUBS = [];
+  saveData();
+  curId = null;
+  render();
+  document.getElementById('detail').innerHTML =
+    '<div class="empty"><b>左侧选择一个项目</b>同一项目多次提交会自动合并，右侧可对比各次提交的差异。</div>';
+});
+
+/* ══════════ 初始化 ══════════ */
+drawCaptcha();
+checkSession();
+</script>
+
+</body>
+</html>

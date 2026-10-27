@@ -835,6 +835,48 @@ footer{
 .pb-dead{font-size:11.5px;color:#F09A97;line-height:1.7;margin-bottom:7px}
 .pb-meta{font-size:11px;color:var(--text-4);font-family:var(--mono);line-height:1.7}
 
+/* 提交审核按钮 */
+.btn-submit-review{
+  width:100%; padding:12px;
+  background:linear-gradient(180deg,rgba(201,162,39,.18),rgba(201,162,39,.08));
+  border:1px solid rgba(201,162,39,.45);
+  color:var(--gold-lt); font-size:13.5px; font-weight:700;
+  border-radius:8px; cursor:pointer; font-family:var(--sans);
+  transition:.15s;
+}
+.btn-submit-review:hover{background:rgba(201,162,39,.24);border-color:rgba(201,162,39,.7)}
+
+/* 提交码弹窗 */
+.sc-modal{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(5,15,28,.88);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.sc-modal.on{display:flex}
+.sc-box{
+  width:100%;max-width:560px;
+  background:linear-gradient(180deg,var(--navy-800),var(--navy-900));
+  border:1px solid var(--line-strong);border-radius:14px;padding:24px 26px;
+}
+.sc-box h3{font-size:17px;margin-bottom:8px}
+.sc-box p{font-size:12px;color:var(--text-3);line-height:1.75;margin-bottom:14px}
+.sc-code{
+  width:100%;min-height:110px;background:var(--navy-950);
+  border:1px solid var(--line);border-radius:8px;
+  color:var(--gold-lt);font-family:var(--mono);font-size:11px;
+  padding:12px;resize:vertical;outline:none;word-break:break-all;
+}
+.sc-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.sc-btns button{
+  padding:9px 20px;border-radius:7px;font-size:13px;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--navy-700);color:var(--text-2);
+  font-family:var(--sans);
+}
+.sc-btns button.primary{
+  background:linear-gradient(180deg,var(--gold-lt),var(--gold));
+  color:#1A1400;border-color:transparent;font-weight:700;
+}
+
 /* 风险名单卡（公开报道，未判决） */
 .risk-report{
   border-color:rgba(224,123,57,.45);
@@ -1521,6 +1563,19 @@ footer{
           留言区不做实时公开展示 —— 这类内容一旦公开，容易被项目方盯上，也容易误伤无辜。所有反馈都是单线联系。
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="sc-modal" id="scModal">
+  <div class="sc-box">
+    <h3>提交码已生成</h3>
+    <p>复制下面这段，发到微信 <b style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</b>。<br>
+    管理员核实后才会入库 —— 这是为了防止有人恶意提交不存在的项目。</p>
+    <textarea class="sc-code" id="scCode" readonly></textarea>
+    <div class="sc-btns">
+      <button onclick="document.getElementById('scModal').classList.remove('on')">关闭</button>
+      <button class="primary" id="scCopy">复制提交码</button>
     </div>
   </div>
 </div>
@@ -2370,6 +2425,14 @@ function renderParse() {
       要更准，请补齐下方「没找到的信息」，或把资料发给我人工核查。</p>
     </div>
 
+    <div style="margin:16px 0 4px">
+      <button class="btn-submit-review" onclick="showSubmitCode()">提交给管理员审核入库 →</button>
+      <div style="font-size:11px;color:var(--text-4);margin-top:7px;line-height:1.7">
+        生成一段提交码，复制发给微信 <span style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</span>。
+        管理员核实后才会入库，其他用户才能查到。
+      </div>
+    </div>
+
     <div class="block-title" style="margin-bottom:10px">从你的资料里识别出</div>
     <div class="parse-list">${knownRows}</div>
 
@@ -2402,6 +2465,65 @@ document.getElementById('btnEasyReset').onclick = function () {
     '系统会从你贴的文字里自动找：收益承诺、分销层级、门槛费、锁仓、保本承诺。<br>' +
     '找到几项算几项，找不到的会明确告诉你「没找到」，不会瞎猜。</div>';
 };
+
+/* ══════════════════════════════════════════════════════════
+   提交码：把用户填的资料编码成一段文本，发给管理员导入后台
+   ══════════════════════════════════════════════════════════ */
+function collectSubmission() {
+  const g = function (id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  };
+  const stageSel = document.getElementById('e_stage');
+  return {
+    name: g('e_name'),
+    start: g('e_start'),
+    type: g('e_type'),
+    site: g('e_site'),
+    yield: g('e_yield'),
+    scheme: g('e_scheme'),
+    pitch: g('e_pitch'),
+    stage: stageSel ? stageSel.options[stageSel.selectedIndex].text : '',
+    question: g('e_question'),
+    at: Date.now()
+  };
+}
+
+function genSubmitCode() {
+  const obj = collectSubmission();
+  if (!obj.name) {
+    toast('请先填项目名称');
+    document.getElementById('e_name').focus();
+    return;
+  }
+  const json = JSON.stringify(obj);
+  /* UTF-8 安全的 base64 */
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+  return 'SUB:' + b64;
+}
+
+function showSubmitCode() {
+  const code = genSubmitCode();
+  if (!code) return;
+  document.getElementById('scCode').value = code;
+  document.getElementById('scModal').classList.add('on');
+}
+
+document.getElementById('scCopy').addEventListener('click', function () {
+  const ta = document.getElementById('scCode');
+  ta.select();
+  ta.setSelectionRange(0, 999999);
+  try {
+    document.execCommand('copy');
+    toast('提交码已复制，发到微信 janecoolman01');
+  } catch (e) {
+    toast('复制失败，请手动全选复制');
+  }
+});
+
+document.getElementById('scModal').addEventListener('click', function (e) {
+  if (e.target === this) this.classList.remove('on');
+});
 
 bindChips();
 render("星辰国际");
