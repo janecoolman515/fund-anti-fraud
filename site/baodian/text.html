@@ -253,6 +253,65 @@
     header .htitle { font-size: 13px; }
     header .hpager { min-width: auto; font-size: 11px; }
   }
+
+  /* ── 内容块样式（对应原设计）── */
+  .tip-box {
+    margin: 22px 0 12px; padding: 11px 18px;
+    background: #F2F0E8; border-radius: 6px;
+    font-size: 15px; font-weight: 700; color: #2C4A3E;
+  }
+  .resume-sample {
+    margin: 14px 0; padding: 16px 20px;
+    background: #FAF9F5; border: 1px solid #E4E0D5;
+    border-radius: 8px; font-size: 14px; line-height: 1.85;
+  }
+  .resume-sample p { margin-bottom: 8px; }
+  .resume-sample ul, .resume-sample ol { margin: 0 0 0 18px; }
+  .resume-sample li { margin-bottom: 5px; }
+  .note-box {
+    margin: 16px 0; padding: 14px 20px;
+    background: #F7F4EC; border-left: 3px solid #C9B98A;
+    border-radius: 0 6px 6px 0; font-size: 14px; color: #4A473F;
+  }
+  .note-box p { margin-bottom: 9px; }
+  .note-box p:last-child { margin-bottom: 0; }
+  .table-wrap { overflow-x: auto; margin: 14px 0; }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; }
+  .tbl th {
+    background: #F2F0E8; text-align: left; padding: 10px 14px;
+    font-weight: 700; color: #2C4A3E; border-bottom: 1px solid #E4E0D5;
+  }
+  .tbl td { padding: 10px 14px; border-bottom: 1px solid #F0EDE5; color: #3A382F; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .flow-line {
+    padding: 10px 16px; background: #F2F0E8; border-radius: 6px;
+    font-size: 13.5px; color: #5A574E;
+  }
+  .work-label {
+    font-size: 10.5px; letter-spacing: 3px; color: #B08D3F;
+    font-family: Consolas, monospace; margin-bottom: 10px;
+  }
+  .work-title { font-size: 22px; font-weight: 700; color: #2C4A3E; margin-bottom: 12px; }
+  .casebook-card {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 18px 0; padding: 16px 22px;
+    background: #F7F6F1; border: 1px solid #E4E0D5;
+    border-radius: 8px; border-left: 4px solid #8FA893;
+  }
+  .cb-label { font-size: 10px; letter-spacing: 2px; color: #8A8578; font-family: Consolas, monospace; margin-bottom: 4px; }
+  .cb-title { font-size: 16px; font-weight: 700; color: #2C4A3E; margin-bottom: 3px; }
+  .cb-desc { font-size: 12.5px; color: #8A8578; }
+  .cb-arrow { font-size: 22px; color: #6B8F71; }
+  .chat-card {
+    margin: 18px 0; padding: 20px 24px;
+    background: #FFFDF8; border: 1px solid #E4E0D5; border-radius: 8px;
+  }
+  .cc-title { font-size: 17px; font-weight: 700; color: #2E2D29; margin-bottom: 10px; }
+  .chat-card p { font-size: 13.5px; color: #6B675E; line-height: 1.8; margin-bottom: 8px; }
+  .cc-wx { font-size: 15px !important; color: #2C4A3E !important; margin-top: 12px !important; }
+  .cc-wx strong { font-family: Consolas, monospace; font-size: 16px; }
+  .cc-gh { font-size: 12.5px !important; color: #8A8578 !important; }
+
 </style>
 </head>
 <body>
@@ -281,27 +340,29 @@
 
     <div class="toc-group">
       <a href="#ch2" class="toc-ch">第二章　简历</a>
-      <span class="toc-pending">整理中…</span>
+      <a href="#ch2-1" class="toc-sub">01　简历不是自我介绍，是广告</a>
     </div>
 
     <div class="toc-group">
       <a href="#ch3" class="toc-ch">第三章　渠道</a>
-      <span class="toc-pending">整理中…</span>
+      <a href="#ch3-1" class="toc-sub">01　我推荐你用这样的方式使用渠道</a>
+      <a href="#ch3-2" class="toc-sub">02　小众行业岗位该如何调整渠道</a>
     </div>
 
     <div class="toc-group">
       <a href="#ch4" class="toc-ch">第四章　面试</a>
-      <span class="toc-pending">整理中…</span>
+      <a href="#ch4-1" class="toc-sub">01　面试的常规流程</a>
     </div>
 
     <div class="toc-group">
       <a href="#ch5" class="toc-ch">第五章　投递操作</a>
-      <span class="toc-pending">整理中…</span>
+      <a href="#ch5-1" class="toc-sub">01　这样投递，才不会被人忽视</a>
     </div>
 
     <div class="toc-group">
       <a href="#ch6" class="toc-ch">第六章　工具箱</a>
-      <span class="toc-pending">整理中…</span>
+      <a href="#ch6-1" class="toc-sub">01　求职工具与资源清单</a>
+      <a href="#work-with-me" class="toc-sub">与我合作</a>
     </div>
   </aside>
 
@@ -610,48 +671,621 @@
 
     <div class="divider"></div>
 
-    <section id="ch2">
-      <div class="chapter-label">CHAPTER 02</div>
-      <h2 class="chapter">简历</h2>
-      <div class="chapter-desc">简历的目标不是写满经历，而是让招聘方快速判断你和岗位是否匹配。</div>
-      <div class="pending">本章文字整理中，稍后补上</div>
-    </section>
+    <div class="divider"></div>
+
+<section id="ch2">
+  <div class="chapter-label">CHAPTER 02</div>
+  <h2 class="chapter">简历</h2>
+  <div class="chapter-desc">简历的目标不是写满经历，而是让招聘方快速判断你和岗位是否匹配。</div>
+  <blockquote><p>能找到实习的简历不需要你的经历非常优秀，但它们都有相似的共性。</p></blockquote>
+</section>
+
+<section id="ch2-1">
+  <div class="part-badge">简历 · 第 01 篇 / 共 01 篇</div>
+  <h3 class="part">简历不是自我介绍，是广告</h3>
+
+  <p>广告的目的很明确，就是最短时间内吸引到别人的眼球。现在的简历也是如此。</p>
+  <p>你需要在大概 30 秒之内，通过简历上的<em class="hl">岗位关键词</em>、<em class="hl">数据</em>来吸引 HR 的眼球，以通过筛选获得面试机会。</p>
+  <p>简历不是写得越多越好，而是足够精简，并且相关性足够高，而且有容易看到的数据和成果。</p>
+  <p>举个例子，你要去面试厨子，你不可能在简历上大幅说自己做过摄影、会剪辑，而是要说自己会做什么菜，服务过多少人，拿到过什么荣誉。</p>
+  <p>你写的内容，要能够呈现出对别人的用处。也就是，别人看了会知道，你来到这个岗位，大概率能干好什么事情。</p>
+
+  <h4 class="sec">一、简历上能写哪些经历？</h4>
+
+  <div class="tip-box">（1）课程实践 / 设计 / 作业 / 课题</div>
+  <p><strong>课程是每个人都可以写的</strong>，但只有当你真的没有任何东西可以写的时候，才把它写成一个课程项目放在简历里凑数。我第一份行业 top 企业实习就是靠课程找到的，当时简历除了课程什么都没有。</p>
+  <p>原理是：这些内容有真实的专业知识，很大程度跟工作行业相关，能用得上。比如做气候金融行业需要一定的化学、物理、气候、金融等方面的知识；做化工行业需要化工方面的知识。</p>
+  <p>课程中做的某份调研报告、数据分析、设计、作业等等，只要涉及产出内容，而且这个内容和你的岗位之间有关联，那就很值得写在简历上，也是你能力的证明。</p>
+  <p>选择写课程的话，<strong>优先写有实践技能的、和实习岗位有关联的课程</strong>。比如数据分析岗位，可以写 Python 课程，而不是写网页设计课程。</p>
+
+  <div class="tip-box">（2）比赛</div>
+  <p>很多同学觉得自己没有拿到什么成绩，或者没有参加比较有名的比赛，就觉得没必要写。</p>
+  <p>但其实不是。你在大学参加过的活动，很多都具备可迁移的能力，能够让你用到职场上。比如你参加过比赛，做过数据调研，使用过一些特定工具，知道团队协作，解决过一些棘手问题，这些写出来都是加分的。</p>
+  <p>别人通过这些比赛可以看到，你在大学里面实际干了事情，而不是什么都没有做。而这个事情是什么，其实并不重要，因为大学生能干的事情，除了实习之外都差不多了太多。</p>
+
+  <div class="tip-box">（3）部门、社团活动</div>
+  <p>有些公司比较看重部门社团活动，因为经常和人打交道的人，沟通能力通常不会特别差，这是考核的一个很关键的标准。</p>
+  <p>比什么都不做、沟通能力为零的人更有优势。</p>
+
+  <div class="tip-box">（4）兼职项目 / 经手项目</div>
+  <p>项目指的就是一个事情，不用担心它很高大上。设计了个海报就是一个事情，也是一个项目。</p>
+  <p>如果你在校园内有兼职，或者帮身边的人做了一些事情，那这段经历就可以成为你写在简历上的项目，而且很加分。前提是这个项目和你的岗位之间有联系，有相关性的能力才加分。</p>
+  <p>这个部分在写的时候，能够<strong>加上公司的名称</strong>，其实是很加分的。因为它和实习经历的含金量基本没有区别。这段经验能够证明你已经具备社会化的合作能力，而这点很加分。</p>
+
+  <h4 class="sec">二、简历的具体格式</h4>
+  <p>简历上写哪些经历，具体取决于你要去的岗位需要什么能力。</p>
+
+  <div class="tip-box">（1）篇幅</div>
+  <p>这里强调的是第一份实习，简历篇幅控制在<strong>一页之内</strong>即可，不需要写得很多。有了充足的经验之后，可以把简历写得更长。</p>
+  <p>并且最终简历上呈现出来的一般<strong>不超过 4 段经历</strong>，最多 5 段。</p>
+
+  <div class="tip-box">（2）基本信息</div>
+  <ul>
+    <li>基本信息：姓名、电话、微信、邮箱</li>
+    <li>教育背景：学校、年级</li>
+    <li>实习 / 项目经历</li>
+    <li>校园经历</li>
+    <li>技能 / 证书</li>
+    <li>荣誉</li>
+  </ul>
+
+  <div class="tip-box">（3）几个经历的格式参考</div>
+  <p>兼职经历可以用上该公司的全称 + 作用或职能：</p>
+
+  <div class="resume-sample">
+    <p><strong>XX 有限公司 | 品牌运营实习生&nbsp;&nbsp;时间</strong></p>
+    <ul>
+      <li>独立完成 <strong>14+</strong> 张品牌宣传海报设计及 <strong>14+</strong> 篇公众号推文编辑，用于实际活动宣传、朋友圈推广及企业展示场景</li>
+      <li>参与公司品牌视觉内容输出，包括推文封面、宣传物料及企业介绍 PPT 制作，提升品牌内容呈现统一性</li>
+      <li>根据活动需求进行宣传素材整理与内容排版，协助品牌传播内容的日常更新与运营</li>
+    </ul>
+  </div>
+
+  <div class="resume-sample">
+    <p><strong>个人电商店铺 | 电商运营&nbsp;&nbsp;时间</strong></p>
+    <ol>
+      <li><strong>内容策划</strong>：基于特点用户痛点输出商品标题与文案，并使用醒图完成封面设计，累计发布 <strong>60+</strong> 条商品内容</li>
+      <li><strong>用户服务</strong>：负责用户咨询回复、订单处理及售后问题跟进，累计完成 <strong>25+</strong> 订单</li>
+    </ol>
+  </div>
+
+  <p>课程经历可以写全课程名称，也可以当成实际项目来写：</p>
+
+  <div class="resume-sample">
+    <p><strong>认证流程与标准体系课程 | 学员&nbsp;&nbsp;时间</strong></p>
+    <ol>
+      <li><strong>体系知识学习</strong>：学习认证认可行业基础概念、主要业务类型（体系认证 / 产品认证 / 实验室认可），建立行业基础认知</li>
+      <li><strong>行业调研</strong>：通过查阅行业研究报告、政策文件及公开资料，梳理第三方检测认证机构、认证审核机构及认可体系的业务分类，分析行业主要服务场景及职能，输出 <strong>5000</strong> 字简易调研报告</li>
+      <li><strong>业务流程理解</strong>：围绕文件管理、资料审核、流程合规及可追溯要求，整理常见业务流程，形成资料提交 - 审核复核 - 归档的流程认知框架</li>
+    </ol>
+  </div>
+
+  <p>实习经历要用上该公司的全称 + 作用或职能：</p>
+
+  <div class="resume-sample">
+    <p><strong>XX 公司 | TOB 销售助理&nbsp;&nbsp;时间</strong></p>
+    <ol>
+      <li><strong>客户开拓</strong>：参与 <strong>20+</strong> 次企业客户陌生拜访及前期触达，通过电话沟通、线下拜访等方式挖掘客户需求，协助拓展潜在合作客户资源</li>
+      <li><strong>方案输出</strong>：独立输出 <strong>5</strong> 版商务方案及会议策划书（含场地、议程、报价等），并根据客户需求调整方案，参与多场项目提案与商务谈判</li>
+      <li><strong>商务转化</strong>：跟进客户从需求沟通、方案讲解到合作签约的完整流程，针对合作异议进行沟通推进，成功推动 <strong>2</strong> 场大型会议落地</li>
+    </ol>
+  </div>
+
+  <p>比赛经历写比赛全称 + 角色：</p>
+
+  <div class="resume-sample">
+    <p><strong>三创赛 | 负责人&nbsp;&nbsp;时间</strong></p>
+    <ol>
+      <li><strong>项目策划与执行</strong>：完成市场调研、竞品分析、定价策略及盈利模型设计，输出商业计划书，项目累计完成 <strong>50+</strong> 订单，实现营收 <strong>5000+</strong> 元，获校级三创赛<strong>二等奖</strong></li>
+      <li><strong>团队协作</strong>：负责 <strong>5</strong> 人团队任务分工与项目推进，协调拍摄安排、客户沟通、交付及售后环节，保障项目稳定运行</li>
+      <li><strong>对外沟通</strong>：担任项目路演主讲人进行 PPT 方案展示，负责现场答辩与问题回应</li>
+    </ol>
+  </div>
+
+  <p>部门经历写部门全称 + 作用或职能：</p>
+
+  <div class="resume-sample">
+    <p><strong>校传媒中心 | 技术部部长&nbsp;&nbsp;时间</strong></p>
+    <ul>
+      <li>负责学校官方公众号视觉设计与宣传物料输出，包括十大新闻封面、节日海报、网站首页图及易拉宝等内容</li>
+      <li>策划校媒原创栏目"秋冬养生"图案推文，负责选题、插画、排版及跨部门协调推进，推文阅读量达 <strong>5400+</strong></li>
+      <li>参与公众号选题策划及校报排版工作，内容创意性获得师生较好反馈</li>
+    </ul>
+  </div>
+
+  <div class="resume-sample">
+    <p><strong>宣传部 | 视频摄影组组长&nbsp;&nbsp;时间</strong></p>
+    <ol>
+      <li><strong>视觉内容生产</strong>：负责学校活动的全程摄影，累计主导 <strong>15+</strong> 场校级活动拍摄，产出高质量照 <strong>300+</strong> 张、推送 <strong>3</strong> 篇</li>
+      <li><strong>团队协作</strong>：带领 <strong>5</strong> 人小组完成拍摄任务，制定拍摄 SOP，通过现场指导解决新人拍摄视角单一问题，提升团队出片效率</li>
+    </ol>
+  </div>
+
+  <h4 class="sec">三、让简历更加优质的建议</h4>
+  <ul>
+    <li>整体排版看起来很简洁，字不多，有适当留白。</li>
+    <li>内容上匹配岗位特质、能力，更多使用行业关键词、岗位关键词。</li>
+    <li>有量化意识，能写上数据的尽可能写上数据，这很重要。</li>
+    <li>讲的内容务实不务虚，能够让人清晰地知道你做了什么。</li>
+    <li>主次分明，对应聘岗位有利的点重点呈现，内容篇幅占主体。</li>
+    <li>头像、正装照要阳光积极，尽可能避免 AI 味过重的照片或生活照。</li>
+    <li>排版注意细节，包括字体大小、字体种类、文字间距、文字行距。</li>
+  </ul>
+
+  <h4 class="sec">四、如何结合 AI 调整出高质量的简历</h4>
+  <p><strong>针对目标岗位生成高质量简历的 AI 提示词</strong></p>
+  <div class="prompt-box">你是一名有多年招聘经验的简历优化专家。
+
+现在我会提供：
+1）学生的原始经历描述（可能很零散、不完整）
+2）目标岗位名称或岗位 JD
+
+你的任务是：
+
+第一步：信息梳理
+- 从学生描述中提取有效信息
+- 判断可能缺失的关键要素（背景、目标、行动、结果）
+- 在合理范围内进行推断式补全（不得夸大、不得虚构核心成果）
+
+第二步：结构重建
+- 使用 STAR 法则重构经历
+- 但简历版本必须精简成 3-4 条项目式表达
+- 每条控制在 1-2 行
+- 以"动作 + 方法 + 结果"结构呈现
+
+第三步：岗位匹配优化
+- 融入岗位相关关键词、行业关键词、专有名词
+- 使用行业专业表达
+- 避免"参与、协助、负责"等弱动词
+- 强调业务价值或能力体现
+
+第四步：输出内容格式如下：
+【优化思路说明】（简要说明你如何补全逻辑）
+【STAR 完整版本】（完整逻辑版本，用于理解）
+【简历精简版本】（可直接写入简历，3-4 条）
+【关键词匹配说明】（体现了哪些关键词）
+
+以下是学生原始描述：
+【粘贴】
+
+以下是目标岗位：
+【粘贴岗位名称或 JD】</div>
+
+  <p><strong>原始描述</strong>的意思，就是<strong>你用你自己的话，把你做过的事情、实现的成果以及数据，尽可能全面地描述出来</strong>。</p>
+  <p>然后 AI 会根据你给出的信息，优化成你能写在简历上的内容。AI 通常给出来的东西不是能直接用的，需要结合我们自身的判断来选择哪些内容最终放在简历上。</p>
+  <p>在这里我推荐大家<strong>尽可能多地使用几个 AI 工具</strong>，多试试才知道哪个得出来的效果最好。</p>
+  <p>我个人推荐 Claude 或者 GPT，没有梯子的就用 QWEN 就可以。</p>
+  <p>最后 AI 给出了结果，你可以按照上面的简历格式，把内容放进自己的简历当中。</p>
+</section>
 
     <div class="divider"></div>
 
-    <section id="ch3">
-      <div class="chapter-label">CHAPTER 03</div>
-      <h2 class="chapter">渠道</h2>
-      <div class="chapter-desc">好的机会不只来自一个平台，渠道管理决定了你能看到多少真实岗位。</div>
-      <div class="pending">本章文字整理中，稍后补上</div>
-    </section>
+<section id="ch3">
+  <div class="chapter-label">CHAPTER 03</div>
+  <h2 class="chapter">渠道</h2>
+  <div class="chapter-desc">好的机会不只来自一个平台，渠道管理决定了你能看到多少真实岗位。</div>
+</section>
+
+<section id="ch3-1">
+  <div class="part-badge">渠道 · 第 01 篇 / 共 02 篇</div>
+  <h3 class="part">我推荐你用这样的方式使用渠道</h3>
+
+  <p>以下是我推荐的使用渠道优先级。</p>
+  <ol>
+    <li>学校 + 就业信息网</li>
+    <li>常规招聘渠道 + 垂直招聘渠道</li>
+    <li>公众号</li>
+    <li>其他平台</li>
+    <li>AI 搜索</li>
+    <li>求职机构整理的岗位信息表</li>
+  </ol>
+  <p><strong>花 90% 以上的时间在第 2 类渠道</strong>，是比较合理的时间分配方式。</p>
+
+  <h4 class="sec">一、学校 + 就业信息网</h4>
+  <p>就业信息网上的资源，有一部分是自己学校的师兄师姐的单位，对本校学生认可度高。有的时候找到优质的单位实习，真的就是隔一层纱。</p>
+  <p>直接搜 <em class="hl">"自己学校的名字 + 就业信息网"</em> 就可以，点进招聘岗位信息那里去找。</p>
+  <p>很多学校都有优质的企业资源，要珍惜用好。</p>
+  <p>如果投递链接是邮箱，命名就用：<em class="hl">xx 实习生，可实习六个月，学校专业，名字</em>。</p>
+
+  <h4 class="sec">二、通用招聘网站 + 垂直招聘网站</h4>
+  <p>这些网站是目前大学生找实习最常用的网站。市场份额大，用的人自然也就多。</p>
+  <p>不同专业岗位在不同网站上的分布数量不同，具体要一个个搜，才会知道哪个岗位最多。</p>
+
+  <div class="tip-box">通用招聘网站</div>
+  <ol>
+    <li><strong>BOSS 直聘</strong></li>
+    <li><strong>拉勾招聘</strong></li>
+    <li><strong>牛客网</strong></li>
+    <li><strong>猎聘</strong></li>
+    <li><strong>前程无忧</strong></li>
+    <li><strong>智联校园</strong></li>
+    <li><strong>实习僧</strong></li>
+    <li><strong>应届生求职网</strong></li>
+    <li><strong>国家大学生就业服务平台</strong></li>
+    <li><strong>全职招聘网</strong></li>
+  </ol>
+
+  <p><strong>垂直招聘网站</strong>是针对某个行业的招聘网站。比如：</p>
+  <ul>
+    <li>环保行业有<strong>北极星招聘</strong></li>
+    <li>医疗行业有<strong>丁香人才网</strong></li>
+    <li>国央企有<strong>国聘网</strong></li>
+  </ul>
+  <p>具体到你的岗位有什么垂直招聘网站，直接问 AI 即可，在此不一一列出。</p>
+
+  <h4 class="sec">三、公众号</h4>
+  <div class="tip-box">搜索"城市 + 实习岗位 + 实习 / 招聘"</div>
+  <p>公众号是很多人都会忽略的一个很好用的求职工具。因为它区别于商业化招聘网站，公众号对于企业来说招聘是不花钱的，所以有相当一部分公司会使用公众号作为招聘工具。</p>
+  <p>如果查到的投递岗位信息是邮箱，而不是直接投递的程序，邮箱命名就可以用：<em class="hl">xx 实习生，可实习六个月，学校专业，名字</em>。</p>
+  <p>部分特殊行业，会主要用公众号去招聘，比如心理咨询行业。</p>
+
+  <h4 class="sec">四、其他平台</h4>
+  <ul>
+    <li><strong>小红书 app</strong>：搜"实习继任""内推"。</li>
+    <li><strong>即刻 app</strong>：进大学生求职圈子看岗位信息。</li>
+    <li><strong>豆瓣 app</strong>：搜实习相关小组，找对应实习岗位信息。</li>
+    <li><strong>脉脉 app</strong>：很多你学校的师兄师姐在上面都会有联系方式，是内推实习的路径之一。</li>
+  </ul>
+
+  <h4 class="sec">五、AI 搜索实习岗位信息</h4>
+  <p><strong>全面搜索目标实习岗位的 AI 提示词</strong></p>
+  <div class="prompt-box">请帮我搜索并整理【城市名称】及周边地区，关于【实习大方向关键词】相关的所有实习岗位信息。
+
+要求：
+1. 搜索范围包括岗位名称多样，涵盖该大方向下的相关岗位，比如大方向是"市场营销"，就包含"市场助理"、"品牌推广实习生"、"内容运营实习生"等相关岗位。
+2. 岗位信息必须是近 12 个月内发布的，当前仍可申请的。
+3. 输出岗位的完整名称和招聘公司名称。
+4. 包含岗位主要职责、技能要求、学历和经验要求。
+5. 给出实习的时间周期、工作地点（是否远程）以及薪资福利等信息（如果有的话）。
+6. 请提供招聘信息来源链接或招聘平台名称，确保信息可核实。
+7. 输出格式为条目或表格形式，方便阅读和筛选。
+8. 尽量提供数量充足、覆盖该领域各类岗位，帮助我全面了解实习机会。
+
+请根据以上要求，给出详细且丰富的实习岗位列表。</div>
+  <p>有的时候 AI 能够帮你搜到一些互联网角落里的优质实习信息，所以多搜搜准没错。</p>
+
+  <h4 class="sec">六、求职机构整理的岗位信息表</h4>
+  <p>以下这些是求职机构整理的岗位信息表，通常是一线城市的热门岗位。其中有些岗位是在网上搜不到的，所以在最后找实习的时候，可以仔细看看有没有合适的。</p>
+  <ul>
+    <li>OfferShow 求职福利—27/28 届社群用户专属求职投递表格</li>
+    <li>OfferShow 求职福利—26 届名企内推汇总表</li>
+    <li>实习网申汇总表</li>
+    <li>校招 / 春招岗位网申汇总表（持续更新中）</li>
+  </ul>
+</section>
+
+<section id="ch3-2">
+  <div class="part-badge">渠道 · 第 02 篇 / 共 02 篇</div>
+  <h3 class="part">小众行业岗位该如何调整找实习的渠道？</h3>
+
+  <p>这里所指的小众岗位，指的是市场上需求较小的，或者因为行业特殊性没有太多实习生的岗位，还包括一些新兴行业。</p>
+  <p>比如：<em class="hl">娱乐行业</em>、<em class="hl">心理行业</em>、<em class="hl">碳中和行业</em>、<em class="hl">元宇宙行业</em>等等。</p>
+  <p>不同的行业，招聘信息渠道分布其实是不一样的。</p>
+
+  <p>比如<strong>心理行业</strong>，主要在公众号、小众网站上，我们常用的招聘网站上相对较少。心理咨询助理大多从小型工作室当助理开始。</p>
+  <p><strong>娱乐行业</strong>更多是靠更近的人脉联系，招聘信息大部分在圈子内流通。更多的还是在微信群、微信公众号上，像常用招聘网站基本上能搜到的很少。</p>
+  <p><strong>碳中和行业</strong>主要信息就在主流招聘软件上，只是北上广深岗位会多一些，二线城市很少有实习岗位。</p>
+  <p><strong>元宇宙行业</strong>也是同理，一方面是在主流招聘软件，另一方面微信公众号上也常有一些岗位放出。</p>
+
+  <h4 class="sec">一、小众岗位渠道调整方法</h4>
+  <p>总的来说，找小众岗位的实习：</p>
+  <ol>
+    <li>优先在<strong>大平台和垂直招聘网站</strong>上寻找机会。</li>
+    <li>在<strong>微信公众号</strong>上查找看看目标岗位多不多。</li>
+    <li>用 <strong>AI 整合搜索</strong>一下这些岗位，大致看看渠道分布情况如何，再在不同渠道上搜索关键词，验证岗位数量分布情况。</li>
+  </ol>
+  <p>这就相当于一步步验证、排除，最后就能得到相对真实有效的答案。</p>
+
+  <h4 class="sec">二、举个例子：新疆大学生想找央国企实习</h4>
+  <div class="note-box">
+    <p>第一步是去主流招聘网站以及垂直招聘网站上查找，发现并没有多少岗位。</p>
+    <p>其实经济欠发达地区，大多数公司用的不是主流招聘软件，更多的是依托于政府所建立的招聘网站和微信公众号，毕竟招聘成本更低。</p>
+    <p>第二步是在微信公众号上面查找相关岗位信息，发现有少量岗位放出。</p>
+    <p>第三步去用 AI 查看招聘信息分布，发现新疆地方政府的一个人才招聘网上有相对更多的岗位信息。</p>
+    <p>通过三步查询，得出初步结论：</p>
+    <p><strong>A</strong> 想找到目标实习，优先使用地方人才招聘网，以及微信公众号。在主流招聘网站和垂直招聘网站上机会相对少一些，要把大部分时间放在前两个渠道上。</p>
+  </div>
+</section>
 
     <div class="divider"></div>
 
-    <section id="ch4">
-      <div class="chapter-label">CHAPTER 04</div>
-      <h2 class="chapter">面试</h2>
-      <div class="chapter-desc">面试是让别人知道你能做好一件事、能把话讲清楚、好相处的过程，同时也能看看对方是不是你想去的公司。</div>
-      <div class="pending">本章文字整理中，稍后补上</div>
-    </section>
+<section id="ch4">
+  <div class="chapter-label">CHAPTER 04</div>
+  <h2 class="chapter">面试</h2>
+  <div class="chapter-desc">面试是让别人知道你能做好一件事、能把话讲清楚、好相处的过程，同时也能看看对方是不是你想去的公司。</div>
+</section>
 
-    <div class="divider"></div>
+<section id="ch4-1">
+  <div class="part-badge">面试 · 第 01 篇 / 共 01 篇</div>
+  <h3 class="part">面试的常规流程</h3>
 
-    <section id="ch5">
-      <div class="chapter-label">CHAPTER 05</div>
-      <h2 class="chapter">投递操作</h2>
-      <div class="chapter-desc">有效投递是很多细节堆积在一起的结果，量变引发质变。</div>
-      <div class="pending">本章文字整理中，稍后补上</div>
-    </section>
+  <p>实习面试有分线上和线下。</p>
+  <ul>
+    <li><strong>线上面试</strong>：通常就是约一个时间，然后对方开一个在线会议，你就在会议里进行面试。</li>
+    <li><strong>线下面试</strong>：约好时间，到对方指定场所，通常是对方所在的公司地点进行面试。</li>
+  </ul>
+  <p><strong>负责面试你的人员通常有 1 到 5 个人</strong>，一般不会比这更多。通常是两个人居多，一个是 HR，另一个可能是你的直系领导或带教老师。</p>
+  <p><strong>面试的轮数通常有 1 到 3 轮</strong>。中小企业通常就面 1 次，比较大一些的公司可能会面 2 到 3 次。</p>
+  <p><strong>面试的时间通常在 10 到 30 分钟左右</strong>。</p>
+  <p><strong>面试的流程</strong>：一开始会让你做个基础的自我介绍，然后会进一步问各个经历的详细情况。接着还会考察你的专业功底、岗位认知和行业认知。最后可能会问到生活、职业规划方面的信息。结束前，面试官可能会问你有什么想问的问题，让你自由提问，然后面试就真正结束了。</p>
+  <p><strong>面试的结果不一定当天就知道</strong>，一般会在一周之内给出答复。</p>
 
-    <div class="divider"></div>
+  <h4 class="sec">一、面试前需要知道的 5 件事</h4>
 
-    <section id="ch6">
-      <div class="chapter-label">CHAPTER 06</div>
-      <h2 class="chapter">工具箱</h2>
-      <div class="chapter-desc">把能用的工具都备好，动手的时候才不慌。</div>
-      <div class="pending">本章文字整理中，稍后补上</div>
-    </section>
+  <div class="tip-box">（1）公司为什么要招实习生？</div>
+  <p>招你，不是因为公司要"培养你"，而是因为公司需要便宜的劳动力，做相对简单、重复性的任务，协助项目，帮忙调研或写材料。</p>
+  <p>所以你要展现：<strong>能快速上手、愿意干活、态度稳定</strong>。</p>
+
+  <div class="tip-box">（2）岗位要解决什么问题？</div>
+  <p>每个 JD（岗位描述）都在暗示：团队缺的是什么。</p>
+  <ul>
+    <li>要求会 Excel = 团队要人帮忙做数据。</li>
+    <li>要求沟通能力 = 要你对接客户或部门。</li>
+  </ul>
+  <p>这些事情通常不会很难，<strong>都是相对简单的</strong>。</p>
+  <p>你的准备要围绕岗位的<strong>核心需求</strong>，而不是一味强调你的 GPA、奖学金，或者任何公司不需要的东西。别人关心的是你过去的经验当中哪些事情有可迁移能力，或者就算你什么都不会，你的态度和热情也很能打动人。</p>
+
+  <div class="tip-box">（3）面试官最关心的三点是什么？</div>
+  <ul>
+    <li><strong>能不能干活</strong>：有没有基础技能，能不能学得快。</li>
+    <li><strong>靠不靠谱</strong>：态度、出勤、抗压。</li>
+    <li><strong>合不合群</strong>：能不能融入团队氛围。</li>
+  </ul>
+  <p>所以答题时，不要讲"我多优秀"，要强调<strong>"我愿意学习 + 能跟大家合作"</strong>。</p>
+
+  <div class="tip-box">（4）你和竞争者的差距在哪里？</div>
+  <p>大多数同学经历差不多，而且绝大多数的人都是没经验的，不用觉得自己低人一等。</p>
+  <p>面试官要的是：<strong>谁讲得更清楚，更靠谱，更像马上能用的人</strong>。</p>
+
+  <div class="tip-box">（5）面试不是考试，是匹配</div>
+  <p>考试是"对错题"，面试是"匹配度"。你要做的不是完美回答，<strong>你需要的不是完美！不是完美！不用完美！</strong></p>
+  <ul>
+    <li>展现出学习意愿：不会也敢想办法补。</li>
+    <li>表达出对岗位的兴趣：而不是"随便投的"。</li>
+  </ul>
+  <p>你进到面试了，说明你的<strong>纸面能力、学习能力已经过关了</strong>，所以你是很大机会进入实习的。</p>
+
+  <h4 class="sec">二、准备好面试的 3 个部分</h4>
+
+  <div class="tip-box">（1）第一部分：通过岗位介绍搞清楚你需要做什么</div>
+  <p>以前的我在没实习前，总觉得很多事情都没接触过，很多事情都很高级，怕实习岗位的事情我做不来。</p>
+  <p>但实际上，<strong>实习岗位做的事情其实大多数都是很简单的</strong>。而现在就算你不清楚实习岗位做什么，也可以用 AI 给你解释清楚。</p>
+
+  <p><strong>帮你搞清那些看不懂的岗位简介的 AI 提示词</strong></p>
+  <div class="prompt-box">你是一位职业岗位讲解员，请用零行业经验的小白也能听懂的方式，向我介绍【岗位名称】的日常工作。
+
+要求：
+1. 一句话概括岗位核心目标。
+2. 带我走一遍"一天的工作时间线"。
+3. 解释每个任务的目的和行业运行逻辑。
+4. 用生活化类比说明。
+5. 给出 3 个真实场景示例。
+
+限制：
+- 禁止使用未经解释的行业术语。
+- 解释必须具体、生活化，避免空洞概念。</div>
+
+  <p>举个例子，我之前实习面试的公司岗位介绍当中写了："协助完成碳排放报告，数据调研，资料整合。"</p>
+  <p>那么我应该做的是：</p>
+  <ul>
+    <li>搞清什么是碳排放报告。</li>
+    <li>可能会调研什么数据，搜索什么资料，用什么工具来做。</li>
+    <li>资料整合指的是什么，可能用到什么方法。</li>
+  </ul>
+  <p>搞清楚<strong>岗位介绍中的细节和名词</strong>，你并不需要一清二楚，你需要的只是大概知道这个是什么东西就可以。</p>
+  <p>最根本来说，你搞清楚了<strong>这个岗位跟公司赚钱有什么关系</strong>，就可以了。</p>
+
+  <div class="tip-box">搞清岗位介绍中的名词，列出你可能需要做的事情</div>
+  <p>这个时候你就知道了这个岗位需要什么样的能力，<strong>列出这个岗位的三个核心能力</strong>，思考你的经历当中有哪些跟这个能力匹配。</p>
+  <p>比如一个岗位的核心能力是：会 Excel、调研能力、沟通能力。同步去思考，自己的经历当中有哪些跟这个相对匹配的。</p>
+  <p><strong>就算你现在不会，在小红书上刷三个 Excel 小技巧视频，然后上手做半个小时，也可以了。</strong></p>
+
+  <div class="tip-box">（2）第二部分：自我介绍</div>
+  <p>实习面试，其实你自我介绍完之后，面试官基本心里就决定要不要你了，剩下的时间只是演戏。所以这个地方是重点。</p>
+
+  <div class="tip-box">自我介绍模板</div>
+  <ol>
+    <li><strong>第一段</strong>：简洁个人信息：面试官您好，我叫 XX，毕业于 XX 学校 XX 专业。</li>
+    <li><strong>第二段</strong>：展示与岗位匹配的核心能力：我认为这个岗位核心需要 ABC 三种能力，而我正好具备并有证明。</li>
+    <li><strong>第三段</strong>：表达对公司 / 岗位的热情：我了解到 XX 的业务和结果，并且觉得和我的兴趣、能力都非常匹配。</li>
+  </ol>
+  <p>时间要求限制在<strong>1 分半内</strong>，在这个范围内讲完通常是最简洁的，也能引导面试官往你的强项问。</p>
+
+  <div class="tip-box">（3）第三部分：4 个高频问题</div>
+  <p><strong>问题 1：为什么选择我们公司</strong></p>
+  <p>这里其实是想判断你是否真的了解公司。回答思路是先调研这家公司的业务、产品、荣誉、行业位置，然后提出自身与岗位的匹配点。</p>
+  <p><strong>问题 2：为什么选择这个行业 / 岗位</strong></p>
+  <p>主要从行业认知、兴趣、自身经历匹配性入手回答，让自己听起来很适合这个行业。</p>
+  <p><strong>问题 3：你未来的职业规划</strong></p>
+  <p>避免说"没想过"，也不要说"我要转行"。回答要结合行业，体现成长心态。</p>
+  <p><strong>问题 4：你还有什么想问的吗？</strong></p>
+  <p>不要回答"我没有问题了"，也不要一上来直接问薪资、福利、加班情况。高价值问题可以准备 2 到 3 个：</p>
+  <ul>
+    <li>"如果我有幸加入公司，需要提前学习哪些技能或者提高自己哪些方面的知识储备呢？"</li>
+    <li>"您认为在这个岗位上最需要培养的核心能力是什么？"</li>
+    <li>"实习生在这个岗位上，前三个月最重要的成长目标是什么？"</li>
+    <li>"我想知道，刚刚我的岗位理解与实际工作有出入吗？具体在哪些点呢？"</li>
+  </ul>
+
+  <h4 class="sec">三、结合 AI 深度准备面试</h4>
+  <p><strong>深度思考准备面试的 AI 提示词</strong></p>
+  <div class="prompt-box">我即将参加【公司名】的【岗位名称】面试，岗位简介如下：【岗位简介】。
+
+请你扮演一名资深的职业教练，帮我准备面试。请输出以下内容：
+
+1. 岗位核心职责和所需能力的拆解
+2. 面试中最常见的 10 个问题（含专业问题 + 行为问题）
+3. 每个问题的高质量示范回答（结合岗位特点和我作为学生实习生的身份）
+4. 公司及行业的基本背景知识（重点产品、市场位置、竞争情况）
+5. 面试中我可以展示的亮点（例如：软技能、过往经历的转化表达）
+6. 面试可能的追问和应对策略
+7. 建议我提前准备的案例 / 作品
+
+请内容具体、可直接应用。并尽量模拟真实面试场景。</div>
+
+  <p><strong>全面调查公司的 AI 提示词</strong></p>
+  <div class="prompt-box">我想全面调查【XXX 有限公司】的情况，请联网帮我收集并整理以下信息，并且用通俗易懂的方式告诉我，方便我判断是否适合申请实习。
+
+1. 基本信息：公司全称、成立时间、总部位置、注册资本、主要业务、所属行业。
+2. 财务与规模：公司规模、营收利润、融资历史。
+3. 办公场所与环境：办公地址、周边环境、员工分享。
+4. 企业文化与工作氛围：员工评价、薪酬福利、管理风格、加班文化。
+5. 最新动态：最近一年重大新闻、招聘职位、负面新闻或潜在风险。
+6. 综合建议：适合什么类型的人去，对实习生的优劣势分析，需要注意的坑点。
+
+输出要求：
+- 数据和信息要尽量来源于最新公开资料。
+- 重要信息要附上来来源链接。
+- 语言要简单易懂，不用生僻的财经术语。
+- 如果有员工评价，请提炼重点，不要整段复制。</div>
+</section>
+
+<section id="ch5">
+  <div class="chapter-label">CHAPTER 05</div>
+  <h2 class="chapter">投递操作</h2>
+  <div class="chapter-desc">有效投递是很多细节堆积在一起的结果，量变引发质变。</div>
+</section>
+
+<section id="ch5-1">
+  <div class="part-badge">投递操作 · 第 01 篇 / 共 01 篇</div>
+  <h3 class="part">这样投递，才不会被人忽视</h3>
+
+  <p>投递不是把简历发出去就结束了。真正有效的投递，是让对方在很短时间内知道：<strong>你是谁、你能不能来、你和岗位有没有关系、是否值得进一步沟通</strong>。</p>
+
+  <div class="tip-box">投递操作全流程</div>
+  <p>以下是所有的操作细节，认真看完之后再去执行，能明显提高找实习的效率。</p>
+  <p class="flow-line">明确岗位、投递渠道、面试准备、沟通细节、简历优化</p>
+
+  <h4 class="sec">一、这样打招呼，才不会让别人忽视你</h4>
+  <p>称呼记得尽量加上对方的姓氏。</p>
+  <p>也不要称呼对方为 X 小姐、X 先生，这并不正式。</p>
+  <p>称呼对方为 <strong>X 总</strong>，能显出你的职场素养，也能让对方感受到被尊重。</p>
+  <p>自我介绍的部分可以尽可能简洁一些，说明自己的优势、匹配经验或者态度。</p>
+  <p>示范模板：</p>
+  <div class="note-box">
+    <p><strong>X 总您好！我可立即上岗，实习半年，一周 3 到 5 天。</strong>目前就读于 XX 大学大三阶段，有项目推广、采购和活动协作经验，熟练 Word 等办公软件，沟通能力扎实。看到贵公司 XX 岗位的招聘需求，非常希望争取这个机会，期待与您进一步沟通。</p>
+  </div>
+
+  <h4 class="sec">二、实习时间要提前想清楚，再去表达</h4>
+  <p>很多公司会优先考虑三个月、半年甚至更长期的实习生，所以你的投递话术里要尽量突出：<strong>可尽快到岗、每周可稳定出勤、能持续投入、学习速度快</strong>。</p>
+  <p>但不建议为了获得机会而随口承诺自己做不到的实习时长。更稳妥的做法是：</p>
+  <ul>
+    <li>如果你确实能长期实习，就明确写出来，比如"可实习 6 个月，每周 4 天"。</li>
+    <li>如果你时间不完全确定，就表达可协调空间，比如"目前可稳定实习 3 个月，后续可根据学校安排继续沟通"。</li>
+    <li>如果岗位明确要求半年以上，而你只能做两个月，就优先找更匹配的岗位，不要把后续离职变成一场消耗。</li>
+  </ul>
+  <p>你真正要传递的是：<strong>我不是随便投的，我能尽快进入状态，也愿意认真完成工作。</strong></p>
+  <p>另外，实习证明没有你想象的那么重要。只有在极少部分事业单位、国企、大厂等场景，才可能会要求你提供相应证明。大多数情况下，实习更重要的是学到东西、做出能证明能力的项目，而不是一纸证书。</p>
+</section>
+
+<section id="ch6">
+  <div class="chapter-label">CHAPTER 06</div>
+  <h2 class="chapter">工具箱</h2>
+  <div class="chapter-desc">能帮你提高效率、增长见识的资源合集。</div>
+</section>
+
+<section id="ch6-1">
+  <div class="part-badge">工具箱 · 第 01 篇 / 共 01 篇</div>
+  <h3 class="part">求职工具与资源清单</h3>
+  <p>工具箱不是让你把所有工具都用一遍，而是在你需要改简历、查行业、找信息、做调研时，有一个可以快速打开的资源入口。</p>
+
+  <h4 class="sec">一、AI 工具</h4>
+  <div class="table-wrap">
+    <table class="tbl">
+      <thead><tr><th>名称</th><th>网址</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>ChatGPT</td><td>chatgpt.com</td><td>用来改简历的效果比较好</td></tr>
+        <tr><td>DeepSeek</td><td>DeepSeek</td><td>综合效果不错</td></tr>
+        <tr><td>Kimi</td><td>Kimi</td><td>设计和回应逻辑很清晰</td></tr>
+        <tr><td>豆包</td><td>doubao.com</td><td>搜索资源一把好手，解释东西则表现一般</td></tr>
+        <tr><td>腾讯元宝</td><td>yuanbao.tencent.com</td><td>腾讯的 AI 产品，直接用在公众号上</td></tr>
+        <tr><td>Qwen</td><td>chat.qwen.ai</td><td>阿里的，用来做岗位调查和搜索相当不错</td></tr>
+        <tr><td>通义千问</td><td>tongyi.com</td><td>用来帮你理解某个行业的逻辑有奇效，很容易理解</td></tr>
+        <tr><td>Gemini</td><td>gemini.google.com</td><td>用来深度调研行业报告很不错，注意调研的信息需要选国内的</td></tr>
+        <tr><td>Grok</td><td>Grok</td><td>可用来做某个搜索结果的 AB 测试</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 class="sec">二、AI 简历</h4>
+  <ol>
+    <li>职徒简历：https://www.52cv.com/</li>
+    <li>全民简历：https://www.qmjianli.com/</li>
+    <li>职达 AI 简历：https://www.offerdow.com/</li>
+    <li>YOO 简历：https://www.yoojober.com/</li>
+  </ol>
+
+  <h4 class="sec">三、行业报告、公司研究信息来源</h4>
+  <p>严谨一些来说，相对可靠的信息来源有以下这些：</p>
+  <ol>
+    <li><strong>官方统计机构</strong>：例如国家统计局、中央银行等。</li>
+    <li><strong>行业协会网站</strong>：发布行业研究报告和市场分析。</li>
+    <li><strong>知名商业信息服务提供商</strong>：例如 Bloomberg、Thomson Reuters、Statista、IBISWorld 等。</li>
+    <li><strong>证券公司研究报告</strong>：如高盛、摩根士丹利等。</li>
+    <li><strong>咨询公司报告</strong>：如麦肯锡、BCG、贝恩公司等。</li>
+    <li><strong>学术数据库和期刊</strong>：例如 JSTOR、Google Scholar 等。</li>
+    <li><strong>政府和公共部门出版物</strong>：白皮书、年度报告和其他公共资料。</li>
+  </ol>
+  <p>不过对于我们刚入行想要了解某个行业，其实查看一些科普性强一些的报告已经足够了。</p>
+
+  <div class="tip-box">（1）研究报告分享平台</div>
+  <ul>
+    <li><strong>36 氪研究院</strong>：https://36kr.com/research</li>
+    <li><strong>艾瑞咨询</strong>：专注于互联网、新经济、消费、金融等领域的市场研究。</li>
+    <li><strong>易观智库</strong>：https://www.analysys.cn/</li>
+    <li><strong>萝卜投研</strong>：提供上市公司研报、券商研报、行业研报等。</li>
+    <li><strong>烽火研报</strong>：https://fhyanbao.com/</li>
+    <li><strong>慧博投研资讯</strong>：https://www.hibor.com.cn/</li>
+    <li><strong>研报之家</strong>：https://www.yblook.com</li>
+  </ul>
+
+  <div class="tip-box">（2）企业官方研究机构网站</div>
+  <ul>
+    <li><strong>阿里研究院</strong>：http://www.aliresearch.com/</li>
+    <li><strong>腾讯研究院</strong>：https://research.tencent.com/</li>
+    <li><strong>京东消费及产业发展研究院</strong>：可在京东官网相关板块找到。</li>
+  </ul>
+
+  <div class="tip-box">（3）咨询公司网站</div>
+  <ul>
+    <li><strong>麦肯锡全球研究院</strong>：https://www.mckinsey.com/insights</li>
+    <li><strong>波士顿咨询公司（BCG）</strong>：https://www.bcg.com/publications</li>
+    <li><strong>贝恩公司</strong>：https://www.bain.com/publications/</li>
+  </ul>
+
+  <h4 class="sec">四、优质求职信息导航</h4>
+  <ul>
+    <li>编程导航求职：编程导航求职指南</li>
+    <li>运营人必备资源库：运营人必备资源库</li>
+    <li>AI 研究报告：AI 研报资料库</li>
+    <li>商业营销：见世：向世界顶尖企业家和创作者学习</li>
+    <li>优质 AI 知识库：优质 AI 知识库&amp;博客</li>
+    <li>AI 产品经理：一站式 AI 产品经理入门指南</li>
+    <li>开发算法银行计算机面经：腾讯文档面经汇总</li>
+  </ul>
+</section>
+
+<section id="work-with-me">
+  <div class="work-label">WORK WITH ME · 与我合作</div>
+  <h3 class="work-title">如果你需要有人手把手带着你找实习</h3>
+  <p>这本书基于我过往带同学找到实习的真实经验，讲的是如何从 0 经验开始找到第一份实习。如果读完你想找人手把手带你找实习，可以加我微信聊聊你的情况。</p>
+
+  <div class="casebook-card">
+    <div class="cb-left">
+      <div class="cb-label">CASEBOOK</div>
+      <div class="cb-title">沈老师 | 学员实习上岸案例录</div>
+      <div class="cb-desc">查看真实学员找到第一份实习的过程和结果</div>
+    </div>
+    <div class="cb-arrow">→</div>
+  </div>
+
+  <div class="chat-card">
+    <div class="cc-title">想聊聊你的情况？</div>
+    <p>可以围观我的朋友圈，看看其他同学的评价与成果，可能你会有新的启发。如果你有问题，可以问问沈老师，沈老师会给你一些真诚的建议。但进一步的咨询，是要收费的哦～</p>
+    <p class="cc-wx">微信：<strong>cnwy1543</strong></p>
+    <p class="cc-gh">公众号：国企职业规划师-沈老师</p>
+  </div>
+</section>
 
   </main>
 </div>
