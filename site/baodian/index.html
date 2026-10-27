@@ -2,214 +2,216 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <title>国央企求职宝典</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    background: #EFEAE0;
+    background: #E8E3D8;
     color: #33322E;
-    display: flex;
-    flex-direction: column;
-    -webkit-user-select: none;
-    user-select: none;
-    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
   }
+
+  /* 顶部固定条 */
   header {
-    flex: none;
-    background: #2C4A3E;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(44, 74, 62, .96);
+    backdrop-filter: blur(8px);
     color: #F5F2EA;
-    padding: 9px 12px;
+    padding: 10px 16px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .16);
   }
-  header .title { font-size: 14px; font-weight: 500; letter-spacing: .5px; white-space: nowrap; }
-  header .spacer { flex: 1; }
-  header button {
-    background: rgba(255,255,255,.13);
+  header a.back {
     color: #F5F2EA;
-    border: 1px solid rgba(255,255,255,.22);
-    border-radius: 6px;
-    padding: 7px 13px;
+    text-decoration: none;
     font-size: 13px;
-    cursor: pointer;
-    font-family: inherit;
+    border: 1px solid rgba(255, 255, 255, .24);
+    background: rgba(255, 255, 255, .12);
+    border-radius: 6px;
+    padding: 7px 12px;
+    white-space: nowrap;
+    transition: .15s;
+  }
+  header a.back:hover { background: rgba(255, 255, 255, .22); }
+  header .title {
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: .5px;
     white-space: nowrap;
   }
-  header button:active { background: rgba(255,255,255,.28); }
-  header button:disabled { opacity: .32; }
-  header .pager { display: flex; align-items: center; gap: 3px; font-size: 13px; color: #D9E2DC; white-space: nowrap; }
-  header .slash { margin: 0 1px; opacity: .75; }
-  header #jump {
-    width: 44px;
-    text-align: center;
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.28);
-    border-radius: 5px;
-    color: #FFFFFF;
-    font-size: 13px;
-    padding: 6px 2px;
-    font-family: inherit;
-    -webkit-user-select: text;
-    user-select: text;
+  header .spacer { flex: 1; }
+  header .pager {
+    font-size: 12.5px;
+    color: #D9E2DC;
+    font-family: Consolas, monospace;
+    white-space: nowrap;
   }
-  header #jump:focus { outline: none; border-color: #8FBF9F; background: rgba(255,255,255,.26); }
-  header #go { padding: 7px 10px; }
-  @media (max-width: 520px) {
-    header { padding: 8px 8px; gap: 6px; }
-    header .title { display: none; }
-    header button { padding: 7px 10px; font-size: 12.5px; }
-    header #jump { width: 40px; }
+  header .pager b { color: #fff; font-size: 14px; }
+
+  /* 顶部进度条 */
+  #bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: #8FBF9F;
+    z-index: 101;
+    transition: width .1s linear;
   }
-  #stage {
-    flex: 1;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 12px 8px 28px;
+
+  /* 文档区：一整页竖排 */
+  #doc {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 22px 14px 60px;
   }
-  #pg {
-    max-width: 100%;
+
+  .page {
+    display: block;
+    width: 100%;
     height: auto;
     background: #fff;
-    box-shadow: 0 3px 16px rgba(44,74,62,.15);
+    box-shadow: 0 2px 14px rgba(44, 74, 62, .13);
     border-radius: 3px;
-    display: block;
+    margin-bottom: 10px;
   }
-  #loading {
-    position: fixed; inset: 0;
-    background: #EFEAE0;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 14px;
-    font-size: 14px; color: #5F5B52;
-    z-index: 9;
+
+  .pno {
+    text-align: center;
+    font-size: 11px;
+    color: #A8A294;
+    font-family: Consolas, monospace;
+    margin: 0 0 20px;
+    letter-spacing: 1px;
   }
-  .spin {
-    width: 28px; height: 28px;
-    border: 3px solid #D6CFC0; border-top-color: #2C4A3E;
+
+  /* 回到顶部 */
+  #top {
+    position: fixed;
+    right: 18px;
+    bottom: 24px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    animation: sp .8s linear infinite;
+    background: rgba(44, 74, 62, .9);
+    color: #F5F2EA;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .22);
+    z-index: 99;
   }
-  @keyframes sp { to { transform: rotate(360deg); } }
+  #top.on { display: flex; }
+
   footer {
-    flex: none;
-    background: #fff;
-    border-top: 1px solid #E2DCCF;
-    padding: 8px 12px;
     text-align: center;
     font-size: 12px;
     color: #8A8578;
+    padding: 8px 16px 40px;
+    line-height: 1.9;
   }
   footer b { color: #2C4A3E; font-weight: 500; }
   footer .wx { color: #3D6B52; font-family: Consolas, monospace; font-size: 13px; }
+
+  @media (max-width: 520px) {
+    header { padding: 9px 10px; gap: 8px; }
+    header .title { display: none; }
+    #doc { padding: 12px 8px 40px; }
+    .page { margin-bottom: 8px; }
+    .pno { margin-bottom: 14px; }
+  }
 </style>
 </head>
 <body>
-  <div id="loading">
-    <div class="spin"></div>
-    <div>正在加载…</div>
-  </div>
 
-  <header>
-    <a href="../index.html" style="color:#F5F2EA;text-decoration:none;font-size:13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.13);border-radius:6px;padding:7px 11px;white-space:nowrap">← 返回查询</a><span class="title">国央企求职宝典</span>
-    <span class="spacer"></span>
-    <button id="prev">上一页</button>
-    <span class="pager"><input id="jump" type="text" inputmode="numeric" pattern="[0-9]*" value="1" maxlength="3" aria-label="输入页码"><span class="slash">/</span><span id="pt">36</span></span>
-    <button id="go">跳转</button>
-    <button id="next">下一页</button>
-  </header>
+<div id="bar"></div>
 
-  <div id="stage">
-    <img id="pg" alt="第 1 页" />
-  </div>
+<header>
+  <a href="../index.html" class="back">← 返回查询</a>
+  <span class="title">国央企求职宝典</span>
+  <span class="spacer"></span>
+  <span class="pager">第 <b id="cur">1</b> / 36 页</span>
+</header>
 
-  <footer>
-    国央企职业规划师 · <b>沈老师</b> &nbsp;|&nbsp; 微信：<span class="wx">cnwy1543</span>
-  </footer>
+<main id="doc"></main>
+
+<button id="top" aria-label="回到顶部">↑</button>
+
+<footer>
+  国央企职业规划师 · <b>沈老师</b> &nbsp;|&nbsp; 微信：<span class="wx">cnwy1543</span>
+</footer>
 
 <script>
 const TOTAL = 36;
-const img = document.getElementById('pg');
-const stage = document.getElementById('stage');
-const pn = document.getElementById('jump');
-const btnPrev = document.getElementById('prev');
-const btnNext = document.getElementById('next');
-let cur = 1;
-const cache = {};
+const doc = document.getElementById('doc');
+const curEl = document.getElementById('cur');
+const bar = document.getElementById('bar');
+const topBtn = document.getElementById('top');
 
-function src(n) { return 'v2/p' + String(n).padStart(2, '0') + '.jpg'; }
+/* 生成 36 张图，前两张立即加载，其余懒加载 */
+const frag = document.createDocumentFragment();
+for (let i = 1; i <= TOTAL; i++) {
+  const img = document.createElement('img');
+  img.className = 'page';
+  img.loading = i <= 2 ? 'eager' : 'lazy';
+  img.src = 'v2/p' + String(i).padStart(2, '0') + '.jpg';
+  img.alt = '第 ' + i + ' 页';
+  frag.appendChild(img);
 
-function preload(n) {
-  if (n < 1 || n > TOTAL || cache[n]) return;
-  const im = new Image();
-  im.src = src(n);
-  cache[n] = im;
+  const no = document.createElement('div');
+  no.className = 'pno';
+  no.textContent = '— ' + i + ' —';
+  frag.appendChild(no);
+}
+doc.appendChild(frag);
+
+const imgs = Array.from(doc.querySelectorAll('.page'));
+let ticking = false;
+
+function onScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(function () {
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+
+    bar.style.width = (docH > 0 ? (scrollTop / docH * 100) : 0) + '%';
+
+    /* 当前页：视口上方 1/3 处落在哪张图上 */
+    const probe = scrollTop + window.innerHeight / 3;
+    let current = 1;
+    for (let i = 0; i < imgs.length; i++) {
+      if (imgs[i].offsetTop <= probe) current = i + 1;
+      else break;
+    }
+    curEl.textContent = current;
+
+    topBtn.classList.toggle('on', scrollTop > 800);
+
+    ticking = false;
+  });
 }
 
-function show(n) {
-  if (n < 1 || n > TOTAL) return;
-  cur = n;
-  pn.value = n;
-  btnPrev.disabled = (n <= 1);
-  btnNext.disabled = (n >= TOTAL);
-  const s = src(n);
-  img.src = s;
-  cache[n] = img;
-  stage.scrollTop = 0;
-  document.title = '国央企求职宝典 · ' + n + '/' + TOTAL;
-  preload(n + 1);
-  preload(n - 1);
-}
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+window.addEventListener('load', onScroll);
+onScroll();
 
-img.onload = function () { document.getElementById('loading').style.display = 'none'; };
-img.onerror = function () {
-  document.getElementById('loading').innerHTML = '<div style="font-size:14px">加载失败，请刷新重试</div>';
-};
-
-btnPrev.onclick = () => show(cur - 1);
-btnNext.onclick = () => show(cur + 1);
-
-function doJump() {
-  const v = parseInt(pn.value, 10);
-  if (!isNaN(v) && v >= 1 && v <= TOTAL) { show(v); }
-  else { pn.value = cur; }
-}
-pn.addEventListener('change', doJump);
-pn.addEventListener('blur', doJump);
-pn.addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') { e.preventDefault(); doJump(); pn.blur(); }
+topBtn.addEventListener('click', function () {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-pn.addEventListener('focus', function () { pn.select(); });
-pn.addEventListener('input', function () { pn.value = pn.value.replace(/[^0-9]/g, ''); });
-document.getElementById('go').onclick = function () { doJump(); pn.blur(); };
-
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'ArrowLeft') show(cur - 1);
-  if (e.key === 'ArrowRight') show(cur + 1);
-  if (e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
-      (e.ctrlKey && ['U','S','P'].includes(e.key.toUpperCase()))) e.preventDefault();
-});
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-
-let tx = 0, ty = 0;
-stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
-stage.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - tx;
-  const dy = e.changedTouches[0].clientY - ty;
-  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
-    show(dx < 0 ? cur + 1 : cur - 1);
-  }
-}, {passive:true});
-
-show(1);
 </script>
+
 </body>
 </html>
