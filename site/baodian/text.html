@@ -194,30 +194,79 @@
     font-size: 13.5px; color: #7A7568;
     margin-bottom: 18px; line-height: 1.7;
   }
+  /* 平台品牌色 */
+  [data-p="wechat"]   { --pc: #07C160; }
+  [data-p="web"]      { --pc: #2C6FB5; }
+  [data-p="xhs"]      { --pc: #FF2442; }
+  [data-p="douyin"]   { --pc: #1A1A24; }
+  [data-p="kuaishou"] { --pc: #FF5000; }
+  [data-p="channels"] { --pc: #F5A623; }
+  [data-p="mp"]       { --pc: #07C160; }
+
+  .ico { display: inline-flex; align-items: center; justify-content: center; }
+  .ico svg { width: 20px; height: 20px; display: block; }
+
+  /* 微信大卡 */
   .contact-wx {
-    display: inline-block; background: #fff;
-    border-radius: 7px; padding: 9px 18px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px; padding: 10px 20px 10px 14px;
+    box-shadow: 0 1px 5px rgba(0,0,0,.06);
+    border: 1px solid rgba(7,193,96,.18);
     margin-bottom: 14px;
+    color: var(--pc);
   }
-  .contact-wx .k { font-size: 11.5px; color: #9A9588; margin-bottom: 2px; }
+  .contact-wx .ico { grid-row: 1 / 3; color: var(--pc); }
+  .contact-wx .ico svg { width: 24px; height: 24px; }
+  .contact-wx .k { font-size: 11.5px; color: #9A9588; margin-bottom: 1px; }
   .contact-wx .v {
-    font-size: 16px; font-weight: 700; color: #2E2D29;
-    font-family: Consolas, monospace; letter-spacing: .3px;
+    font-size: 17px; font-weight: 700; color: #2E2D29;
+    font-family: Consolas, monospace; letter-spacing: .4px;
   }
+
   .contact-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 11px;
   }
+  /* 网站地址长、公众号名字长，各占整行 */
+  .contact-item[data-p="web"],
+  .contact-item[data-p="mp"] { grid-column: 1 / -1; }
+
+  /* 联系方式项：左侧品牌色竖条 + 图标 */
   .contact-item {
-    background: #fff; border-radius: 7px;
-    padding: 10px 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    position: relative;
+    background: #fff; border-radius: 8px;
+    padding: 11px 16px 11px 46px;
+    box-shadow: 0 1px 5px rgba(0,0,0,.05);
+    border: 1px solid rgba(0,0,0,.045);
+    overflow: hidden;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .contact-item:hover {
+    box-shadow: 0 3px 12px rgba(0,0,0,.09);
+    transform: translateY(-1px);
+  }
+  .contact-item::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--pc); opacity: .85;
+  }
+  .contact-item .ico {
+    position: absolute; left: 15px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--pc);
   }
   .contact-item .k { font-size: 11.5px; color: #9A9588; margin-bottom: 3px; }
-  .contact-item .v { font-size: 14.5px; font-weight: 700; color: #2E2D29; word-break: break-all; line-height: 1.5; }
+  .contact-item .v {
+    font-size: 14.5px; font-weight: 700; color: #2E2D29;
+    word-break: break-all; line-height: 1.5;
+  }
   .contact-link { color: #2C4A3E; text-decoration: none; border-bottom: 1px solid #C9D6CE;
-    font-size: 12.5px; font-weight: 600; letter-spacing: -.15px; white-space: nowrap;
-    display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+    font-size: 13.5px; font-weight: 600; letter-spacing: -.2px; white-space: nowrap;
+    display: inline-block; }
   .contact-link:hover { color: #B08D3F; border-bottom-color: #B08D3F; }
 
   @media (max-width: 620px) {
@@ -405,33 +454,34 @@
         <div class="contact-title">联系入口</div>
         <div class="contact-desc">想看更多找实习内容，或者需要进一步沟通，可以从这里找到我。</div>
 
-        <div class="contact-wx">
+        <div class="contact-wx" data-p="wechat">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5C5.4 3.5 2.5 5.9 2.5 8.9c0 1.7.9 3.2 2.4 4.2L4.2 16l3-1.3c.6.2 1.2.2 1.8.2"/><path d="M21.5 12.6c0-2.8-2.7-5-6-5s-6 2.2-6 5 2.7 5 6 5c.6 0 1.3-.1 1.8-.2l2.7 1.2-.6-2.1c1.3-.9 2.1-2.3 2.1-3.9z"/></svg></span>
           <div class="k">微信</div>
           <div class="v">cnwy1543</div>
         </div>
 
         <div class="contact-grid">
-          <div class="contact-item">
+          <div class="contact-item" data-p="web"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.4 3.8 5.6 3.8 9s-1.3 6.6-3.8 9c-2.5-2.4-3.8-5.6-3.8-9S9.5 5.4 12 3z"/></svg></span>
             <div class="k">网站</div>
             <div class="v"><a href="https://janecoolman515.github.io/fund-anti-fraud" target="_blank" class="contact-link">https://janecoolman515.github.io/fund-anti-fraud</a></div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-p="xhs"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M7.5 8.5h9M7.5 12.5h6"/><path d="M7.5 16.5h9"/></svg></span>
             <div class="k">小红书</div>
             <div class="v">沈老师带你不踩坑</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-p="douyin"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3v10.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14.5 3c.3 2.6 2.4 4.6 5 4.7"/></svg></span>
             <div class="k">抖音</div>
             <div class="v">沈老师带你不踩坑</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-p="kuaishou"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="12" height="12" rx="3.5"/><path d="M14.5 10.5l6-3.5v10l-6-3.5z"/></svg></span>
             <div class="k">快手</div>
             <div class="v">沈老师带你不踩坑</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-p="channels"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.4l6 3.6-6 3.6z"/></svg></span>
             <div class="k">视频号</div>
             <div class="v">港用工研习社施先生</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item" data-p="mp"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h17a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-5 4v-4a1.5 1.5 0 0 1 0-11z"/><circle cx="9" cy="11" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="11" r="1.1" fill="currentColor" stroke="none"/></svg></span>
             <div class="k">微信公众号</div>
             <div class="v">一条不停游动的小鲨鱼</div>
           </div>
