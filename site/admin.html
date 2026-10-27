@@ -309,6 +309,7 @@
     <span class="chip" data-f="rejected">已拒绝<span class="c" id="cRejected"></span></span>
     <span class="chip" data-f="all">全部<span class="c" id="cAll"></span></span>
     <span class="spacer"></span>
+    <button class="btn" id="btnRefresh">刷新数据</button>
     <button class="btn" id="btnSeed">载入演示数据</button>
     <button class="btn danger" id="btnClear" style="color:#F09A97">清空本地</button>
   </div>
@@ -344,6 +345,12 @@
    登录凭据（只存哈希，不存明文）
    ══════════════════════════════════════════════ */
 const CRED_HASH = '34ba5529fcb44d04eca52aad7d4e602930e6edb5217a9efc2fc878addca7960a';
+
+/* Supabase 配置：和 index.html 里填一样的值 */
+const DB = {
+  url: '',
+  key: ''
+};
 const SESSION_KEY = 'admin_session_v1';
 const DATA_KEY = 'admin_submissions_v1';
 const SESSION_DAYS = 7;
@@ -429,10 +436,11 @@ function checkSession() {
   return false;
 }
 
-function enterApp() {
+async function enterApp() {
   document.getElementById('login').style.display = 'none';
   document.getElementById('app').classList.add('on');
-  loadData();
+  render();
+  await loadData();
   render();
 }
 
@@ -449,10 +457,51 @@ let GROUPS = [];     // 按项目名合并后的组
 let curFilter = 'pending';
 let curId = null;
 
-function loadData() {
+/* 审核状态单独存本地（按数据库 id 记），刷新不丢 */
+const REVIEW_KEY = 'admin_review_state_v1';
+
+function loadReviewState() {
+  try { return JSON.parse(localStorage.getItem(REVIEW_KEY) || '{}'); }
+  catch (e) { return {}; }
+}
+
+function saveReviewState(st) {
+  localStorage.setItem(REVIEW_KEY, JSON.stringify(st));
+}
+
+/* 从 Supabase 拉提交数据 */
+async function loadData() {
+  if (!DB.url || !DB.key) {
+    SUBS = [];
+    return;
+  }
   try {
-    SUBS = JSON.parse(localStorage.getItem(DATA_KEY) || '[]');
-  } catch (e) { SUBS = []; }
+    const r = await fetch(
+      DB.url + '/rest/v1/submissions?select=*&order=created_at.desc&limit=1000',
+      { headers: { 'apikey': DB.key, 'Authorization': 'Bearer ' + DB.key } }
+    );
+    if (!r.ok) throw new Error('fetch failed');
+    const rows = await r.json();
+    const st = loadReviewState();
+    SUBS = rows.map(function (x) {
+      return {
+        _dbId: x.id,
+        name: x.name || '',
+        start: x.start_time || '',
+        type: x.type || '',
+        site: x.site || '',
+        yield: x.claim_yield || '',
+        scheme: x.scheme || '',
+        pitch: x.pitch || '',
+        stage: x.stage || '',
+        question: x.question || '',
+        at: x.created_at ? new Date(x.created_at).getTime() : Date.now(),
+        status: st[x.id] || 'pending'
+      };
+    });
+  } catch (e) {
+    SUBS = [];
+  }
 }
 
 function saveData() {
@@ -642,12 +691,13 @@ document.getElementById('detail').addEventListener('click', function (e) {
   const g = GROUPS.filter(function (x) { return x.key === curId; })[0];
   if (!g) return;
 
+  const st = loadReviewState();
   g.subs.forEach(function (s) {
-    if (act === 'approve') s.status = 'approved';
-    else if (act === 'reject') s.status = 'rejected';
-    else s.status = 'pending';
+    const v = act === 'approve' ? 'approved' : (act === 'reject' ? 'rejected' : 'pending');
+    s.status = v;
+    if (s._dbId) st[s._dbId] = v;
   });
-  saveData();
+  saveReviewState(st);
   render();
 });
 
@@ -731,6 +781,13 @@ document.getElementById('btnExport').addEventListener('click', function () {
 });
 
 /* ══════════ 演示数据 ══════════ */
+document.getElementById('btnRefresh').addEventListener('click', async function () {
+  this.textContent = '刷新中…';
+  await loadData();
+  render();
+  this.textContent = '刷新数据';
+});
+
 document.getElementById('btnSeed').addEventListener('click', function () {
   if (!confirm('将写入 3 条演示提交（含 1 组同名合并），确定？')) return;
 

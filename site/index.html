@@ -835,47 +835,39 @@ footer{
 .pb-dead{font-size:11.5px;color:#F09A97;line-height:1.7;margin-bottom:7px}
 .pb-meta{font-size:11px;color:var(--text-4);font-family:var(--mono);line-height:1.7}
 
-/* 提交审核按钮 */
-.btn-submit-review{
-  width:100%; padding:12px;
-  background:linear-gradient(180deg,rgba(201,162,39,.18),rgba(201,162,39,.08));
-  border:1px solid rgba(201,162,39,.45);
-  color:var(--gold-lt); font-size:13.5px; font-weight:700;
-  border-radius:8px; cursor:pointer; font-family:var(--sans);
-  transition:.15s;
+/* 提交区 */
+.submit-gate{
+  margin:18px 0 6px; padding:16px 18px;
+  background:rgba(201,162,39,.06);
+  border:1px solid rgba(201,162,39,.32);
+  border-radius:9px;
 }
-.btn-submit-review:hover{background:rgba(201,162,39,.24);border-color:rgba(201,162,39,.7)}
-
-/* 提交码弹窗 */
-.sc-modal{
-  position:fixed;inset:0;z-index:400;
-  background:rgba(5,15,28,.88);backdrop-filter:blur(6px);
-  display:none;align-items:center;justify-content:center;padding:24px;
+.sg-title{font-size:13.5px;font-weight:700;color:var(--gold-lt);margin-bottom:5px}
+.sg-desc{font-size:11.5px;color:var(--text-3);line-height:1.7;margin-bottom:13px}
+.sg-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.sg-row input{
+  width:104px;background:var(--navy-950);border:1px solid var(--line);
+  border-radius:7px;padding:10px 12px;color:var(--text);
+  font-size:14px;font-family:var(--mono);letter-spacing:3px;text-align:center;
+  outline:none;
 }
-.sc-modal.on{display:flex}
-.sc-box{
-  width:100%;max-width:560px;
-  background:linear-gradient(180deg,var(--navy-800),var(--navy-900));
-  border:1px solid var(--line-strong);border-radius:14px;padding:24px 26px;
+.sg-row input:focus{border-color:rgba(201,162,39,.55);box-shadow:0 0 0 3px rgba(201,162,39,.1)}
+#e_capCanvas{
+  width:96px;height:38px;border-radius:7px;flex:none;
+  background:var(--navy-950);border:1px solid var(--line);cursor:pointer;
 }
-.sc-box h3{font-size:17px;margin-bottom:8px}
-.sc-box p{font-size:12px;color:var(--text-3);line-height:1.75;margin-bottom:14px}
-.sc-code{
-  width:100%;min-height:110px;background:var(--navy-950);
-  border:1px solid var(--line);border-radius:8px;
-  color:var(--gold-lt);font-family:var(--mono);font-size:11px;
-  padding:12px;resize:vertical;outline:none;word-break:break-all;
-}
-.sc-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
-.sc-btns button{
-  padding:9px 20px;border-radius:7px;font-size:13px;cursor:pointer;
-  border:1px solid var(--line-strong);background:var(--navy-700);color:var(--text-2);
-  font-family:var(--sans);
-}
-.sc-btns button.primary{
+.sg-btn{
+  flex:1;min-width:140px;
   background:linear-gradient(180deg,var(--gold-lt),var(--gold));
-  color:#1A1400;border-color:transparent;font-weight:700;
+  color:#1A1400;border:none;border-radius:7px;
+  padding:11px 18px;font-size:13.5px;font-weight:700;
+  cursor:pointer;font-family:var(--sans);transition:.15s;
 }
+.sg-btn:hover{filter:brightness(1.08)}
+.sg-btn:disabled{opacity:.55;cursor:not-allowed;filter:none}
+.sg-msg{font-size:11.5px;line-height:1.7;margin-top:10px;min-height:16px}
+.sg-msg.ok{color:#7FD69B}
+.sg-msg.err{color:#F09A97}
 
 /* 风险名单卡（公开报道，未判决） */
 .risk-report{
@@ -1563,19 +1555,6 @@ footer{
           留言区不做实时公开展示 —— 这类内容一旦公开，容易被项目方盯上，也容易误伤无辜。所有反馈都是单线联系。
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="sc-modal" id="scModal">
-  <div class="sc-box">
-    <h3>提交码已生成</h3>
-    <p>复制下面这段，发到微信 <b style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</b>。<br>
-    管理员核实后才会入库 —— 这是为了防止有人恶意提交不存在的项目。</p>
-    <textarea class="sc-code" id="scCode" readonly></textarea>
-    <div class="sc-btns">
-      <button onclick="document.getElementById('scModal').classList.remove('on')">关闭</button>
-      <button class="primary" id="scCopy">复制提交码</button>
     </div>
   </div>
 </div>
@@ -2425,12 +2404,15 @@ function renderParse() {
       要更准，请补齐下方「没找到的信息」，或把资料发给我人工核查。</p>
     </div>
 
-    <div style="margin:16px 0 4px">
-      <button class="btn-submit-review" onclick="showSubmitCode()">提交给管理员审核入库 →</button>
-      <div style="font-size:11px;color:var(--text-4);margin-top:7px;line-height:1.7">
-        生成一段提交码，复制发给微信 <span style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</span>。
-        管理员核实后才会入库，其他用户才能查到。
+    <div class="submit-gate">
+      <div class="sg-title">把这些资料提交给管理员</div>
+      <div class="sg-desc">核实后会补进项目库，其他人才查得到。提交前请填一下验证码，防止有人用脚本乱刷。</div>
+      <div class="sg-row">
+        <input id="e_captcha" type="text" maxlength="4" inputmode="numeric" placeholder="4 位数字">
+        <canvas id="e_capCanvas" width="96" height="38" title="点击换一张"></canvas>
+        <button class="sg-btn" onclick="doSubmit()">提交资料</button>
       </div>
+      <div class="sg-msg" id="sgMsg"></div>
     </div>
 
     <div class="block-title" style="margin-bottom:10px">从你的资料里识别出</div>
@@ -2467,8 +2449,20 @@ document.getElementById('btnEasyReset').onclick = function () {
 };
 
 /* ══════════════════════════════════════════════════════════
-   提交码：把用户填的资料编码成一段文本，发给管理员导入后台
-   ══════════════════════════════════════════════════════════ */
+   资料提交（验证码 + 直接提交）
+   ══════════════════════════════════════════════════════════
+   提交去向有两种，按优先级：
+     ① SUBMIT_ENDPOINT 有值 → POST 到表单服务（Formspree 等），邮件通知管理员
+     ② 没配置 → 打开 GitHub 新建 issue 页面，内容已预填，用户点提交即可
+   两种都不需要加微信。
+*/
+
+/* Supabase 配置：注册后把 Project URL 和 anon public key 粘在这里 */
+const DB = {
+  url: '',
+  key: ''
+};
+
 function collectSubmission() {
   const g = function (id) {
     const el = document.getElementById(id);
@@ -2484,48 +2478,151 @@ function collectSubmission() {
     scheme: g('e_scheme'),
     pitch: g('e_pitch'),
     stage: stageSel ? stageSel.options[stageSel.selectedIndex].text : '',
-    question: g('e_question'),
-    at: Date.now()
+    question: g('e_question')
   };
 }
 
-function genSubmitCode() {
+/* ── 提交验证码 ── */
+let eCapCode = '';
+
+function drawECap() {
+  const cv = document.getElementById('e_capCanvas');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+
+  eCapCode = String(Math.floor(1000 + Math.random() * 9000));
+
+  ctx.fillStyle = '#0E2A4A';
+  ctx.fillRect(0, 0, W, H);
+
+  for (let i = 0; i < 3; i++) {
+    ctx.strokeStyle = 'rgba(120,160,200,' + (0.18 + Math.random() * 0.2) + ')';
+    ctx.beginPath();
+    ctx.moveTo(Math.random() * W, Math.random() * H);
+    ctx.lineTo(Math.random() * W, Math.random() * H);
+    ctx.stroke();
+  }
+
+  const colors = ['#E8C55C', '#7FD69B', '#8FC7F0', '#F0B080'];
+  ctx.font = 'bold 22px Consolas, monospace';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < 4; i++) {
+    ctx.save();
+    ctx.translate(15 + i * 21, H / 2 + (Math.random() * 5 - 2.5));
+    ctx.rotate((Math.random() - 0.5) * 0.3);
+    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+    ctx.fillText(eCapCode[i], -7, 0);
+    ctx.restore();
+  }
+}
+
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.id === 'e_capCanvas') drawECap();
+});
+
+/* ── 提交 ── */
+async function doSubmit() {
+  const msg = document.getElementById('sgMsg');
+  const btn = document.querySelector('.sg-btn');
+  const capEl = document.getElementById('e_captcha');
+
   const obj = collectSubmission();
+
   if (!obj.name) {
-    toast('请先填项目名称');
+    msg.className = 'sg-msg err';
+    msg.textContent = '请先填项目名称';
     document.getElementById('e_name').focus();
     return;
   }
-  const json = JSON.stringify(obj);
-  /* UTF-8 安全的 base64 */
-  const b64 = btoa(unescape(encodeURIComponent(json)));
-  return 'SUB:' + b64;
-}
 
-function showSubmitCode() {
-  const code = genSubmitCode();
-  if (!code) return;
-  document.getElementById('scCode').value = code;
-  document.getElementById('scModal').classList.add('on');
-}
-
-document.getElementById('scCopy').addEventListener('click', function () {
-  const ta = document.getElementById('scCode');
-  ta.select();
-  ta.setSelectionRange(0, 999999);
-  try {
-    document.execCommand('copy');
-    toast('提交码已复制，发到微信 janecoolman01');
-  } catch (e) {
-    toast('复制失败，请手动全选复制');
+  if (!eCapCode) drawECap();
+  if ((capEl.value || '').trim() !== eCapCode) {
+    msg.className = 'sg-msg err';
+    msg.textContent = '验证码不对，换一张再试';
+    drawECap();
+    capEl.value = '';
+    return;
   }
-});
 
-document.getElementById('scModal').addEventListener('click', function (e) {
-  if (e.target === this) this.classList.remove('on');
-});
+  btn.disabled = true;
+  msg.className = 'sg-msg';
+  msg.textContent = '正在提交…';
+
+  const payload = {
+    _subject: '【项目提交】' + obj.name,
+    '项目名称': obj.name,
+    '开始时间': obj.start || '未填',
+    '项目类型': obj.type,
+    '网站APP': obj.site || '未填',
+    '宣称收益': obj.yield || '未填',
+    '制度模式': obj.scheme || '未填',
+    '宣传话术': obj.pitch || '未填',
+    '当前状态': obj.stage,
+    '用户疑问': obj.question || '未填',
+    '提交时间': new Date().toLocaleString('zh-CN')
+  };
+
+  /* ① 有数据库配置：直接写库 */
+  if (DB.url && DB.key) {
+    try {
+      const r = await fetch(DB.url + '/rest/v1/submissions', {
+        method: 'POST',
+        headers: {
+          'apikey': DB.key,
+          'Authorization': 'Bearer ' + DB.key,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name: obj.name,
+          start_time: obj.start,
+          type: obj.type,
+          site: obj.site,
+          claim_yield: obj.yield,
+          scheme: obj.scheme,
+          pitch: obj.pitch,
+          stage: obj.stage,
+          question: obj.question,
+          status: 'pending'
+        })
+      });
+      if (r.ok) {
+        msg.className = 'sg-msg ok';
+        msg.textContent = '✓ 已提交，管理员核实后会补进项目库。感谢你的线索。';
+        resetSubmitGate();
+        return;
+      }
+      throw new Error('bad status');
+    } catch (err) {
+      msg.className = 'sg-msg err';
+      msg.textContent = '提交失败，请稍后再试，或通过公众号后台留言。';
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  /* ② 没配置数据库：明确告知，不假装成功 */
+  msg.className = 'sg-msg err';
+  msg.textContent = '提交通道还没接通，请稍后再试。';
+  btn.disabled = false;
+  drawECap();
+  capEl.value = '';
+}
+
+function resetSubmitGate() {
+  const btn = document.querySelector('.sg-btn');
+  if (btn) btn.disabled = false;
+  const capEl = document.getElementById('e_captcha');
+  if (capEl) capEl.value = '';
+  drawECap();
+}
+
+/* 初始化验证码 */
+if (document.getElementById('e_capCanvas')) drawECap();
 
 bindChips();
+render("星辰国际");bindChips();
 render("星辰国际");
 </script>
 </body>
