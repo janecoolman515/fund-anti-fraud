@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>国央企求职宝典 · 文字版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #F5F2EA;
+    color: #2E2D29;
+    line-height: 1.9;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: #2C4A3E; color: #F5F2EA;
+    display: flex; align-items: center;
+    padding: 0 20px; height: 54px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.14);
+  }
+  header .back {
+    color: #F5F2EA; text-decoration: none; font-size: 13px;
+    border: 1px solid rgba(255,255,255,.24);
+    background: rgba(255,255,255,.12);
+    border-radius: 6px; padding: 7px 12px;
+    white-space: nowrap; transition: .15s;
+  }
+  header .back:hover { background: rgba(255,255,255,.22); }
+  header .htitle {
+    flex: 1; text-align: center;
+    font-size: 15px; font-weight: 600; letter-spacing: .5px;
+  }
+  header .hpager {
+    font-size: 12px; color: #C9D6CE;
+    font-family: Consolas, monospace;
+    white-space: nowrap; min-width: 100px; text-align: right;
+  }
+
+  .layout {
+    display: flex; align-items: flex-start;
+    max-width: 1280px; margin: 0 auto;
+    padding: 24px 20px 80px; gap: 36px;
+  }
+
+  aside {
+    width: 252px; flex: none;
+    position: sticky; top: 78px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto; padding-right: 6px;
+  }
+  aside::-webkit-scrollbar { width: 5px; }
+  aside::-webkit-scrollbar-thumb { background: #CFC8B8; border-radius: 3px; }
+
+  .toc-title {
+    font-size: 11.5px; letter-spacing: 2px; color: #8A8578;
+    font-family: Consolas, monospace;
+    margin-bottom: 14px; padding-left: 10px;
+  }
+  .toc-ch {
+    display: block;
+    font-size: 14px; font-weight: 700; color: #2C4A3E;
+    padding: 9px 10px; border-radius: 6px;
+    text-decoration: none; margin-bottom: 2px;
+    border-left: 3px solid transparent; transition: .15s;
+  }
+  .toc-ch:hover { background: #EBE6DA; }
+  .toc-ch.active { background: #E3EADF; border-left-color: #2C4A3E; }
+  .toc-sub {
+    display: block; font-size: 13px; color: #6B675E;
+    padding: 6px 10px 6px 22px;
+    text-decoration: none; border-radius: 5px;
+    margin-bottom: 1px; transition: .15s; line-height: 1.5;
+  }
+  .toc-sub:hover { background: #EBE6DA; color: #2C4A3E; }
+  .toc-sub.active { background: #E3EADF; color: #2C4A3E; font-weight: 600; }
+  .toc-group { margin-bottom: 8px; }
+  .toc-pending {
+    font-size: 12.5px; color: #A8A294;
+    padding: 5px 10px 5px 22px; font-style: italic;
+  }
+
+  main {
+    flex: 1; min-width: 0; max-width: 780px;
+    background: #FFFDF8; border-radius: 10px;
+    padding: 44px 52px 56px;
+    box-shadow: 0 2px 20px rgba(44,74,62,.08);
+    -webkit-user-select: text; user-select: text;
+  }
+
+  .cover {
+    text-align: center; padding: 30px 0 50px;
+    border-bottom: 1px solid #E2DCCF; margin-bottom: 44px;
+  }
+  .cover .kicker {
+    font-size: 11px; letter-spacing: 3px; color: #B08D3F;
+    font-family: Consolas, monospace; margin-bottom: 20px;
+  }
+  .cover h1 {
+    font-size: 40px; font-weight: 800; color: #2C4A3E;
+    letter-spacing: 2px; margin-bottom: 14px;
+  }
+  .cover .sub { font-size: 16px; color: #7A7568; margin-bottom: 26px; }
+  .cover .author { font-size: 13.5px; color: #6B675E; }
+
+  .chapter-label {
+    font-size: 11px; letter-spacing: 3px; color: #B08D3F;
+    font-family: Consolas, monospace; margin-bottom: 8px;
+  }
+  h2.chapter {
+    font-size: 30px; font-weight: 800; color: #2C4A3E;
+    letter-spacing: 1px; margin-bottom: 10px; padding-top: 8px;
+  }
+  .chapter-desc {
+    font-size: 14.5px; color: #7A7568; font-style: italic;
+    padding-bottom: 22px; border-bottom: 1px solid #E2DCCF;
+    margin-bottom: 34px;
+  }
+
+  .part-badge {
+    display: inline-block;
+    font-size: 11.5px; color: #5A7A66;
+    background: #EDF2EC; border: 1px solid #D3DFD3;
+    border-radius: 100px; padding: 3px 12px; margin-bottom: 12px;
+  }
+  h3.part {
+    font-size: 19px; font-weight: 700; color: #2E2D29;
+    margin-bottom: 16px; line-height: 1.5;
+    padding-left: 14px; border-left: 4px solid #2C4A3E;
+  }
+  h4.sec {
+    font-size: 16.5px; font-weight: 700; color: #2C4A3E;
+    margin: 30px 0 12px;
+    padding-bottom: 8px; border-bottom: 1px solid #EAE5D9;
+  }
+
+  p { margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 22px; }
+  li { margin-bottom: 7px; }
+  strong { font-weight: 700; color: #1F1E1B; }
+  em.hl { font-style: normal; background: #FBF3DC; padding: 1px 4px; border-radius: 3px; }
+
+  blockquote {
+    margin: 18px 0; padding: 14px 20px;
+    background: #F7F4EC; border-left: 3px solid #C9B98A;
+    border-radius: 0 6px 6px 0;
+    font-size: 15px; color: #4A473F;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  .prompt-box {
+    margin: 18px 0; padding: 16px 18px;
+    background: #F7F4EC; border: 1px solid #E2DCCF;
+    border-radius: 8px; font-size: 14px; line-height: 1.85;
+    white-space: pre-wrap;
+    font-family: Consolas, "PingFang SC", monospace;
+    color: #3A382F;
+    -webkit-user-select: text; user-select: text;
+  }
+
+  .divider { height: 1px; background: #EAE5D9; margin: 36px 0; }
+
+  .pending {
+    margin: 30px 0; padding: 22px;
+    border: 1px dashed #D3C9B4; border-radius: 8px;
+    text-align: center; color: #A8A294; font-size: 14px;
+  }
+
+  footer {
+    max-width: 1280px; margin: 0 auto;
+    padding: 0 20px 50px; text-align: center;
+    font-size: 12px; color: #8A8578; line-height: 2;
+  }
+  footer b { color: #2C4A3E; }
+  footer .wx { font-family: Consolas, monospace; color: #3D6B52; }
+
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; gap: 18px; padding: 16px 12px 60px; }
+    aside {
+      position: static; width: 100%; max-height: none;
+      background: #FFFDF8; border-radius: 8px; padding: 14px;
+      box-shadow: 0 1px 10px rgba(44,74,62,.06);
+    }
+    main { padding: 26px 20px 40px; }
+    .cover h1 { font-size: 28px; }
+    h2.chapter { font-size: 24px; }
+    header .htitle { font-size: 13px; }
+    header .hpager { min-width: auto; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="back">← 返回查询</a>
+  <span class="htitle">国央企求职宝典</span>
+  <span class="hpager" id="pager">前言</span>
+</header>
+
+<div class="layout">
+
+  <aside id="toc">
+    <div class="toc-title">目 录</div>
+
+    <div class="toc-group">
+      <a href="#cover" class="toc-ch">封面 · 关于这本书</a>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch1" class="toc-ch">第一章　心态认知</a>
+      <a href="#ch1-1" class="toc-sub">01　我什么都不会，公司为什么要招我</a>
+      <a href="#ch1-2" class="toc-sub">02　第一次找实习的 3 个雷区</a>
+      <a href="#ch1-3" class="toc-sub">03　如何确定该投什么岗位</a>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch2" class="toc-ch">第二章　简历</a>
+      <span class="toc-pending">整理中…</span>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch3" class="toc-ch">第三章　渠道</a>
+      <span class="toc-pending">整理中…</span>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch4" class="toc-ch">第四章　面试</a>
+      <span class="toc-pending">整理中…</span>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch5" class="toc-ch">第五章　投递操作</a>
+      <span class="toc-pending">整理中…</span>
+    </div>
+
+    <div class="toc-group">
+      <a href="#ch6" class="toc-ch">第六章　工具箱</a>
+      <span class="toc-pending">整理中…</span>
+    </div>
+  </aside>
+
+  <main id="content">
+
+    <section id="cover" class="cover">
+      <div class="kicker">完整书籍 · 2026</div>
+      <h1>国央企求职宝典</h1>
+      <div class="sub">带你从 0 经验拿到国央企 Offer</div>
+      <div class="author">国央企职业规划师 · 沈老师 著</div>
+    </section>
+
+    <section>
+      <h4 class="sec">这本书要解决什么问题？</h4>
+      <p>我不是什么都会，公司为什么要招我？</p>
+      <ul>
+        <li>不知道第一份实习从哪里开始</li>
+        <li>不知道怎么写简历</li>
+        <li>不知道去哪里找岗位</li>
+        <li>面试容易紧张</li>
+        <li>不会投递</li>
+        <li>不知道从哪里找工具、资料和渠道</li>
+      </ul>
+      <p>这本书会把这些问题一个一个拆开讲清楚。</p>
+      <p><strong>我是谁？</strong></p>
+      <p>我是沈老师，喜欢鼓励人，希望让你有勇气。</p>
+      <blockquote><p>专注于帮大学生找到第一份实习，手把手带过 40+ 零经验的同学找到第一份实习，全网 7.5k 粉。</p></blockquote>
+      <p>这些问题我尤其擅长解决：</p>
+      <ul>
+        <li>找不到实习方向，不知道自己能做什么</li>
+        <li>不知道怎么包装自己，简历写得很普通</li>
+        <li>不知道从哪开始行动</li>
+        <li>面试准备不充分</li>
+        <li>感受到信息壁垒，不知道如何突破信息差</li>
+      </ul>
+      <p>我写这本书的目的很简单：希望更多普通大学生，少走一些弯路。</p>
+      <div class="divider"></div>
+      <h4 class="sec">联系入口</h4>
+      <p>想看更多找实习内容，或者需要进一步沟通，可以加微信：<strong>cnwy1543</strong></p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch1">
+      <div class="chapter-label">CHAPTER 01</div>
+      <h2 class="chapter">心态认知</h2>
+      <div class="chapter-desc">你不必什么都会才能找到第一份实习，抱着学习的心态做这件事你总能学到东西。</div>
+    </section>
+
+    <section id="ch1-1">
+      <div class="part-badge">心态认知 · 第 01 篇 / 共 03 篇</div>
+      <h3 class="part">"我什么都不会，公司为什么要招我？"</h3>
+
+      <p>我碰到的绝大多数同学第一次找实习时，都会有一个问题：</p>
+      <blockquote><p>"我什么都不会，公司为什么要招我？"</p></blockquote>
+      <p>这个点卡住了很多人，所以这一篇文章，不是先教你怎么找实习，而是先帮你建立一个最重要的认知：</p>
+      <p><strong>实习岗位，本来就不是给"什么都会的人"准备的。</strong></p>
+      <p>你只要明白这一点，后面的很多事情都会轻松很多。</p>
+
+      <h4 class="sec">一、公司为什么会招实习生？</h4>
+      <p>先从公司角度思考。公司存在的核心目的，其实很简单，也就是赚更多的钱。要实现这个目的有两种方式：</p>
+      <ul>
+        <li>挣更多的钱</li>
+        <li>降低成本</li>
+      </ul>
+      <p>而一家公司的工作，通常像一个金字塔。最上层，是少部分高难度工作，需要经验丰富的人完成。但更多的，其实是底层大量基础工作。这些工作并不是毫无难度，而是：</p>
+      <ul>
+        <li>更标准化</li>
+        <li>更重复</li>
+        <li>更容易通过短时间学习上手</li>
+      </ul>
+      <p>问题来了。</p>
+      <p>这些基础工作，公司可以让一个有两三年经验的人做，也可以让实习生做。那公司会怎么选？</p>
+      <p>答案很简单，<strong>用实习生，因为成本更低</strong>。</p>
+      <p>一个正式员工的工资，可能等于 3 到 5 个实习生。而很多基础工作，实习生经过两周到一个月学习后，也能逐渐上手。</p>
+      <p>所以对公司来说：</p>
+      <blockquote><p>招实习生，本质上是在用更低的成本解决基础工作。</p></blockquote>
+
+      <h4 class="sec">二、公司并不期待你"什么都会"</h4>
+      <p>很多同学会担心：</p>
+      <ul>
+        <li>"如果工作太难怎么办？"</li>
+        <li>"我不会，公司会不会嫌弃我？"</li>
+      </ul>
+      <p>但现实是：<strong>公司本来就知道你不会。</strong></p>
+      <p>所以正常情况下，公司不会把特别重要、特别复杂的工作直接交给实习生。而且，公司其实比你更怕事情被搞砸。</p>
+      <p>大部分实习岗位，都是能够边做边学的。</p>
+      <p>很多工作，<em class="hl">少则两周</em>，<em class="hl">多则一个月</em>，就能掌握基础操作。</p>
+      <p><strong>你绝对不能等到"完全准备好"才开始投递</strong>，因为很多能力，本来就是进入公司之后才学会的。</p>
+
+      <h4 class="sec">三、大部分人其实都和你差不多</h4>
+      <p>大多数大学生都没有真正的行业经验。很多人甚至连岗位要求都不完全匹配，那为什么他们还能找到实习？</p>
+      <p>因为公司招实习生时，看重的往往<strong>不是</strong>你<em class="hl">已经会多少东西</em>。</p>
+      <p>而是：</p>
+      <ul>
+        <li>你能不能学</li>
+        <li>你能不能做事</li>
+        <li>你有没有执行力</li>
+        <li>你愿不愿意成长</li>
+      </ul>
+      <p>很多人其实都是<strong>先进去，再学习</strong>。</p>
+      <p>我自己刚开始时，也是什么都不会。学校普通、绩点倒数、没有比赛、论文、实验室、部门活动，什么都没有，办公软件都不会用。</p>
+      <p>后来我工作了甚至发现我的一些同事，他们很多也是跨专业，从 0 开始进入到一个全新的行业，而且专业跨度很大。</p>
+      <p>像是<em class="hl">金融专业</em>、<em class="hl">英语专业</em>、<em class="hl">风景园林专业</em>，最后都进入了<em class="hl">双碳行业</em>。他们一开始同样没有相关经验。所以其实工作的本质都是：</p>
+      <blockquote><p>边工作，一边学习。</p></blockquote>
+
+      <h4 class="sec">四、公司也很难招到"理想实习生"</h4>
+      <p>很多同学会默认："公司一定只想要特别优秀的人。"</p>
+      <p>并不是这样。</p>
+      <p><em class="hl">真正经验丰富、能力成熟、完全匹配岗位</em>的大学生，其实非常少。市场上更多的，都是普通大学生。</p>
+      <p>可公司的业务还要继续，简单的任务还必须有人来完成。所以很多时候，公司也只能：</p>
+      <p><strong>退而求其次</strong></p>
+      <p>意思其实是，即使你和岗位要求有差距，你依然有机会。你不需要 100% 符合岗位要求。很多时候你只需要让公司觉得<em class="hl">你能培养</em>就已经够了。要求没有你想象的那么严苛。</p>
+
+      <h4 class="sec">五、找实习最容易出现的误区</h4>
+      <p>很多人会觉得："等我能力够了再去找实习。"</p>
+      <p>但问题是：很多能力，本来就是实习过程中学会的。如果一直等自己"完全准备好"，往往会：</p>
+      <ul>
+        <li>一直拖延</li>
+        <li>一直焦虑</li>
+        <li>一直不敢行动</li>
+      </ul>
+      <p>最后反而错过很多机会。所以你一定要记住：</p>
+      <blockquote><p>实习不是结果，而是学习过程本身。</p></blockquote>
+      <p><strong>你不是因为"已经会了"才能去实习。</strong></p>
+      <p><strong>而是因为"不会"，才需要去实习。</strong></p>
+
+      <h4 class="sec">六、普通大学生的第一次实习机会主要在中小企业</h4>
+      <p>很多同学找实习时，眼里只有<em class="hl">大厂</em>。但现实是：中小企业才是实习岗位真正最多的地方。</p>
+      <p>如果把所有公司的分布看成金字塔：</p>
+      <ul>
+        <li>顶端的大厂很少</li>
+        <li>底部的企业非常多</li>
+      </ul>
+      <p>而且，中小企业通常还有几个特点：</p>
+      <ul>
+        <li><strong>更缺人：</strong>很多中小企业长期缺实习生，他们更需要有人做事。</li>
+        <li><strong>门槛更低：</strong>相比大厂，中小企业通常不会要求你背景完美。</li>
+        <li><strong>竞争更小：</strong>大厂岗位少，但竞争极度激烈。</li>
+      </ul>
+      <p>前段时间，<em class="hl">中国广核集团</em>秋招收到上百万份简历，就是典型例子。但很多中小企业，甚至长期招不到合适的人。</p>
+      <p>所以对于大多数普通大学生来说，更现实的策略是：</p>
+      <p><strong>主攻中小企业，保底拿经验（90% 以上的时间精力分配）；大厂作为冲刺，随缘攒履历。</strong></p>
+      <p>把精力放在门槛更低、数量更多、更缺人的中小型企业上，快速拿到第一份实习，完成"从 0 到 1"的突破。有了这段经历，你的简历就会变得有分量很多，作为后续跳槽或冲刺大厂实习或者工作的敲门砖才有足够的分量。</p>
+      <p>找实习是一场双向选择，<strong>不是你在乞求机会，而是市场在寻找能干活的人</strong>。</p>
+      <ul>
+        <li>公司需要你：去处理基础工作，去补充人力缺口。</li>
+        <li>你不需要完美：短期能上手、态度靠谱、愿意学习，就足够敲开大门。</li>
+        <li>机会遍地都是：放下对大厂的执念，中小企业是你积累经验的最佳练兵场。</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch1-2">
+      <div class="part-badge">心态认知 · 第 02 篇 / 共 03 篇</div>
+      <h3 class="part">第一次找实习的 3 个雷区</h3>
+
+      <p>第一次找实习时，很多人不是输在能力不够，而是卡在几个常见误区里。先把这些雷区看清楚，后面的行动会更务实。</p>
+
+      <h4 class="sec">一、雷区一：小公司不值得去，学不到东西</h4>
+      <p>很多人都会这么觉得，甚至拿到了 offer 也不想去。</p>
+      <p>这里有个巨大的问题，在你能力有限的时候，你能拥有的选择其实并不多。</p>
+      <p>有的同学就是觉得小公司不值得去，所以在找第一份实习的时候卡了很久。而同期的同学早就在小公司实习了，学到了很多东西，甚至都已经开始找第二份更好的实习了。</p>
+      <p>如果说你非某个大公司不去，你只会消耗更多的时间。我并不是不推荐你去大公司，而是说时间有限的情况下，让自己能够先进入公司学习，比其他事情更重要。</p>
+      <p>小公司能够存活，必然已经存在着能够盈利的商业模式，以及业务框架。而你作为一个什么都不懂的学生，却觉得自己在这里学不到东西，这肯定是不对的。</p>
+      <blockquote><p>实习，尤其是第一份实习，尽可能不要非大公司不去。稳扎稳打更实际一些，也能更快拿到成果。</p></blockquote>
+
+      <h4 class="sec">二、雷区二：觉得有些岗位要求很高就不投</h4>
+      <p>实习生做的工作，本质上很多都是机械、重复、简单的工作。</p>
+      <p>有些岗位写得很花里胡哨，让你看不懂，你就觉得自己做不到。千万不能这么想，也不要给自己设限。</p>
+      <p><strong>99% 以上的实习生做的事情，都是你能做的。</strong></p>
+      <p>可能你现在不会，但你进去了，都是能通过学习实现的。</p>
+      <p>有些岗位写要求研究生、要求四六级，或者要求有经验，这些岗位要求看起来很高，但你也应该去投。</p>
+      <p>实际上很多岗位都找不到理想的实习生，有的时候就算那些条件不满足，也会招进去。</p>
+      <p>就比如我的第一份实习，岗位要求是研究生，但我是本科生，也照样进去了。我辅导过很多学生也都是这样。所以你得先去投，投了才有机会。</p>
+
+      <h4 class="sec">三、雷区三：只看岗位名字，不看岗位介绍</h4>
+      <p><strong>实际求职市场，岗位的名字和简介不是固定的。</strong></p>
+      <p>世界是个很大的草台班子。</p>
+      <p>有的时候，一些岗位明明是销售，它却把名字写成产品。</p>
+      <p>有的岗位简介完全相似，也就是做的工作完全一致，但它们的岗位名称却完全不一样。</p>
+      <p>所以真正重要的是：</p>
+      <blockquote><p>看岗位内容，而不是岗位名称。</p></blockquote>
+      <p>重点看：每天做什么、用什么工具、有没有明确目标。</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch1-3">
+      <div class="part-badge">心态认知 · 第 03 篇 / 共 03 篇</div>
+      <h3 class="part">如何确定自己该投什么实习岗位？</h3>
+
+      <p>很多大学生第一次找实习时，都会卡在一个问题：</p>
+      <blockquote><p>"我到底该投什么岗位？"</p></blockquote>
+      <p>不是不想找，而是：</p>
+      <ul>
+        <li>不知道有什么岗位可以投</li>
+        <li>不知道自己适合什么</li>
+        <li>看不懂那些岗位具体是做什么的</li>
+        <li>怕自己根本干不了</li>
+        <li>怕选错方向</li>
+      </ul>
+      <p>我们一个问题一个问题地解决。</p>
+      <p>首先你得知道：</p>
+      <blockquote><p>第一份实习，不是"终身职业选择"，而是你的第一次探索，是你未来的敲门砖。</p></blockquote>
+      <p>第一份实习，仅仅只是作为过渡。让你：</p>
+      <ul>
+        <li>快速建立行业认知</li>
+        <li>知道真实岗位在做什么</li>
+        <li>找到自己相对适合的位置</li>
+        <li>清楚自己不想要什么</li>
+        <li>获取下一次实习的筹码</li>
+      </ul>
+      <p>这个点确定了，就可以正式往下走。</p>
+
+      <h4 class="sec">一、先解决"信息不足"的问题，再考虑做决定</h4>
+      <p>很多人一开始的问题，不是"不会选"。</p>
+      <p>而是：</p>
+      <blockquote><p>根本不知道自己有哪些选择。</p></blockquote>
+      <p>你看到的岗位，往往只是自己认知范围内的那几个。但真实世界里的岗位种类数量，远比你想象得多。所以第一步不是立刻做决定，而是：<strong>大量调研</strong>。</p>
+
+      <h4 class="sec">（1）调研方法一：用 AI 快速打开认知</h4>
+      <p>很多大学生的问题是不知行业、不知道岗位、不知道专业能做什么。这时候，AI 能帮你快速打破信息壁垒。</p>
+      <p>你可以直接把自己的情况告诉 AI：</p>
+      <ul>
+        <li>专业</li>
+        <li>性格</li>
+        <li>擅长什么</li>
+        <li>不喜欢什么</li>
+        <li>对什么行业感兴趣</li>
+        <li>做过什么，比如比赛、部门、兼职、项目</li>
+      </ul>
+      <p>然后让 AI 推荐适合你的岗位、解释岗位每天做什么、分析行业发展、说明成长路径、对比岗位竞争难度。</p>
+      <p>重点不是：</p>
+      <blockquote><p>"AI 给出的答案一定对。"</p></blockquote>
+      <p>而是：</p>
+      <blockquote><p>AI 能快速给你很多你原本根本不知道的可能性。</p></blockquote>
+      <p>尤其适合<em class="hl">完全没方向</em>、<em class="hl">对职场毫无概念</em>、<em class="hl">信息获取能力弱</em>的人。</p>
+
+      <p><strong>查找自己能投什么岗位的 AI 提示词</strong></p>
+      <div class="prompt-box">你是最顶尖的职业规划师，请针对我的情况为我提供清晰、可行性高的建议，答案采取结构化方式回答，要求逻辑清晰。
+
+任务一：
+我是 xx 专业的大学生，（擅长 xx，不太喜欢 xx），（做过 xx 事情/参加过 xx 活动），请列举出至少 10 个适合我的实习岗位，分为专业对口和专业不对口的岗位，并用未进入职场的大学生能够理解的方式精简说明。
+
+任务二：
+把刚才提到的实习岗位的市场需求量做一个汇总对比，分为三个等级，并简要解释原因，方便我判断"卷不卷""好不好找"。</div>
+      <p>具体用哪些 AI 工具放在第六章。</p>
+
+      <h4 class="sec">（2）调研方法二：在互联网冲浪，了解真实工作</h4>
+      <p>你可以从内容平台、小众社区、微信生态和线下资源四个方向找信息。</p>
+      <p>内容平台可以看小红书、抖音、哔哩哔哩、视频号，直接搜索"xx 实习怎么样""xx 岗位好不好""xx 专业 实习岗位选择 推荐""专业关键词 + 岗位体验 / 职场 vlog"等关键词。</p>
+      <p>小众社区也很有用。知乎适合搜专业和实习经验，脉脉可以找学校专业相关的学长学姐，豆瓣有实习内推和校招信息墙，即刻也有不少求职交流圈子。</p>
+      <p>微信生态里，可以关注分享实习经验、岗位信息的公众号，也可以进入实习交流群、学校实习群、系群和社团群。</p>
+      <p>线下资源不要忽略。校友群、系群、企业微信、老师、辅导员、学生组织和校友资源，都可能带来真实机会。</p>
+
+      <h4 class="sec">（3）调研方法三：问已经实习过的人</h4>
+      <p>千万不要忘记去问身边的朋友、师兄师姐，甚至是老师。因为他们的背景条件可能和你差不多，他们能选的实习岗位和公司，其实也是你的参考范围。</p>
+
+      <h4 class="sec">二、如何决定"自己现在该投什么岗位"？</h4>
+      <p>当我们经过大量调研，得出来自己能投的很多岗位，就可以再做选择了。</p>
+      <p>优先考虑自己目前能做得比较好的岗位，自己的能力稍微够得着的岗位。</p>
+      <p>要综合考虑以下几个要素：<em class="hl">匹配度</em>、<em class="hl">市场需求量</em>、<em class="hl">成长性</em>。</p>
+      <p><strong>匹配度：</strong>岗位跟自己的经历匹配度越高越好，越容易成功。自身的性格、工作偏好如果也更匹配岗位，会更好。</p>
+      <p><strong>市场需求量：</strong>有些岗位受制于行业和地理原因，本身机会很少。如果某个方向岗位数量太少，要灵活一些，可以尝试往类似岗位去找。</p>
+      <p><strong>成长性：</strong>第一份实习不管去到哪里都能学到东西，但如果你本身能力更强，也可以尝试往更高水平的实习岗位走。</p>
+      <p>举个例子，我辅导过一个 211 研 0 的学生。她在学校主要做过毕业论文，考研时也学了一些药学、化学、生物学方面的基础知识。她找实习时拿到了很多 offer，其中一个是文献岗，主要查文献整理数据；另一个是基因检测助理岗，会涉及实验操作、调研和业务。综合来看，后者难度更高、成长性更大，我更推荐第二份实习。</p>
+      <blockquote><p><strong>强调：</strong>找第一份实习尤其需要务实，请勿好高骛远，有的时候你能力经验有限，能找的实习岗位真的不多。</p></blockquote>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch2">
+      <div class="chapter-label">CHAPTER 02</div>
+      <h2 class="chapter">简历</h2>
+      <div class="chapter-desc">简历的目标不是写满经历，而是让招聘方快速判断你和岗位是否匹配。</div>
+      <div class="pending">本章文字整理中，稍后补上</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch3">
+      <div class="chapter-label">CHAPTER 03</div>
+      <h2 class="chapter">渠道</h2>
+      <div class="chapter-desc">好的机会不只来自一个平台，渠道管理决定了你能看到多少真实岗位。</div>
+      <div class="pending">本章文字整理中，稍后补上</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch4">
+      <div class="chapter-label">CHAPTER 04</div>
+      <h2 class="chapter">面试</h2>
+      <div class="chapter-desc">面试是让别人知道你能做好一件事、能把话讲清楚、好相处的过程，同时也能看看对方是不是你想去的公司。</div>
+      <div class="pending">本章文字整理中，稍后补上</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch5">
+      <div class="chapter-label">CHAPTER 05</div>
+      <h2 class="chapter">投递操作</h2>
+      <div class="chapter-desc">有效投递是很多细节堆积在一起的结果，量变引发质变。</div>
+      <div class="pending">本章文字整理中，稍后补上</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="ch6">
+      <div class="chapter-label">CHAPTER 06</div>
+      <h2 class="chapter">工具箱</h2>
+      <div class="chapter-desc">把能用的工具都备好，动手的时候才不慌。</div>
+      <div class="pending">本章文字整理中，稍后补上</div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  国央企职业规划师 · <b>沈老师</b> &nbsp;|&nbsp; 微信：<span class="wx">cnwy1543</span><br>
+  本页为文字版，内容可直接选中复制。
+</footer>
+
+<script>
+const links = Array.from(document.querySelectorAll('.toc-ch, .toc-sub'));
+const targets = links.map(function (a) {
+  return document.querySelector(a.getAttribute('href'));
+}).filter(Boolean);
+
+function onScroll() {
+  var probe = window.scrollY + 140;
+  var activeIdx = 0;
+  targets.forEach(function (t, i) {
+    if (t.offsetTop <= probe) activeIdx = i;
+  });
+  links.forEach(function (a, i) {
+    a.classList.toggle('active', i === activeIdx);
+  });
+
+  var chs = document.querySelectorAll('h2.chapter');
+  var curCh = '前言';
+  chs.forEach(function (h) {
+    if (h.offsetTop <= probe) curCh = h.textContent.trim();
+  });
+  var pager = document.getElementById('pager');
+  if (pager) pager.textContent = curCh;
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('load', onScroll);
+onScroll();
+</script>
+
+</body>
+</html>
