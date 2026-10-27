@@ -44,7 +44,7 @@
   .layout {
     display: flex; align-items: flex-start;
     max-width: 1280px; margin: 0 auto;
-    padding: 24px 20px 80px; gap: 36px;
+    padding: 20px 20px 44px; gap: 32px;
   }
 
   aside {
@@ -87,14 +87,14 @@
   main {
     flex: 1; min-width: 0; max-width: 780px;
     background: #FFFDF8; border-radius: 10px;
-    padding: 44px 52px 56px;
+    padding: 34px 46px 40px;
     box-shadow: 0 2px 20px rgba(44,74,62,.08);
     -webkit-user-select: text; user-select: text;
   }
 
   .cover {
-    text-align: center; padding: 30px 0 50px;
-    border-bottom: 1px solid #E2DCCF; margin-bottom: 44px;
+    text-align: center; padding: 20px 0 34px;
+    border-bottom: 1px solid #E2DCCF; margin-bottom: 32px;
   }
   .cover .kicker {
     font-size: 11px; letter-spacing: 3px; color: #B08D3F;
@@ -117,8 +117,8 @@
   }
   .chapter-desc {
     font-size: 14.5px; color: #7A7568; font-style: italic;
-    padding-bottom: 22px; border-bottom: 1px solid #E2DCCF;
-    margin-bottom: 34px;
+    padding-bottom: 18px; border-bottom: 1px solid #E2DCCF;
+    margin-bottom: 26px;
   }
 
   .part-badge {
@@ -134,18 +134,18 @@
   }
   h4.sec {
     font-size: 16.5px; font-weight: 700; color: #2C4A3E;
-    margin: 30px 0 12px;
+    margin: 26px 0 11px;
     padding-bottom: 8px; border-bottom: 1px solid #EAE5D9;
   }
 
-  p { margin-bottom: 14px; }
+  p { margin-bottom: 12px; }
   ul, ol { margin: 0 0 16px 22px; }
   li { margin-bottom: 7px; }
   strong { font-weight: 700; color: #1F1E1B; }
   em.hl { font-style: normal; background: #FBF3DC; padding: 1px 4px; border-radius: 3px; }
 
   blockquote {
-    margin: 18px 0; padding: 14px 20px;
+    margin: 16px 0; padding: 12px 18px;
     background: #F7F4EC; border-left: 3px solid #C9B98A;
     border-radius: 0 6px 6px 0;
     font-size: 15px; color: #4A473F;
@@ -162,7 +162,65 @@
     -webkit-user-select: text; user-select: text;
   }
 
-  .divider { height: 1px; background: #EAE5D9; margin: 36px 0; }
+  .divider { height: 1px; background: #EAE5D9; margin: 28px 0; }
+
+  /* ── 联系入口卡（按原设计 1:1 还原）── */
+  .contact-card {
+    position: relative;
+    margin: 22px 0 6px;
+    padding: 24px 26px 26px 28px;
+    background: linear-gradient(135deg, #FDFCF8 0%, #EEF2EC 100%);
+    border: 1px solid #E4E8E0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #C9A227 0%, #6B8F71 100%);
+  }
+  .contact-label {
+    font-size: 10.5px; letter-spacing: 3.5px;
+    color: #B08D3F; font-family: Consolas, monospace;
+    margin-bottom: 7px;
+  }
+  .contact-title {
+    font-size: 25px; font-weight: 700; color: #2C4A3E;
+    letter-spacing: .5px; margin-bottom: 7px;
+  }
+  .contact-desc {
+    font-size: 13.5px; color: #7A7568;
+    margin-bottom: 18px; line-height: 1.7;
+  }
+  .contact-wx {
+    display: inline-block; background: #fff;
+    border-radius: 7px; padding: 9px 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    margin-bottom: 14px;
+  }
+  .contact-wx .k { font-size: 11.5px; color: #9A9588; margin-bottom: 2px; }
+  .contact-wx .v {
+    font-size: 16px; font-weight: 700; color: #2E2D29;
+    font-family: Consolas, monospace; letter-spacing: .3px;
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 11px;
+  }
+  .contact-item {
+    background: #fff; border-radius: 7px;
+    padding: 10px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .contact-item .k { font-size: 11.5px; color: #9A9588; margin-bottom: 3px; }
+  .contact-item .v { font-size: 14.5px; font-weight: 700; color: #2E2D29; }
+
+  @media (max-width: 620px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-card { padding: 20px 18px 20px 20px; }
+    .contact-title { font-size: 21px; }
+  }
 
   .pending {
     margin: 30px 0; padding: 22px;
@@ -172,7 +230,7 @@
 
   footer {
     max-width: 1280px; margin: 0 auto;
-    padding: 0 20px 50px; text-align: center;
+    padding: 0 20px 32px; text-align: center;
     font-size: 12px; color: #8A8578; line-height: 2;
   }
   footer b { color: #2C4A3E; }
@@ -276,9 +334,44 @@
         <li>感受到信息壁垒，不知道如何突破信息差</li>
       </ul>
       <p>我写这本书的目的很简单：希望更多普通大学生，少走一些弯路。</p>
-      <div class="divider"></div>
-      <h4 class="sec">联系入口</h4>
-      <p>想看更多找实习内容，或者需要进一步沟通，可以加微信：<strong>cnwy1543</strong></p>
+
+      <div class="contact-card">
+        <div class="contact-label">CONTACT</div>
+        <div class="contact-title">联系入口</div>
+        <div class="contact-desc">想看更多找实习内容，或者需要进一步沟通，可以从这里找到我。</div>
+
+        <div class="contact-wx">
+          <div class="k">微信</div>
+          <div class="v">cnwy1543</div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-item">
+            <div class="k">网站</div>
+            <div class="v">noorze.com/book</div>
+          </div>
+          <div class="contact-item">
+            <div class="k">小红书</div>
+            <div class="v">沈老师带你不踩坑</div>
+          </div>
+          <div class="contact-item">
+            <div class="k">抖音</div>
+            <div class="v">无念大师兄</div>
+          </div>
+          <div class="contact-item">
+            <div class="k">快手</div>
+            <div class="v">沈老师带你不踩坑</div>
+          </div>
+          <div class="contact-item">
+            <div class="k">视频号</div>
+            <div class="v">港用工研习社施先生</div>
+          </div>
+          <div class="contact-item">
+            <div class="k">微信公众号</div>
+            <div class="v">一条不停游动的小鲨鱼</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <div class="divider"></div>
