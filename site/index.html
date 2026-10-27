@@ -809,6 +809,32 @@ footer{
 }
 .ef-item input::placeholder,.ef-item textarea::placeholder{color:var(--text-4);font-size:12.5px}
 
+/* 疑似模式卡 */
+.pattern-box{
+  border:1px solid rgba(224,123,57,.42);
+  background:linear-gradient(135deg,rgba(224,123,57,.12),rgba(224,123,57,.02));
+  border-radius:9px;padding:16px 18px;margin-bottom:16px;
+}
+.pb-title{
+  font-size:13px;font-weight:700;color:var(--orange);
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.pb-title .pb-lv{
+  font-size:10px;font-family:var(--mono);font-weight:400;
+  border:1px solid rgba(224,123,57,.35);color:#F0B080;
+  padding:2px 7px;border-radius:4px;
+}
+.pb-core{font-size:11.5px;color:var(--text-2);line-height:1.9;margin-bottom:9px}
+.pb-core i{
+  font-style:normal;display:inline-block;
+  border:1px solid rgba(224,123,57,.28);background:rgba(224,123,57,.08);
+  color:#F0B080;padding:2px 8px;border-radius:4px;
+  margin:0 5px 4px 0;font-family:var(--mono);font-size:10.5px;
+}
+.pb-tell{font-size:12px;color:var(--text-2);line-height:1.75;margin-bottom:7px}
+.pb-dead{font-size:11.5px;color:#F09A97;line-height:1.7;margin-bottom:7px}
+.pb-meta{font-size:11px;color:var(--text-4);font-family:var(--mono);line-height:1.7}
+
 /* 命中已知案例的警示条 */
 .case-alert{
   border:1px solid rgba(217,67,63,.45);
@@ -905,7 +931,7 @@ footer{
       <a href="#submit">提交资料</a>
       <a href="#selfcheck">自查</a>
       <a href="#method">方法论</a>
-      <a href="#guide" class="nav-guide">央国企上岸指南</a>
+      <a href="baodian/index.html" class="nav-guide">央国企上岸指南</a>
       <a href="javascript:void(0)" class="nav-feedback" onclick="openFeedback('bug')">反馈 / 留言</a>
       <a href="https://github.com/janecoolman515/fund-anti-fraud" target="_blank" class="nav-cta">开源仓库 ↗</a>
     </div>
@@ -916,10 +942,10 @@ footer{
       <span class="ab-sep">◆</span>
       <span class="ab-item">公众号ID <b>jiancoolman</b></span>
       <span class="ab-sep">◆</span>
-      <span class="ab-item">微信号 <b>jiancoolman01</b></span>
+      <span class="ab-item">微信号 <b>janecoolman01</b></span>
       <span class="ab-sep">◆</span>
       <span class="ab-item">视频号 <b>Janecoolman01</b></span>
-      <span class="ab-right" onclick="copyText('jiancoolman01','微信号')">复制微信号 →</span>
+      <span class="ab-right" onclick="copyText('janecoolman01','微信号')">复制微信号 →</span>
     </div>
   </div>
 </nav>
@@ -1275,86 +1301,6 @@ footer{
   </div>
 </section>
 
-<!-- ══════════ 央国企上岸指南 ══════════ -->
-<section class="section guide" id="guide">
-  <div class="wrap">
-    <div class="guide-badge">◆ 另一条路 · 央国企求职</div>
-    <h2>不想在盘里赌，可以<em>换一条稳的路</em>。</h2>
-    <p class="guide-lead">
-      这里整理了一套央国企 / 事业单位求职的方法：央企国企怎么分、什么专业能报什么岗、网申简历怎么写、笔试面试怎么过、什么时候该动手。
-      内容来自公开课程的整理，讲的是「怎么把求职当技能练」，不是「怎么走捷径」。
-    </p>
-
-    <div class="g-cards">
-      <div class="g-card on" data-g="0">
-        <div class="g-n">MODULE 01</div>
-        <div class="g-t">先搞懂体系</div>
-        <div class="g-d">央企和国企差在哪、编制有几种、选调生和人才引进是什么</div>
-      </div>
-      <div class="g-card" data-g="1">
-        <div class="g-n">MODULE 02</div>
-        <div class="g-t">把岗位放大</div>
-        <div class="g-d">四个关键词，让你的可报岗位从几十个变成几千个</div>
-      </div>
-      <div class="g-card" data-g="2">
-        <div class="g-n">MODULE 03</div>
-        <div class="g-t">网申与笔试</div>
-        <div class="g-d">简历怎么写、网申怎么过、笔试考什么、面试怎么答</div>
-      </div>
-      <div class="g-card" data-g="3">
-        <div class="g-n">MODULE 04</div>
-        <div class="g-t">时间线</div>
-        <div class="g-d">三个黄金节点，错过一个少一半机会</div>
-      </div>
-    </div>
-
-    <div class="g-detail on" data-d="0">
-      <h3><span>MODULE 01</span> 先搞懂体系：央企、国企、事业编、公务员</h3>
-      <div class="g-item"><b>一句话记牢：</b>央企就是 985，国企就是 211。所有央企都是国企，但不是所有国企都是央企。</div>
-      <div class="g-item"><b>央企构成：</b>实业 98 家 · 金融 27 家 · 文化 3 家 · 行政 4 家（铁路、烟草、邮政、北大荒）。</div>
-      <div class="g-item"><b>别看层级判断身份：</b>乡镇供电所也是央企；央企的子公司、孙公司，一路下去都还是央企。</div>
-      <div class="g-item"><b>编制不是只有一种：</b>正式编制、合同制、劳务派遣、外包，待遇与稳定性差别很大，签之前一定要问清是哪一种。</div>
-      <div class="g-item"><b>三条特殊通道：</b>选调生（党员 + 学生干部是硬门槛）、人才引进（多要求硕博）、定向招录（部分院校专业对口）。</div>
-      <div class="g-item"><b>算收入的正确方式：</b>「1:3 原则」—— 国企 1 万 ≈ 私企 3 万。要比真实性、性价比、稳定性、长期性、多元性五个维度，不能只看月薪数字。</div>
-    </div>
-
-    <div class="g-detail" data-d="1">
-      <h3><span>MODULE 02</span> 把可报岗位放大：四个关键词</h3>
-      <div class="g-item"><b>关键词一 · 专业名称：</b>最窄，只有完全对口的岗位能报。</div>
-      <div class="g-item"><b>关键词二 · 专业相关：</b>放宽到相近专业，岗位数量翻几倍。</div>
-      <div class="g-item"><b>关键词三 · 专业类别：</b>按学科门类报（如「管理学类」），这是大多数人的主战场。</div>
-      <div class="g-item"><b>关键词四 · 专业不限：</b>最宽，但竞争也最激烈。</div>
-      <div class="g-item"><b>核心结论：</b>很多人不是没岗位，是<b>只搜了第一个关键词</b>就放弃了。四个关键词轮着搜，可报岗位能从几十个变成几千个。</div>
-      <div class="g-item"><b>求职漏斗（要有心理准备）：</b>可报 5000~1 万家 → 实报 300~500 家 → 网申过 5%~15% → 50~80 场笔试 → 20~50 场面试 → 最后 10 个 offer。<b>核心是基数要大。</b></div>
-    </div>
-
-    <div class="g-detail" data-d="2">
-      <h3><span>MODULE 03</span> 网申、笔试、面试：每一关在筛什么</h3>
-      <div class="g-item"><b>网申筛六项：</b>政治面貌、实习经历、证书、学生干部经历、文体特长、荣誉奖项。这六项也是在校期间最该攒的东西。</div>
-      <div class="g-item"><b>成绩单是硬门槛：</b>国网等单位要上传教务处盖章成绩单，<b>挂科记录直接影响网申资格</b>。别挂科，这不是玩笑。</div>
-      <div class="g-item"><b>简历只写三件事：</b>你做过什么、做出了什么结果、这个结果和岗位有什么关系。形容词一律删掉。</div>
-      <div class="g-item"><b>笔试考什么：</b>行测（文/理）、公共基础知识、申论、部分单位加专业科目。提前三个月开始刷题是常态。</div>
-      <div class="g-item"><b>面试考什么：</b>结构化 + 半结构化。考的不是口才，是<b>你对自己经历的熟悉程度</b>—— 编的经历一问就露。</div>
-      <div class="g-item"><b>offer 怎么比：</b>别只看起薪。看五件事：真实到手、公积金比例、晋升通道、工作地点、行业周期。</div>
-    </div>
-
-    <div class="g-detail" data-d="3">
-      <h3><span>MODULE 04</span> 时间线：三个黄金节点</h3>
-      <div class="g-item"><b>节点一 · 大三暑假提前批：</b>竞争最小，很多人还不知道有这个窗口。<em>竞争比秋招低一个量级</em></div>
-      <div class="g-item"><b>节点二 · 大四上秋招：</b>放出全年约 <em>80%</em> 的岗位，是主战场。错过这个，后面都是补录。</div>
-      <div class="g-item"><b>节点三 · 大四下春招：</b>补录性质，岗位少、竞争反而更激烈，是最后机会。</div>
-      <div class="g-item"><b>在校期六个优先：</b>证书、实习、学生干部、奖学金、党员、文体特长。这六项同时是网申筛选的核心要项。</div>
-      <div class="g-item"><b>为什么党员要早：</b>入党需要两三年，等到大三大四才想起来，选调生这条路已经关了。</div>
-      <div class="g-item"><b>最硬的提醒：</b>求职是一项技能，不是「到点自然会有」的能力。同一所学校同一个宿舍，最后差别很大，差的是<b>认知差、时间差、信息差、技巧差</em></b>。</div>
-    </div>
-
-    <div class="g-foot">
-      内容整理自公开课程，仅供学习参考，不构成任何录取承诺。涉及具体招聘时间、报名入口的，一律以官方最新公告为准。
-      如涉版权问题请联系删除。
-    </div>
-  </div>
-</section>
-
 <!-- ══════════ 方法论 ══════════ -->
 <section class="section method" id="method">
   <div class="wrap">
@@ -1449,7 +1395,7 @@ footer{
         <span class="brand-mark" style="flex-shrink:0"></span>
         <div class="foot-txt">
           <b>金融防骗预警 · 投资项目风险查询</b><br>
-          公众号ID <b>jiancoolman</b> ｜ 微信号 <b>jiancoolman01</b> ｜ 视频号 <b>Janecoolman01</b><br>
+          公众号ID <b>jiancoolman</b> ｜ 微信号 <b>janecoolman01</b> ｜ 视频号 <b>Janecoolman01</b><br>
           方法论开源：github.com/janecoolman515/fund-anti-fraud
         </div>
       </div>
@@ -1492,8 +1438,8 @@ footer{
           <div class="mopt-n">1</div>
           <div class="mopt-b">
             <div class="mopt-t">最快的：直接加微信</div>
-            <div class="mopt-d">微信号 <code>jiancoolman01</code>，备注「bug」优先通过。截图 + 你当时填了什么，能复现就能修。</div>
-            <span class="mbtn primary" onclick="copyText('jiancoolman01','微信号')">复制微信号</span>
+            <div class="mopt-d">微信号 <code>janecoolman01</code>，备注「bug」优先通过。截图 + 你当时填了什么，能复现就能修。</div>
+            <span class="mbtn primary" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
           </div>
         </div>
         <div class="mopt">
@@ -1522,8 +1468,8 @@ footer{
           <div class="mopt-n">1</div>
           <div class="mopt-b">
             <div class="mopt-t">加微信留言</div>
-            <div class="mopt-d">微信号 <code>jiancoolman01</code>。想问项目、提建议、说你踩过的坑，都行。</div>
-            <span class="mbtn primary" onclick="copyText('jiancoolman01','微信号')">复制微信号</span>
+            <div class="mopt-d">微信号 <code>janecoolman01</code>。想问项目、提建议、说你踩过的坑，都行。</div>
+            <span class="mbtn primary" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
           </div>
         </div>
         <div class="mopt">
@@ -1551,6 +1497,7 @@ footer{
 </div>
 
 <script src="cases.js"></script>
+<script src="patterns.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════
    示例数据（全部虚构）
@@ -2309,8 +2256,27 @@ function renderParse() {
 
   const adv = STAGE_ADVICE[p.stage] || STAGE_ADVICE.pre;
 
+  /* 模式匹配 —— 资料不全时也能给出方向性判断 */
+  const pats = (window.matchPatterns ? window.matchPatterns(p.raw, facts) : []);
+  const patHtml = pats.length ? pats.slice(0, 2).map(function (pt) {
+    return '<div class="pattern-box">' +
+      '<div class="pb-title">疑似模式：' + escapeHtml(pt.name) +
+        '<span class="pb-lv">' + escapeHtml(pt.level) + '风险</span></div>' +
+      '<div class="pb-core">典型特征：' + pt.core.map(function (c) {
+        return '<i>' + escapeHtml(c) + '</i>';
+      }).join('') + '</div>' +
+      '<div class="pb-tell">' + escapeHtml(pt.tell) + '</div>' +
+      '<div class="pb-dead">一票否决：' + escapeHtml(pt.deadGiveaway) + '</div>' +
+      '<div class="pb-meta">这类盘平均存活 ' + escapeHtml(pt.cycle) +
+        (pt.hitKeys.length ? ' ｜ 命中：' + escapeHtml(pt.hitKeys.join('、')) : '') +
+        (pt.cases.length ? ' ｜ 已判案例：' + escapeHtml(pt.cases.join('、')) : '') +
+      '</div>' +
+    '</div>';
+  }).join('') : '';
+
   box.innerHTML = `
     ${caseHtml}
+    ${patHtml}
     <div class="sc-score">
       <div class="sc-ring" style="--pct:${r.total};--rc:${g.color}"><span>${r.total}</span></div>
       <div>
@@ -2342,7 +2308,7 @@ function renderParse() {
 
     <div style="margin-top:16px;font-size:11.5px;color:var(--text-4);line-height:1.7">
       识别依据全部来自你自己贴的文字，系统没有联网、没有猜测。
-      如需人工复核，把项目名和截图发到微信 <span style="color:var(--gold-lt);font-family:var(--mono)">jiancoolman01</span>。
+      如需人工复核，把项目名和截图发到微信 <span style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</span>。
     </div>
   `;
 }

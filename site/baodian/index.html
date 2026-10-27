@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>国央企求职宝典</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #EFEAE0;
+    color: #33322E;
+    display: flex;
+    flex-direction: column;
+    -webkit-user-select: none;
+    user-select: none;
+    overscroll-behavior: none;
+  }
+  header {
+    flex: none;
+    background: #2C4A3E;
+    color: #F5F2EA;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  header .title { font-size: 14px; font-weight: 500; letter-spacing: .5px; white-space: nowrap; }
+  header .spacer { flex: 1; }
+  header button {
+    background: rgba(255,255,255,.13);
+    color: #F5F2EA;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 6px;
+    padding: 7px 13px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  header button:active { background: rgba(255,255,255,.28); }
+  header button:disabled { opacity: .32; }
+  header .pager { display: flex; align-items: center; gap: 3px; font-size: 13px; color: #D9E2DC; white-space: nowrap; }
+  header .slash { margin: 0 1px; opacity: .75; }
+  header #jump {
+    width: 44px;
+    text-align: center;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 13px;
+    padding: 6px 2px;
+    font-family: inherit;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  header #jump:focus { outline: none; border-color: #8FBF9F; background: rgba(255,255,255,.26); }
+  header #go { padding: 7px 10px; }
+  @media (max-width: 520px) {
+    header { padding: 8px 8px; gap: 6px; }
+    header .title { display: none; }
+    header button { padding: 7px 10px; font-size: 12.5px; }
+    header #jump { width: 40px; }
+  }
+  #stage {
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px 8px 28px;
+  }
+  #pg {
+    max-width: 100%;
+    height: auto;
+    background: #fff;
+    box-shadow: 0 3px 16px rgba(44,74,62,.15);
+    border-radius: 3px;
+    display: block;
+  }
+  #loading {
+    position: fixed; inset: 0;
+    background: #EFEAE0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 14px;
+    font-size: 14px; color: #5F5B52;
+    z-index: 9;
+  }
+  .spin {
+    width: 28px; height: 28px;
+    border: 3px solid #D6CFC0; border-top-color: #2C4A3E;
+    border-radius: 50%;
+    animation: sp .8s linear infinite;
+  }
+  @keyframes sp { to { transform: rotate(360deg); } }
+  footer {
+    flex: none;
+    background: #fff;
+    border-top: 1px solid #E2DCCF;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: #8A8578;
+  }
+  footer b { color: #2C4A3E; font-weight: 500; }
+  footer .wx { color: #3D6B52; font-family: Consolas, monospace; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spin"></div>
+    <div>正在加载…</div>
+  </div>
+
+  <header>
+    <a href="../index.html" style="color:#F5F2EA;text-decoration:none;font-size:13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.13);border-radius:6px;padding:7px 11px;white-space:nowrap">← 返回查询</a><span class="title">国央企求职宝典</span>
+    <span class="spacer"></span>
+    <button id="prev">上一页</button>
+    <span class="pager"><input id="jump" type="text" inputmode="numeric" pattern="[0-9]*" value="1" maxlength="3" aria-label="输入页码"><span class="slash">/</span><span id="pt">36</span></span>
+    <button id="go">跳转</button>
+    <button id="next">下一页</button>
+  </header>
+
+  <div id="stage">
+    <img id="pg" alt="第 1 页" />
+  </div>
+
+  <footer>
+    国央企职业规划师 · <b>沈老师</b> &nbsp;|&nbsp; 微信：<span class="wx">cnwy1543</span>
+  </footer>
+
+<script>
+const TOTAL = 36;
+const img = document.getElementById('pg');
+const stage = document.getElementById('stage');
+const pn = document.getElementById('jump');
+const btnPrev = document.getElementById('prev');
+const btnNext = document.getElementById('next');
+let cur = 1;
+const cache = {};
+
+function src(n) { return 'v2/p' + String(n).padStart(2, '0') + '.jpg'; }
+
+function preload(n) {
+  if (n < 1 || n > TOTAL || cache[n]) return;
+  const im = new Image();
+  im.src = src(n);
+  cache[n] = im;
+}
+
+function show(n) {
+  if (n < 1 || n > TOTAL) return;
+  cur = n;
+  pn.value = n;
+  btnPrev.disabled = (n <= 1);
+  btnNext.disabled = (n >= TOTAL);
+  const s = src(n);
+  img.src = s;
+  cache[n] = img;
+  stage.scrollTop = 0;
+  document.title = '国央企求职宝典 · ' + n + '/' + TOTAL;
+  preload(n + 1);
+  preload(n - 1);
+}
+
+img.onload = function () { document.getElementById('loading').style.display = 'none'; };
+img.onerror = function () {
+  document.getElementById('loading').innerHTML = '<div style="font-size:14px">加载失败，请刷新重试</div>';
+};
+
+btnPrev.onclick = () => show(cur - 1);
+btnNext.onclick = () => show(cur + 1);
+
+function doJump() {
+  const v = parseInt(pn.value, 10);
+  if (!isNaN(v) && v >= 1 && v <= TOTAL) { show(v); }
+  else { pn.value = cur; }
+}
+pn.addEventListener('change', doJump);
+pn.addEventListener('blur', doJump);
+pn.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') { e.preventDefault(); doJump(); pn.blur(); }
+});
+pn.addEventListener('focus', function () { pn.select(); });
+pn.addEventListener('input', function () { pn.value = pn.value.replace(/[^0-9]/g, ''); });
+document.getElementById('go').onclick = function () { doJump(); pn.blur(); };
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') show(cur - 1);
+  if (e.key === 'ArrowRight') show(cur + 1);
+  if (e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && ['U','S','P'].includes(e.key.toUpperCase()))) e.preventDefault();
+});
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+
+let tx = 0, ty = 0;
+stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+    show(dx < 0 ? cur + 1 : cur - 1);
+  }
+}, {passive:true});
+
+show(1);
+</script>
+</body>
+</html>
