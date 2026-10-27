@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>项目库 · 风险名单</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0E2A4A;
+    color: #E8F0F8;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  /* 顶栏 */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(19,53,92,.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #33628F;
+    padding: 0 20px;
+    height: 56px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  header .back {
+    text-decoration: none; font-size: 13px;
+    border: 1px solid #33628F; background: rgba(255,255,255,.06);
+    border-radius: 6px; padding: 7px 12px; white-space: nowrap;
+    transition: .15s;
+  }
+  header .back:hover { background: rgba(255,255,255,.14); }
+  header .htitle { font-size: 15px; font-weight: 700; letter-spacing: .5px; }
+  header .hstat {
+    margin-left: auto; font-size: 12px; color: #94AECB;
+    font-family: Consolas, monospace;
+  }
+  header .hstat b { color: #E8C55C; font-size: 14px; }
+
+  /* 顶部说明 */
+  .hero {
+    padding: 26px 20px 20px;
+    max-width: 1180px; margin: 0 auto;
+    border-bottom: 1px solid #1E4874;
+  }
+  .hero h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .hero h1 em { font-style: normal; color: #E8C55C; }
+  .hero p { font-size: 13px; color: #BED2E6; line-height: 1.8; max-width: 760px; }
+  .hero .submit-tip {
+    margin-top: 14px; padding: 12px 16px;
+    background: rgba(201,162,39,.1);
+    border-left: 3px solid #C9A227;
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px; color: #BED2E6; line-height: 1.75;
+  }
+  .hero .submit-tip b { color: #E8C55C; }
+
+  /* 控制区 */
+  .controls {
+    position: sticky; top: 56px; z-index: 90;
+    background: #0E2A4A;
+    border-bottom: 1px solid #1E4874;
+    padding: 14px 20px;
+  }
+  .controls-in { max-width: 1180px; margin: 0 auto; }
+  .search-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .search-box {
+    flex: 1; display: flex; align-items: center;
+    background: #1A4270; border: 1px solid #33628F;
+    border-radius: 8px; padding: 0 14px;
+  }
+  .search-box svg { width: 16px; height: 16px; color: #94AECB; flex: none; }
+  .search-box input {
+    flex: 1; background: none; border: none; outline: none;
+    color: #E8F0F8; font-size: 14px; padding: 11px 10px;
+    font-family: inherit;
+  }
+  .search-box input::placeholder { color: #7189A6; }
+  .clear-btn {
+    background: none; border: none; color: #7189A6;
+    cursor: pointer; font-size: 16px; padding: 0 4px;
+  }
+  .clear-btn:hover { color: #E8F0F8; }
+
+  .filter-row {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  }
+  .flabel {
+    font-size: 11.5px; color: #7189A6; font-family: Consolas, monospace;
+    margin-right: 2px;
+  }
+  .chip {
+    font-size: 12px; color: #BED2E6;
+    background: #1A4270; border: 1px solid #33628F;
+    border-radius: 100px; padding: 5px 13px;
+    cursor: pointer; transition: .15s; white-space: nowrap;
+  }
+  .chip:hover { background: #245488; }
+  .chip.on {
+    background: #C9A227; border-color: #C9A227;
+    color: #1A1400; font-weight: 700;
+  }
+  .chip .cnt { opacity: .65; font-size: 10.5px; margin-left: 4px; }
+
+  /* 列表 */
+  .list-wrap { max-width: 1180px; margin: 0 auto; padding: 18px 20px 60px; }
+  .list-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: #7189A6; margin-bottom: 12px;
+    font-family: Consolas, monospace;
+  }
+  .list-meta b { color: #E8C55C; }
+
+  .group-title {
+    font-size: 12px; font-weight: 700; color: #C9A227;
+    font-family: Consolas, monospace; letter-spacing: 2px;
+    margin: 22px 0 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #1E4874;
+    position: sticky; top: 172px; background: #0E2A4A; z-index: 10;
+  }
+  .group-title:first-child { margin-top: 0; }
+
+  .item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: #15365A;
+    border: 1px solid #1E4874;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    transition: .14s;
+  }
+  .item:hover {
+    background: #1A4270;
+    border-color: #4475A8;
+    transform: translateX(3px);
+  }
+  .item .dot {
+    width: 7px; height: 7px; border-radius: 50%; flex: none;
+  }
+  .item .dot.boom { background: #D9433F; box-shadow: 0 0 8px rgba(217,67,63,.6); }
+  .item .dot.warn { background: #E07B39; box-shadow: 0 0 8px rgba(224,123,57,.5); }
+  .item .dot.other { background: #7189A6; }
+  .item .nm {
+    font-size: 14.5px; font-weight: 600; flex: 1; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item .tp {
+    font-size: 11px; color: #94AECB; flex: none;
+    background: rgba(255,255,255,.05);
+    border: 1px solid #245488;
+    padding: 2px 8px; border-radius: 4px;
+    max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .item .st {
+    font-size: 11px; flex: none; padding: 2px 9px; border-radius: 4px;
+    font-weight: 600;
+  }
+  .st.boom { color: #F09A97; background: rgba(217,67,63,.14); border: 1px solid rgba(217,67,63,.35); }
+  .st.warn { color: #F0B080; background: rgba(224,123,57,.12); border: 1px solid rgba(224,123,57,.3); }
+  .st.other { color: #94AECB; background: rgba(113,137,166,.12); border: 1px solid rgba(113,137,166,.3); }
+
+  .empty-tip {
+    text-align: center; padding: 60px 20px; color: #7189A6;
+  }
+  .empty-tip b { display: block; color: #BED2E6; font-size: 15px; margin-bottom: 8px; }
+
+  /* 弹窗 */
+  .mask {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(5,15,28,.82); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .mask.on { display: flex; }
+  .modal {
+    width: 100%; max-width: 620px; max-height: 86vh; overflow-y: auto;
+    background: linear-gradient(180deg, #1A4270, #0E2A4A);
+    border: 1px solid #4475A8;
+    border-radius: 14px;
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,.9);
+    animation: pop .2s ease;
+  }
+  @keyframes pop { from { opacity: 0; transform: scale(.97) translateY(8px); } to { opacity: 1; transform: none; } }
+  .modal-head {
+    padding: 22px 26px 18px;
+    border-bottom: 1px solid #33628F;
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .modal-head .mh-main { flex: 1; min-width: 0; }
+  .modal-head h3 { font-size: 21px; font-weight: 800; margin-bottom: 7px; line-height: 1.35; }
+  .modal-head .tags { display: flex; gap: 7px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; padding: 3px 10px; border-radius: 4px;
+    font-family: Consolas, monospace;
+  }
+  .tag.t1 { color: #BED2E6; background: rgba(255,255,255,.07); border: 1px solid #33628F; }
+  .tag.t2 { color: #F09A97; background: rgba(217,67,63,.14); border: 1px solid rgba(217,67,63,.4); }
+  .tag.t3 { color: #F0B080; background: rgba(224,123,57,.12); border: 1px solid rgba(224,123,57,.35); }
+  .tag.t4 { color: #94AECB; background: rgba(113,137,166,.12); border: 1px solid rgba(113,137,166,.3); }
+  .modal-x {
+    cursor: pointer; color: #94AECB; font-size: 24px; line-height: 1;
+    padding: 2px 8px; border-radius: 6px; flex: none;
+  }
+  .modal-x:hover { color: #fff; background: rgba(255,255,255,.1); }
+
+  .modal-body { padding: 20px 26px 26px; }
+  .mrow {
+    display: grid; grid-template-columns: 92px 1fr; gap: 14px;
+    padding: 11px 0; border-bottom: 1px solid #1E4874;
+    font-size: 13px;
+  }
+  .mrow:last-of-type { border-bottom: none; }
+  .mrow dt { color: #7189A6; font-size: 12px; font-family: Consolas, monospace; }
+  .mrow dd { color: #E8F0F8; line-height: 1.7; margin: 0; }
+  .mrow dd.hl { color: #F0B080; font-weight: 600; }
+  .mrow dd.muted { color: #7189A6; }
+
+  .photo-box {
+    margin-top: 16px; padding: 18px;
+    border: 1px dashed #33628F; border-radius: 8px;
+    text-align: center; color: #7189A6; font-size: 12px;
+  }
+  .photo-box b { display: block; color: #94AECB; margin-bottom: 5px; font-size: 12.5px; }
+
+  .modal-note {
+    margin-top: 18px; padding: 13px 16px; border-radius: 7px;
+    background: rgba(201,162,39,.09);
+    border-left: 2px solid #C9A227;
+    font-size: 11.5px; color: #94AECB; line-height: 1.8;
+  }
+  .modal-note b { color: #E8C55C; }
+
+  /* 移动端 */
+  @media (max-width: 720px) {
+    header .htitle { font-size: 13px; }
+    header .hstat { display: none; }
+    .hero h1 { font-size: 19px; }
+    .item .tp { display: none; }
+    .group-title { top: 148px; }
+    .modal-head { padding: 18px 18px 14px; }
+    .modal-body { padding: 16px 18px 22px; }
+    .mrow { grid-template-columns: 76px 1fr; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back">← 返回查询</a>
+  <span class="htitle">项目库</span>
+  <span class="hstat">已收录 <b id="total">0</b> 个</span>
+</header>
+
+<div class="hero">
+  <h1>已收录 <em id="total2">0</em> 个高风险项目</h1>
+  <p>包含已暴雷（崩盘、跑路、立案、判决）和未暴雷但已被公开预警的项目。数据来自公安部公布名单与公开报道，<strong>未经司法认定</strong>，仅供查询参考。</p>
+  <div class="submit-tip">
+    <b>陆续整理中。</b>如果你遇到过这里没有的项目，欢迎提交线索 ——
+    项目名称、宣传截图、制度说明都行，核实后会补进库。
+    微信 <b>janecoolman01</b>，或发到公众号「金融防骗预警」后台。
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-in">
+    <div class="search-row">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="text" placeholder="搜索项目名称，如：善心汇、五行币、艾兴合">
+        <button class="clear-btn" id="clearBtn" title="清空">×</button>
+      </div>
+    </div>
+    <div class="filter-row" id="statusRow">
+      <span class="flabel">状态</span>
+      <span class="chip on" data-s="all">全部<span class="cnt" id="cAll"></span></span>
+      <span class="chip" data-s="boom">已暴雷<span class="cnt" id="cBoom"></span></span>
+      <span class="chip" data-s="warn">已预警<span class="cnt" id="cWarn"></span></span>
+    </div>
+    <div class="filter-row" id="typeRow" style="margin-top:8px">
+      <span class="flabel">模式</span>
+    </div>
+  </div>
+</div>
+
+<div class="list-wrap">
+  <div class="list-meta">
+    <span>共 <b id="shown">0</b> 个结果</span>
+    <span id="sortTip">按名称拼音排序</span>
+  </div>
+  <div id="list"></div>
+</div>
+
+<!-- 弹窗 -->
+<div class="mask" id="mask">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="mh-main">
+        <h3 id="mName">-</h3>
+        <div class="tags" id="mTags"></div>
+      </div>
+      <div class="modal-x" id="mClose">×</div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script src="risk-list.js"></script>
+<script>
+/* ══════════ 模式分类映射 ══════════ */
+const MODE_RULES = [
+  { k: '民族资产', name: '民族资产解冻', re: /民族资产|国家项目|假冒官方|假冒机关|假冒机构|假冒慈善|政策热点|虚假福利/ },
+  { k: '假冒套牌', name: '假冒套牌', re: /假冒|套牌|山寨|仿冒/ },
+  { k: '互助', name: '互助寄售', re: /互助|寄售|抢单|抢拍|竞拍|拆分/ },
+  { k: '跟单', name: '跟单交易', re: /跟单|外汇|期货|股票|量化|带单|贵金属|对赌/ },
+  { k: '虚拟币', name: '虚拟币公链', re: /虚拟币|公链|DeFi|空气币|代币|钱包|质押|挖矿|算力|矿机|链游|数藏/ },
+  { k: '消费返利', name: '消费返利', re: /消费返利|返利|商城|社交电商|新零售|积分|短剧|影视|直播|短视频/ },
+  { k: 'P2P', name: 'P2P理财', re: /P2P|理财|集资|私募|解债|保险/ },
+  { k: '传销', name: '传销拉人', re: /传销|直销|保健品|康养|养老/ },
+];
+
+function modeOf(r) {
+  const s = (r.t || '') + ' ' + (r.d || '');
+  for (const m of MODE_RULES) {
+    if (m.re.test(s)) return m.name;
+  }
+  return '其他资金盘';
+}
+
+/* ══════════ 状态判定 ══════════ */
+const BOOM_RE = /已崩|已跑|已立案|已判|已抓|已爆|已死|已凉|已出事|已关网|已失败|崩盘|跑路|已破案|已定性|已处罚|已报警|崩盘中|已公诉|官方点名|已判刑/;
+const WARN_RE = /高危|预警|即将|在运作|疑似|未知/;
+
+function statusOf(r) {
+  const s = r.s || '';
+  if (BOOM_RE.test(s)) return 'boom';
+  if (WARN_RE.test(s)) return 'warn';
+  return 'other';
+}
+
+/* ══════════ 数据准备 ══════════ */
+const RAW = (window.RISK_LIST || []).map(function (r) {
+  return {
+    n: r.n, t: r.t || '未分类', s: r.s || '未知', d: r.d || '', src: r.src || '',
+    mode: modeOf(r), st: statusOf(r),
+    py: r.n
+  };
+});
+
+/* 按拼音排序 */
+const collator = new Intl.Collator('zh-Hans-CN', { sensitivity: 'base' });
+RAW.sort(function (a, b) { return collator.compare(a.n, b.n); });
+
+/* 首字母分组（用拼音首字母） */
+function firstLetter(name) {
+  const ch = name.trim().charAt(0);
+  if (/[a-zA-Z]/.test(ch)) return ch.toUpperCase();
+  if (/[0-9]/.test(ch)) return '#';
+  // 中文：用 localeCompare 与基准字比较，粗略取声母组
+  const groups = [
+    ['A', '阿'], ['B', '八'], ['C', '擦'], ['D', '搭'], ['E', '蛾'], ['F', '发'],
+    ['G', '噶'], ['H', '哈'], ['J', '击'], ['K', '喀'], ['L', '垃'], ['M', '妈'],
+    ['N', '拿'], ['O', '哦'], ['P', '啪'], ['Q', '期'], ['R', '然'], ['S', '撒'],
+    ['T', '塌'], ['W', '挖'], ['X', '昔'], ['Y', '压'], ['Z', '匝']
+  ];
+  let res = '#';
+  for (const g of groups) {
+    if (collator.compare(ch, g[1]) >= 0) res = g[0];
+    else break;
+  }
+  return res;
+}
+
+/* 统计 */
+const TYPE_COUNTS = {};
+RAW.forEach(function (r) { TYPE_COUNTS[r.mode] = (TYPE_COUNTS[r.mode] || 0) + 1; });
+const MODES = Object.keys(TYPE_COUNTS).sort(function (a, b) { return TYPE_COUNTS[b] - TYPE_COUNTS[a]; });
+
+const N_BOOM = RAW.filter(function (r) { return r.st === 'boom'; }).length;
+const N_WARN = RAW.filter(function (r) { return r.st === 'warn'; }).length;
+
+/* ══════════ 渲染筛选按钮 ══════════ */
+document.getElementById('total').textContent = RAW.length;
+document.getElementById('total2').textContent = RAW.length;
+document.getElementById('cAll').textContent = RAW.length;
+document.getElementById('cBoom').textContent = N_BOOM;
+document.getElementById('cWarn').textContent = N_WARN;
+
+const typeRow = document.getElementById('typeRow');
+MODES.forEach(function (m) {
+  const el = document.createElement('span');
+  el.className = 'chip';
+  el.dataset.t = m;
+  el.innerHTML = m + '<span class="cnt">' + TYPE_COUNTS[m] + '</span>';
+  typeRow.appendChild(el);
+});
+
+/* ══════════ 状态 ══════════ */
+let curStatus = 'all';
+let curType = 'all';
+let curKw = '';
+
+/* ══════════ 渲染列表 ══════════ */
+function render() {
+  const list = document.getElementById('list');
+  const kw = curKw.trim().toLowerCase();
+
+  const filtered = RAW.filter(function (r) {
+    if (curStatus !== 'all' && r.st !== curStatus) return false;
+    if (curType !== 'all' && r.mode !== curType) return false;
+    if (kw) {
+      const hay = (r.n + ' ' + r.t + ' ' + r.d).toLowerCase();
+      if (hay.indexOf(kw) < 0) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('shown').textContent = filtered.length;
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty-tip"><b>没有找到匹配的项目</b>换个关键词，或者去掉筛选条件试试。<br>' +
+      '如果确实没收录，欢迎通过微信 <span style="color:#E8C55C">janecoolman01</span> 提交线索。</div>';
+    return;
+  }
+
+  /* 按首字母分组 */
+  const groups = {};
+  filtered.forEach(function (r) {
+    const L = firstLetter(r.n);
+    if (!groups[L]) groups[L] = [];
+    groups[L].push(r);
+  });
+
+  const order = Object.keys(groups).sort(function (a, b) {
+    if (a === '#') return 1;
+    if (b === '#') return -1;
+    return a < b ? -1 : 1;
+  });
+
+  let html = '';
+  order.forEach(function (L) {
+    html += '<div class="group-title">' + L + ' <span style="color:#7189A6;font-weight:400">(' + groups[L].length + ')</span></div>';
+    groups[L].forEach(function (r) {
+      const idx = RAW.indexOf(r);
+      const stText = r.st === 'boom' ? '已暴雷' : (r.st === 'warn' ? '预警' : '其他');
+      html += '<div class="item" data-i="' + idx + '">' +
+        '<span class="dot ' + r.st + '"></span>' +
+        '<span class="nm">' + esc(r.n) + '</span>' +
+        '<span class="tp">' + esc(r.t) + '</span>' +
+        '<span class="st ' + r.st + '">' + stText + '</span>' +
+      '</div>';
+    });
+  });
+  list.innerHTML = html;
+}
+
+function esc(s) {
+  return String(s || '').replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+/* ══════════ 弹窗 ══════════ */
+function openItem(i) {
+  const r = RAW[i];
+  if (!r) return;
+
+  document.getElementById('mName').textContent = r.n;
+
+  const tags = document.getElementById('mTags');
+  const stCls = r.st === 'boom' ? 't2' : (r.st === 'warn' ? 't3' : 't4');
+  const stText = r.st === 'boom' ? '已暴雷' : (r.st === 'warn' ? '已预警' : '其他');
+  tags.innerHTML =
+    '<span class="tag ' + stCls + '">' + stText + '</span>' +
+    '<span class="tag t1">' + esc(r.t) + '</span>' +
+    '<span class="tag t1">' + esc(r.mode) + '</span>';
+
+  const rows = [
+    ['项目名称', r.n, ''],
+    ['模式类型', r.mode, ''],
+    ['项目类型', r.t, ''],
+    ['公开状态', r.s, 'hl'],
+    ['开始时间', r.start || '暂无记录', 'muted'],
+    ['制度模式', r.d || '暂无详细记录', ''],
+    ['公司背景', '暂无公开资料', 'muted'],
+    ['资料来源', r.src || '公开报道', 'muted'],
+  ];
+
+  let body = rows.map(function (x) {
+    return '<div class="mrow"><dt>' + x[0] + '</dt><dd class="' + x[2] + '">' + esc(x[1]) + '</dd></div>';
+  }).join('');
+
+  body += '<div class="photo-box"><b>宣传照 / 制度截图</b>暂无收录。如果你有这个项目的宣传材料，欢迎提交，核实后补上。</div>';
+
+  body += '<div class="modal-note"><b>说明：</b>本条来自公开报道汇总，<b>未经司法机关认定</b>。' +
+    '状态与细节可能已变化，也可能存在重名。它只说明「这个名字被曝光过」，不等于已被定性。' +
+    '如认为有误，可通过微信 janecoolman01 反馈更正。</div>';
+
+  document.getElementById('mBody').innerHTML = body;
+  document.getElementById('mask').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('mask').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* ══════════ 事件绑定 ══════════ */
+document.getElementById('list').addEventListener('click', function (e) {
+  const item = e.target.closest('.item');
+  if (item) openItem(Number(item.dataset.i));
+});
+
+document.getElementById('mClose').addEventListener('click', closeModal);
+document.getElementById('mask').addEventListener('click', function (e) {
+  if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.getElementById('q').addEventListener('input', function (e) {
+  curKw = e.target.value;
+  render();
+});
+document.getElementById('clearBtn').addEventListener('click', function () {
+  document.getElementById('q').value = '';
+  curKw = '';
+  render();
+});
+
+document.getElementById('statusRow').addEventListener('click', function (e) {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  this.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+  chip.classList.add('on');
+  curStatus = chip.dataset.s;
+  render();
+});
+
+typeRow.addEventListener('click', function (e) {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  const wasOn = chip.classList.contains('on');
+  typeRow.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+  if (wasOn) {
+    curType = 'all';
+  } else {
+    chip.classList.add('on');
+    curType = chip.dataset.t;
+  }
+  render();
+});
+
+render();
+</script>
+
+</body>
+</html>
