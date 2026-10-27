@@ -835,6 +835,29 @@ footer{
 .pb-dead{font-size:11.5px;color:#F09A97;line-height:1.7;margin-bottom:7px}
 .pb-meta{font-size:11px;color:var(--text-4);font-family:var(--mono);line-height:1.7}
 
+/* 风险名单卡（公开报道，未判决） */
+.risk-report{
+  border-color:rgba(224,123,57,.45);
+  background:linear-gradient(180deg,rgba(224,123,57,.07),var(--navy-900) 45%);
+}
+.tag-risk{
+  font-size:10px;font-family:var(--mono);letter-spacing:.08em;
+  color:#F0B080;background:rgba(224,123,57,.14);
+  border:1px solid rgba(224,123,57,.42);
+  padding:3px 9px;border-radius:4px;font-weight:700;
+}
+.risk-vd{
+  font-size:14px;font-weight:700;color:var(--orange);
+  border:1px solid rgba(224,123,57,.42);background:rgba(224,123,57,.1);
+  padding:7px 16px;border-radius:7px;white-space:nowrap;
+}
+.risk-note{
+  margin-top:16px;padding:12px 15px;border-radius:7px;
+  border-left:2px solid var(--orange);background:rgba(224,123,57,.08);
+  font-size:11.5px;color:var(--text-3);line-height:1.75;
+}
+.risk-note b{color:var(--orange)}
+
 /* 命中已知案例的警示条 */
 .case-alert{
   border:1px solid rgba(217,67,63,.45);
@@ -1041,6 +1064,11 @@ footer{
           <div class="ef-item">
             <label>项目名称 <span class="req">*必填</span></label>
             <input id="e_name" type="text" placeholder="它叫什么？有别名/曾用名一起写上，换皮盘常改名">
+          </div>
+
+          <div class="ef-item">
+            <label>项目开始时间 <span class="hint">用来区分重名项目，不确定就留空</span></label>
+            <input id="e_start" type="text" placeholder="例：2023 年 3 月 / 2024 年底 / 记不清就留空">
           </div>
 
           <div class="ef-item">
@@ -1498,6 +1526,7 @@ footer{
 
 <script src="cases.js"></script>
 <script src="patterns.js"></script>
+<script src="risk-list.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════
    示例数据（全部虚构）
@@ -1674,12 +1703,46 @@ function renderCase(c) {
     '</div>';
 }
 
+function renderRisk(r) {
+  document.getElementById('resTitle').textContent = r.n + ' · 风险名单';
+  document.getElementById('resDesc').textContent = r.t + ' ｜ ' + r.s;
+  document.getElementById('rid').textContent = 'RISK-LIST';
+
+  document.getElementById('reportBox').innerHTML =
+    '<div class="report risk-report">' +
+      '<div class="report-top">' +
+        '<div class="report-title">' +
+          '<div class="report-name">' + escapeHtml(r.n) +
+            '<span class="tag-risk">风险名单</span></div>' +
+          '<div class="report-meta"><span>类型 <code>' + escapeHtml(r.t) + '</code></span></div>' +
+        '</div>' +
+        '<div class="case-verdict">' +
+          '<div class="risk-vd">已被公开报道</div>' +
+          '<div class="case-vd-note">未经司法认定</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="case-body">' +
+        '<div class="case-row"><dt>项目类型</dt><dd>' + escapeHtml(r.t) + '</dd></div>' +
+        '<div class="case-row"><dt>公开状态</dt><dd class="hl">' + escapeHtml(r.s) + '</dd></div>' +
+        '<div class="case-row"><dt>报道要点</dt><dd>' + escapeHtml(r.d) + '</dd></div>' +
+        '<div class="case-row"><dt>资料来源</dt><dd>' + escapeHtml(r.src) + '</dd></div>' +
+        '<div class="risk-note"><b>注意：</b>本条来自公开报道汇总，<b>未经司法机关认定</b>，' +
+          '状态与细节可能已变化。它只说明「这个名字被反复曝光过」，' +
+          '不等于已被定性。如认为有误，可提交反馈更正。</div>' +
+      '</div>' +
+    '</div>';
+}
+
 function render(key){
   const box = document.getElementById('reportBox');
 
   /* ① 先查已知案例库（真实已判决项目）*/
   const kc = findKnownCase(key);
   if (kc) { renderCase(kc); return; }
+
+  /* ② 再查风险名单库（公开报道，未判决）*/
+  const rk = (window.findRisk ? window.findRisk(key) : null);
+  if (rk) { renderRisk(rk); return; }
 
   const d = DB[key];
 
@@ -2178,7 +2241,7 @@ function parseMaterials() {
   }
 
   return { found: found, raw: raw, name: g('e_name'), type: g('e_type'), stage: stage,
-           site: g('e_site'), question: g('e_question') };
+           site: g('e_site'), start: g('e_start'), question: g('e_question') };
 }
 
 /* 把解析结果映射成 calcScore 需要的 facts */
@@ -2226,6 +2289,7 @@ function renderParse() {
 
   /* 项目名是否命中已知案例库 —— 命中时置顶警示 */
   const kc = findKnownCase(p.name);
+  const rk = (window.findRisk ? window.findRisk(p.name) : null);
   const caseHtml = kc ? (
     '<div class="case-alert">' +
       '<div class="ca-title">这个名字在已知案例库里</div>' +
@@ -2239,7 +2303,19 @@ function renderParse() {
       '<span class="ca-link" onclick="document.getElementById(\'q\').value=' +
         JSON.stringify(kc.name) + ';doSearch()">查看完整案例档案 →</span>' +
     '</div>'
-  ) : '';
+  ) : (rk ? (
+    '<div class="case-alert" style="border-color:rgba(224,123,57,.45);' +
+      'background:linear-gradient(135deg,rgba(224,123,57,.14),rgba(224,123,57,.03))">' +
+      '<div class="ca-title" style="color:#F0B080">这个名字在风险名单里</div>' +
+      '<div class="ca-body">' +
+        '<b>' + escapeHtml(rk.n) + '</b>（' + escapeHtml(rk.t) + '）<br>' +
+        '公开状态：<em style="color:#F0B080">' + escapeHtml(rk.s) + '</em><br>' +
+        escapeHtml(rk.d) +
+      '</div>' +
+      '<span class="ca-link" onclick="document.getElementById(\'q\').value=' +
+        JSON.stringify(rk.n) + ';doSearch()">查看名单条目 →</span>' +
+    '</div>'
+  ) : '');
 
   const known = Object.keys(p.found).filter(k => k !== 'cap');   // cap 是 B3 的修饰项，不单列
   const knownRows = known.length ? known.map(k => {
@@ -2281,7 +2357,7 @@ function renderParse() {
       <div class="sc-ring" style="--pct:${r.total};--rc:${g.color}"><span>${r.total}</span></div>
       <div>
         <div class="sc-lv" style="color:${g.color}">${g.text}</div>
-        <div class="sc-lv-sub">${escapeHtml(p.name)}</div>
+        <div class="sc-lv-sub">${escapeHtml(p.name)}${p.start ? ' ｜ 开始于 ' + escapeHtml(p.start) : ''}</div>
       </div>
     </div>
 
@@ -2315,7 +2391,7 @@ function renderParse() {
 
 document.getElementById('btnParse').onclick = renderParse;
 document.getElementById('btnEasyReset').onclick = function () {
-  ['e_name', 'e_site', 'e_yield', 'e_scheme', 'e_pitch', 'e_question'].forEach(function (id) {
+  ['e_name', 'e_site', 'e_yield', 'e_scheme', 'e_pitch', 'e_start', 'e_question'].forEach(function (id) {
     document.getElementById(id).value = '';
   });
   document.getElementById('e_type').value = 'unknown';
