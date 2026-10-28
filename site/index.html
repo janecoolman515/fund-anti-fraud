@@ -2433,6 +2433,8 @@ function renderParse() {
       如需人工复核，把项目名和截图发到微信 <span style="color:var(--gold-lt);font-family:var(--mono)">janecoolman01</span>。
     </div>
   `;
+  /* 渲染完成后画验证码（画布是动态插入的） */
+  if (typeof drawECap === 'function') drawECap();
 }
 
 document.getElementById('btnParse').onclick = renderParse;
@@ -2458,7 +2460,7 @@ document.getElementById('btnEasyReset').onclick = function () {
 */
 
 /* Supabase 配置：注册后把 Project URL 和 anon public key 粘在这里 */
-const DB = {
+const SDB = {
   url: '',
   key: ''
 };
@@ -2483,7 +2485,7 @@ function collectSubmission() {
 }
 
 /* ── 提交验证码 ── */
-let eCapCode = '';
+window.eCapCode = '';
 
 function drawECap() {
   const cv = document.getElementById('e_capCanvas');
@@ -2491,7 +2493,7 @@ function drawECap() {
   const ctx = cv.getContext('2d');
   const W = cv.width, H = cv.height;
 
-  eCapCode = String(Math.floor(1000 + Math.random() * 9000));
+  window.eCapCode = String(Math.floor(1000 + Math.random() * 9000));
 
   ctx.fillStyle = '#0E2A4A';
   ctx.fillRect(0, 0, W, H);
@@ -2512,7 +2514,7 @@ function drawECap() {
     ctx.translate(15 + i * 21, H / 2 + (Math.random() * 5 - 2.5));
     ctx.rotate((Math.random() - 0.5) * 0.3);
     ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-    ctx.fillText(eCapCode[i], -7, 0);
+    ctx.fillText(window.eCapCode[i], -7, 0);
     ctx.restore();
   }
 }
@@ -2536,8 +2538,8 @@ async function doSubmit() {
     return;
   }
 
-  if (!eCapCode) drawECap();
-  if ((capEl.value || '').trim() !== eCapCode) {
+  if (!window.eCapCode) drawECap();
+  if ((capEl.value || '').trim() !== window.eCapCode) {
     msg.className = 'sg-msg err';
     msg.textContent = '验证码不对，换一张再试';
     drawECap();
@@ -2564,13 +2566,13 @@ async function doSubmit() {
   };
 
   /* ① 有数据库配置：直接写库 */
-  if (DB.url && DB.key) {
+  if (SDB.url && SDB.key) {
     try {
-      const r = await fetch(DB.url + '/rest/v1/submissions', {
+      const r = await fetch(SDB.url + '/rest/v1/submissions', {
         method: 'POST',
         headers: {
-          'apikey': DB.key,
-          'Authorization': 'Bearer ' + DB.key,
+          'apikey': SDB.key,
+          'Authorization': 'Bearer ' + SDB.key,
           'Content-Type': 'application/json',
           'Prefer': 'return=minimal'
         },
