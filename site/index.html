@@ -869,6 +869,12 @@ footer{
 .sg-msg.ok{color:#7FD69B}
 .sg-msg.err{color:#F09A97}
 
+/* 已判决条目（在名单库里但案件已审结） */
+.risk-report.risk-judged{
+  border-color:rgba(217,67,63,.45);
+  background:linear-gradient(180deg,rgba(217,67,63,.07),var(--navy-900) 45%);
+}
+
 /* 风险名单卡（公开报道，未判决） */
 .risk-report{
   border-color:rgba(224,123,57,.45);
@@ -1744,7 +1750,7 @@ function renderRisk(r) {
   document.getElementById('rid').textContent = 'RISK-LIST';
 
   document.getElementById('reportBox').innerHTML =
-    '<div class="report risk-report">' +
+    '<div class="report risk-report' + (String(r.s).indexOf('已判') >= 0 ? ' risk-judged' : '') + '">' +
       '<div class="report-top">' +
         '<div class="report-title">' +
           '<div class="report-name">' + escapeHtml(r.n) +
@@ -1752,8 +1758,11 @@ function renderRisk(r) {
           '<div class="report-meta"><span>类型 <code>' + escapeHtml(r.t) + '</code></span></div>' +
         '</div>' +
         '<div class="case-verdict">' +
-          '<div class="risk-vd">已被公开报道</div>' +
-          '<div class="case-vd-note">未经司法认定</div>' +
+          (String(r.s).indexOf('已判') >= 0
+            ? '<div class="risk-vd" style="color:#F09A97;border-color:rgba(217,67,63,.45);background:rgba(217,67,63,.1)">已判决</div>' +
+              '<div class="case-vd-note">案件已审结</div>'
+            : '<div class="risk-vd">已被公开报道</div>' +
+              '<div class="case-vd-note">未经司法认定</div>') +
         '</div>' +
       '</div>' +
       '<div class="case-body">' +
