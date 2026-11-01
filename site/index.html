@@ -114,9 +114,9 @@ body::before{
 .nav-links a:hover{color:var(--text);background:var(--navy-700)}
 .nav-lib{color:#1A1400 !important;background:linear-gradient(180deg,var(--gold-lt),var(--gold));font-weight:700;box-shadow:0 3px 10px -3px rgba(201,162,39,.55)}
 .nav-lib:hover{filter:brightness(1.08);background:linear-gradient(180deg,var(--gold-lt),var(--gold)) !important;color:#1A1400 !important}
-.btn-lib{display:flex;align-items:center;justify-content:center;text-decoration:none;white-space:nowrap;
+.btn-lib{display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;white-space:nowrap;
   background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.55);color:var(--gold-lt);
-  font-weight:700;font-size:13.5px;padding:0 20px;border-radius:8px;transition:.15s;font-family:var(--sans)}
+  font-weight:700;font-size:13.5px;padding:10px 22px;border-radius:8px;transition:.15s;font-family:var(--sans)}
 .btn-lib:hover{background:rgba(201,162,39,.24);border-color:var(--gold);color:#fff}
 .nav-cta{
   font-size:12.5px;font-family:var(--mono);
@@ -1038,8 +1038,9 @@ footer{
       </span>
       <input id="q" type="text" placeholder="输入项目名称，如「星辰国际」" autocomplete="off" spellcheck="false">
       <button class="btn-search" id="go">查询风险</button>
-      <a class="btn-lib" href="library.html">项目库查询 →</a>
     </div>
+
+    <a class="btn-lib" href="library.html">📚 项目库查询 · 2068 个高风险项目 →</a>
 
     <div class="hot">
       <b>热门查询</b>
