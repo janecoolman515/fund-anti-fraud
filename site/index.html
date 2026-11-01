@@ -114,10 +114,16 @@ body::before{
 .nav-links a:hover{color:var(--text);background:var(--navy-700)}
 .nav-lib{color:#1A1400 !important;background:linear-gradient(180deg,var(--gold-lt),var(--gold));font-weight:700;box-shadow:0 3px 10px -3px rgba(201,162,39,.55)}
 .nav-lib:hover{filter:brightness(1.08);background:linear-gradient(180deg,var(--gold-lt),var(--gold)) !important;color:#1A1400 !important}
-.btn-lib{display:inline-flex;align-items:center;gap:6px;margin-top:14px;text-decoration:none;white-space:nowrap;
-  background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.55);color:var(--gold-lt);
-  font-weight:700;font-size:13.5px;padding:10px 22px;border-radius:8px;transition:.15s;font-family:var(--sans)}
-.btn-lib:hover{background:rgba(201,162,39,.24);border-color:var(--gold);color:#fff}
+.lib-banner{display:flex;align-items:center;gap:18px;margin-top:16px;padding:16px 22px;
+  background:linear-gradient(90deg,rgba(201,162,39,.22),rgba(201,162,39,.05));
+  border:1px solid rgba(201,162,39,.6);border-left:4px solid var(--gold);border-radius:12px;
+  text-decoration:none;transition:.18s;box-shadow:0 12px 30px -14px rgba(201,162,39,.45)}
+.lib-banner:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 18px 42px -14px rgba(201,162,39,.6)}
+.lib-banner-n{font-size:36px;font-weight:900;color:var(--gold-lt);font-family:var(--mono);line-height:1;flex:none}
+.lib-banner-t{flex:1;min-width:0}
+.lib-banner-t b{display:block;font-size:17px;color:#fff;margin-bottom:5px;letter-spacing:.02em}
+.lib-banner-t span{font-size:12.5px;color:var(--text-2);line-height:1.6}
+.lib-banner-arrow{font-size:14px;font-weight:700;color:var(--gold-lt);white-space:nowrap;flex:none}
 .nav-cta{
   font-size:12.5px;font-family:var(--mono);
   border:1px solid var(--line-strong);border-radius:6px;
@@ -1040,7 +1046,14 @@ footer{
       <button class="btn-search" id="go">查询风险</button>
     </div>
 
-    <a class="btn-lib" href="library.html">📚 项目库查询 · 2068 个高风险项目 →</a>
+    <a class="lib-banner" href="library.html">
+      <div class="lib-banner-n" id="libCount">2068</div>
+      <div class="lib-banner-t">
+        <b>项目库查询</b>
+        <span>已暴雷 · 已预警 · 民族资产解冻 · 虚拟币 · 假交易所 … 按拼音分组，可搜可筛</span>
+      </div>
+      <div class="lib-banner-arrow">进入项目库 →</div>
+    </a>
 
     <div class="hot">
       <b>热门查询</b>
@@ -2645,6 +2658,12 @@ if (document.getElementById('e_capCanvas')) drawECap();
 bindChips();
 render("星辰国际");bindChips();
 render("星辰国际");
+
+/* 项目库横幅数字取真实数量 */
+(function () {
+  var el = document.getElementById('libCount');
+  if (el && window.RISK_LIST && window.RISK_LIST.length) el.textContent = window.RISK_LIST.length;
+})();
 
 /* 表单草稿自动保存：分析 / 提交 / 刷新 / 关闭都不会丢 */
 (function () {
