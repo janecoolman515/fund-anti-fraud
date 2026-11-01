@@ -914,6 +914,32 @@ async function loadStats() {
   renderStats();
 }
 
+function parseUA(ua) {
+  ua = ua || '';
+  var dev = '电脑', os = '-', br = '-';
+  if (/iPad|Tablet/i.test(ua)) dev = '平板';
+  else if (/Mobile|Android|iPhone|iPod/i.test(ua)) dev = '手机';
+  if (/Windows NT/i.test(ua)) os = 'Windows';
+  else if (/Android/i.test(ua)) os = 'Android';
+  else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+  else if (/Mac OS X/i.test(ua)) os = 'macOS';
+  else if (/Linux/i.test(ua)) os = 'Linux';
+  if (/MicroMessenger/i.test(ua)) br = '微信';
+  else if (/QQBrowser/i.test(ua)) br = 'QQ浏览器';
+  else if (/UCBrowser/i.test(ua)) br = 'UC';
+  else if (/Edg\//i.test(ua)) br = 'Edge';
+  else if (/Chrome\//i.test(ua)) br = 'Chrome';
+  else if (/Firefox\//i.test(ua)) br = 'Firefox';
+  else if (/Safari\//i.test(ua)) br = 'Safari';
+  return dev + ' · ' + os + ' · ' + br;
+}
+
+function shortRef(r) {
+  if (!r) return '直接访问';
+  try { var u = new URL(r); return u.hostname.replace(/^www\./, '') || '直接访问'; }
+  catch (e) { return String(r).slice(0, 24); }
+}
+
 function renderStats() {
   var rows = STATS || [];
   var ips = {};
@@ -946,17 +972,18 @@ function renderStats() {
 
   document.getElementById('stCount').textContent = '（共 ' + rows.length + ' 条，最多显示 300 行）';
   document.getElementById('stTable').innerHTML = rows.length ? (
-    '<table class="st-table"><thead><tr><th>时间</th><th>IP</th><th>地区</th><th>运营商</th><th>页面</th><th>停留</th><th>设备</th></tr></thead><tbody>' +
+    '<table class="st-table"><thead><tr><th>时间</th><th>IP</th><th>地区</th><th>运营商</th><th>页面</th><th>来源</th><th>停留</th><th>设备</th></tr></thead><tbody>' +
     rows.slice(0, 300).map(function (v) {
       var t = v.created_at ? new Date(v.created_at) : null;
       var ts = t ? ((t.getMonth() + 1) + '-' + t.getDate() + ' ' +
         String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0')) : '-';
       var loc = [v.country || '', v.region || '', v.city || ''].filter(Boolean).join(' / ') || '-';
-      var dev = /Mobile|Android|iPhone/i.test(v.ua || '') ? '手机' : '电脑';
       return '<tr><td class="st-mono">' + ts + '</td><td class="st-mono">' + esc(v.ip || '-') + '</td>' +
         '<td>' + esc(loc) + '</td><td class="st-mono">' + esc(v.isp || '-') + '</td>' +
         '<td class="st-mono">' + esc(v.path || '-') + '</td>' +
-        '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td><td>' + dev + '</td></tr>';
+        '<td class="st-mono">' + esc(shortRef(v.referrer)) + '</td>' +
+        '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td>' +
+        '<td>' + esc(parseUA(v.ua)) + '</td></tr>';
     }).join('') + '</tbody></table>'
   ) : '<div class="empty" style="padding:30px">还没有访问记录。部署后有人打开首页就会出现。</div>';
 
