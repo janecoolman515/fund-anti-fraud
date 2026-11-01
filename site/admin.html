@@ -274,16 +274,17 @@
   #trendCanvas { width: 100%; height: auto; display: block; }
   .vg-list { display: flex; flex-direction: column; gap: 8px; }
   .vg { border: 1px solid #1E4874; border-radius: 10px; overflow: hidden; }
-  .vg-head { display: flex; align-items: center; gap: 14px; padding: 6px 14px 8px; font-size: 11px; color: #7189A6; font-family: Consolas, monospace; }
-  .vg-h { display: flex; align-items: center; gap: 14px; padding: 11px 14px; cursor: pointer; font-size: 12px; background: #12304F; }
+  .vg-head, .vg-h { display: grid; grid-template-columns: 108px 158px 88px minmax(110px, 1fr) 56px 96px 14px; gap: 12px; align-items: center; }
+  .vg-head { padding: 6px 15px 8px; font-size: 11px; color: #7189A6; font-family: Consolas, monospace; }
+  .vg-h { padding: 11px 14px; cursor: pointer; font-size: 12px; background: #12304F; }
   .vg-h:hover { background: #15365A; }
-  .vg-ip { font-family: Consolas, monospace; color: #E8C55C; width: 118px; flex: none; }
-  .vg-loc { color: #BED2E6; width: 168px; flex: none; }
-  .vg-isp { color: #94AECB; width: 86px; flex: none; }
-  .vg-dev { color: #94AECB; flex: 1; min-width: 120px; }
-  .vg-n { color: #7FD69B; font-family: Consolas, monospace; width: 52px; text-align: right; flex: none; }
-  .vg-last { color: #7189A6; font-family: Consolas, monospace; width: 92px; text-align: right; flex: none; }
-  .vg-arrow { color: #7189A6; width: 14px; text-align: center; flex: none; transition: transform .15s; }
+  .vg-ip { font-family: Consolas, monospace; color: #E8C55C; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vg-loc { color: #BED2E6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vg-isp { color: #94AECB; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vg-dev { color: #94AECB; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vg-n { color: #7FD69B; font-family: Consolas, monospace; text-align: right; }
+  .vg-last { color: #7189A6; font-family: Consolas, monospace; text-align: right; }
+  .vg-arrow { color: #7189A6; text-align: center; transition: transform .15s; }
   .vg-h.open .vg-arrow { transform: rotate(90deg); }
   .vg-sub { display: none; padding: 4px 10px 10px; background: #0E2743; }
   .nav-on { background: #C9A227 !important; color: #1A1400 !important; border-color: #C9A227 !important; font-weight: 700; }

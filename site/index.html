@@ -112,6 +112,12 @@ body::before{
   padding:7px 13px;border-radius:6px;transition:.15s;
 }
 .nav-links a:hover{color:var(--text);background:var(--navy-700)}
+.nav-lib{color:#1A1400 !important;background:linear-gradient(180deg,var(--gold-lt),var(--gold));font-weight:700;box-shadow:0 3px 10px -3px rgba(201,162,39,.55)}
+.nav-lib:hover{filter:brightness(1.08);background:linear-gradient(180deg,var(--gold-lt),var(--gold)) !important;color:#1A1400 !important}
+.btn-lib{display:flex;align-items:center;justify-content:center;text-decoration:none;white-space:nowrap;
+  background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.55);color:var(--gold-lt);
+  font-weight:700;font-size:13.5px;padding:0 20px;border-radius:8px;transition:.15s;font-family:var(--sans)}
+.btn-lib:hover{background:rgba(201,162,39,.24);border-color:var(--gold);color:#fff}
 .nav-cta{
   font-size:12.5px;font-family:var(--mono);
   border:1px solid var(--line-strong);border-radius:6px;
@@ -991,7 +997,7 @@ footer{
     </a>
     <div class="nav-links">
       <a href="#result">查询</a>
-      <a href="library.html">项目库</a>
+      <a href="library.html" class="nav-lib">🔍 项目库</a>
       <a href="#submit">提交资料</a>
       <a href="#selfcheck">自查</a>
       <a href="#method">方法论</a>
@@ -1032,6 +1038,7 @@ footer{
       </span>
       <input id="q" type="text" placeholder="输入项目名称，如「星辰国际」" autocomplete="off" spellcheck="false">
       <button class="btn-search" id="go">查询风险</button>
+      <a class="btn-lib" href="library.html">项目库查询 →</a>
     </div>
 
     <div class="hot">
@@ -2688,7 +2695,14 @@ render("星辰国际");
                 .then(function (g) {
                   return { ip: ip, country: g.country_name || '', region: g.region_name || '', city: g.city_name || '', isp: g.as || '' };
                 })
-                .catch(function () { return { ip: ip }; });
+                .catch(function () {
+                  return fetch('https://ipwho.is/' + ip, { cache: 'no-store' })
+                    .then(function (r) { return r.json(); })
+                    .then(function (g) {
+                      return { ip: ip, country: g.country || '', region: g.region || '', city: g.city || '', isp: (g.connection && g.connection.isp) || '' };
+                    })
+                    .catch(function () { return { ip: ip }; });
+                });
             });
         })
         .catch(function () { return {}; });
