@@ -2662,6 +2662,62 @@ render("星辰国际");
   restore();
   window.__clearFormDraft = function () { try { localStorage.removeItem(KEY); } catch (e) {} };
 })();
+
+/* 访问记录：IP / 地区 / 停留时长（后台「访问统计」看） */
+(function () {
+  try {
+    if (!SDB || !SDB.url || !SDB.key) return;
+    var start = Date.now(), rowId = null;
+    var H = { 'apikey': SDB.key, 'Authorization': 'Bearer ' + SDB.key, 'Content-Type': 'application/json' };
+    function norm(g) {
+      g = g || {};
+      return {
+        ip: g.ip || '',
+        country: g.country || g.country_name || '',
+        region: g.region || g.region_name || '',
+        city: g.city || '',
+        isp: (g.connection && g.connection.isp) || g.org || g.asn_org || ''
+      };
+    }
+    function geo() {
+      return fetch('https://ipwho.is/', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .catch(function () {
+          return fetch('https://ipapi.co/json/', { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .catch(function () { return {}; });
+        });
+    }
+    geo().then(function (g) {
+      var n = norm(g);
+      return fetch(SDB.url + '/rest/v1/visits', {
+        method: 'POST',
+        headers: Object.assign({ 'Prefer': 'return=representation' }, H),
+        body: JSON.stringify({
+          ip: n.ip, country: n.country, region: n.region, city: n.city, isp: n.isp,
+          path: location.pathname + location.search,
+          referrer: document.referrer || '',
+          ua: navigator.userAgent,
+          lang: navigator.language || '',
+          screen: (screen.width || 0) + 'x' + (screen.height || 0)
+        })
+      }).then(function (r) { return r.ok ? r.json() : null; });
+    }).then(function (rows) {
+      if (rows && rows[0] && rows[0].id) rowId = rows[0].id;
+    }).catch(function () {});
+    function flush() {
+      if (!rowId) return;
+      var sec = Math.round((Date.now() - start) / 1000);
+      try {
+        fetch(SDB.url + '/rest/v1/visits?id=eq.' + rowId, {
+          method: 'PATCH', headers: H, body: JSON.stringify({ dwell_sec: sec }), keepalive: true
+        });
+      } catch (e) {}
+    }
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') flush(); });
+    window.addEventListener('pagehide', flush);
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>
