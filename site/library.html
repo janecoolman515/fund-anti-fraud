@@ -124,45 +124,57 @@
   }
   .group-title:first-child { margin-top: 0; }
 
+  .list-head {
+    display: grid;
+    grid-template-columns: 10px minmax(140px, 1fr) 120px 78px;
+    gap: 12px; align-items: center;
+    padding: 8px 14px; margin-bottom: 6px;
+    font-size: 11px; color: #7189A6;
+    font-family: Consolas, monospace;
+    border-bottom: 1px solid #1E4874;
+  }
+  .list-head span:last-child { text-align: right; }
   .item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px;
-    background: #15365A;
+    display: grid;
+    grid-template-columns: 10px minmax(140px, 1fr) 120px 78px;
+    gap: 12px; align-items: center;
+    padding: 11px 14px;
     border: 1px solid #1E4874;
+    border-left: 3px solid transparent;
     border-radius: 8px;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     cursor: pointer;
     transition: .14s;
   }
-  .item:hover {
-    background: #1A4270;
-    border-color: #4475A8;
-    transform: translateX(3px);
-  }
+  .item.boom { background: rgba(217,67,63,.12); border-left-color: #D9433F; }
+  .item.warn { background: rgba(224,123,57,.11); border-left-color: #E07B39; }
+  .item.other { background: rgba(113,137,166,.08); border-left-color: #7189A6; }
+  .item:hover { filter: brightness(1.18); transform: translateX(3px); }
   .item .dot {
-    width: 7px; height: 7px; border-radius: 50%; flex: none;
+    width: 8px; height: 8px; border-radius: 50%;
   }
-  .item .dot.boom { background: #D9433F; box-shadow: 0 0 8px rgba(217,67,63,.6); }
-  .item .dot.warn { background: #E07B39; box-shadow: 0 0 8px rgba(224,123,57,.5); }
+  .item .dot.boom { background: #FF5A56; box-shadow: 0 0 8px rgba(255,90,86,.75); }
+  .item .dot.warn { background: #FF9B4A; box-shadow: 0 0 8px rgba(255,155,74,.65); }
   .item .dot.other { background: #7189A6; }
   .item .nm {
-    font-size: 14.5px; font-weight: 600; flex: 1; min-width: 0;
+    font-size: 14.5px; font-weight: 600; min-width: 0;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .item .tp {
-    font-size: 11px; color: #94AECB; flex: none;
-    background: rgba(255,255,255,.05);
+    font-size: 11px; color: #94AECB;
+    background: rgba(255,255,255,.06);
     border: 1px solid #245488;
     padding: 2px 8px; border-radius: 4px;
-    max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .item .st {
-    font-size: 11px; flex: none; padding: 2px 9px; border-radius: 4px;
-    font-weight: 600;
+    font-size: 11px; padding: 3px 9px; border-radius: 4px;
+    font-weight: 700; text-align: center;
   }
-  .st.boom { color: #F09A97; background: rgba(217,67,63,.14); border: 1px solid rgba(217,67,63,.35); }
-  .st.warn { color: #F0B080; background: rgba(224,123,57,.12); border: 1px solid rgba(224,123,57,.3); }
-  .st.other { color: #94AECB; background: rgba(113,137,166,.12); border: 1px solid rgba(113,137,166,.3); }
+  .st.boom { color: #FFD3D1; background: rgba(217,67,63,.45); border: 1px solid rgba(217,67,63,.8); }
+  .st.warn { color: #FFE0C2; background: rgba(224,123,57,.40); border: 1px solid rgba(224,123,57,.75); }
+  .st.other { color: #D6E2EF; background: rgba(113,137,166,.30); border: 1px solid rgba(113,137,166,.6); }
 
   .empty-tip {
     text-align: center; padding: 60px 20px; color: #7189A6;
@@ -240,7 +252,8 @@
     header .htitle { font-size: 13px; }
     header .hstat { display: none; }
     .hero h1 { font-size: 19px; }
-    .item .tp { display: none; }
+    .list-head, .item { grid-template-columns: 10px minmax(120px, 1fr) 78px; }
+    .item .tp, .list-head span:nth-child(3) { display: none; }
     .group-title { top: 148px; }
     .modal-head { padding: 18px 18px 14px; }
     .modal-body { padding: 16px 18px 22px; }
@@ -292,6 +305,7 @@
     <span>共 <b id="shown">0</b> 个结果</span>
     <span id="sortTip">按名称拼音排序</span>
   </div>
+  <div class="list-head"><span></span><span>项目名称</span><span>模式类型</span><span>状态</span></div>
   <div id="list"></div>
 </div>
 
@@ -447,7 +461,7 @@ function render() {
     groups[L].forEach(function (r) {
       const idx = RAW.indexOf(r);
       const stText = r.st === 'boom' ? '已暴雷' : (r.st === 'warn' ? '预警' : '其他');
-      html += '<div class="item" data-i="' + idx + '">' +
+      html += '<div class="item ' + r.st + '" data-i="' + idx + '">' +
         '<span class="dot ' + r.st + '"></span>' +
         '<span class="nm">' + esc(r.n) + '</span>' +
         '<span class="tp">' + esc(r.t) + '</span>' +

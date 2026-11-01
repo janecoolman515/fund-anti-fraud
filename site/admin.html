@@ -274,6 +274,7 @@
   #trendCanvas { width: 100%; height: auto; display: block; }
   .vg-list { display: flex; flex-direction: column; gap: 8px; }
   .vg { border: 1px solid #1E4874; border-radius: 10px; overflow: hidden; }
+  .vg-head { display: flex; align-items: center; gap: 14px; padding: 6px 14px 8px; font-size: 11px; color: #7189A6; font-family: Consolas, monospace; }
   .vg-h { display: flex; align-items: center; gap: 14px; padding: 11px 14px; cursor: pointer; font-size: 12px; background: #12304F; }
   .vg-h:hover { background: #15365A; }
   .vg-ip { font-family: Consolas, monospace; color: #E8C55C; width: 118px; flex: none; }
@@ -1004,7 +1005,9 @@ function renderStats() {
 
   document.getElementById('stCount').textContent = '（' + glist.length + ' 个访客 · ' + rows.length + ' 次访问，点一行展开明细）';
   document.getElementById('stTable').innerHTML = glist.length ? (
-    '<div class="vg-list">' + glist.map(function (g) {
+    '<div class="vg-list">' +
+    '<div class="vg-head"><span class="vg-ip">IP</span><span class="vg-loc">地区</span><span class="vg-isp">运营商</span><span class="vg-dev">设备</span><span class="vg-n">次数</span><span class="vg-last">最近访问</span><span class="vg-arrow"></span></div>' +
+    glist.map(function (g) {
       var t = g.last ? new Date(g.last) : null;
       var lastStr = t ? ((t.getMonth() + 1) + '-' + t.getDate() + ' ' +
         String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0')) : '-';
