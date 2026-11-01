@@ -2452,6 +2452,7 @@ document.getElementById('btnEasyReset').onclick = function () {
   ['e_name', 'e_site', 'e_yield', 'e_scheme', 'e_pitch', 'e_start', 'e_question'].forEach(function (id) {
     document.getElementById(id).value = '';
   });
+  if (window.__clearFormDraft) window.__clearFormDraft();
   document.getElementById('e_type').value = 'unknown';
   document.getElementById('e_stage').value = 'pre';
   document.getElementById('easyResult').innerHTML =
@@ -2636,6 +2637,31 @@ if (document.getElementById('e_capCanvas')) drawECap();
 bindChips();
 render("星辰国际");bindChips();
 render("星辰国际");
+
+/* 表单草稿自动保存：分析 / 提交 / 刷新 / 关闭都不会丢 */
+(function () {
+  var IDS = ['e_name','e_start','e_type','e_site','e_yield','e_scheme','e_pitch','e_stage','e_question'];
+  var KEY = 'submit_form_draft_v1';
+  function save() {
+    var o = {};
+    IDS.forEach(function (id) { var el = document.getElementById(id); if (el) o[id] = el.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {}
+  }
+  function restore() {
+    try {
+      var o = JSON.parse(localStorage.getItem(KEY) || '{}');
+      IDS.forEach(function (id) { var el = document.getElementById(id); if (el && o[id] != null) el.value = o[id]; });
+    } catch (e) {}
+  }
+  IDS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', save);
+    el.addEventListener('change', save);
+  });
+  restore();
+  window.__clearFormDraft = function () { try { localStorage.removeItem(KEY); } catch (e) {} };
+})();
 </script>
 </body>
 </html>
