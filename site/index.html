@@ -2670,31 +2670,28 @@ render("星辰国际");
     var start = Date.now(), rowId = null;
     var H = { 'apikey': SDB.key, 'Authorization': 'Bearer ' + SDB.key, 'Content-Type': 'application/json' };
     function geo() {
-      var chain = [
-        function () {
-          return fetch('https://ip.useragentinfo.com/json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
-            return { ip: g.ip || '', country: g.country || '', region: g.province || '', city: g.city || '', isp: g.isp || '' };
-          });
-        },
-        function () {
-          return fetch('https://ipwho.is/', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
-            return { ip: g.ip || '', country: g.country || '', region: g.region || '', city: g.city || '', isp: (g.connection && g.connection.isp) || '' };
-          });
-        },
-        function () {
-          return fetch('https://ipapi.co/json/', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
-            return { ip: g.ip || '', country: g.country_name || '', region: g.region || '', city: g.city || '', isp: g.org || '' };
-          });
-        }
-      ];
-      function tryAt(i) {
-        if (i >= chain.length) return Promise.resolve({});
-        return chain[i]().then(function (g) {
-          if (g && g.ip) return g;
-          return tryAt(i + 1);
-        }).catch(function () { return tryAt(i + 1); });
-      }
-      return tryAt(0);
+      /* 第一步：拿 IP（ipify 最稳） */
+      return fetch('https://api.ipify.org?format=json', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (x) {
+          var ip = (x && x.ip) || '';
+          if (!ip) return { ip: '' };
+          /* 第二步：拿归属地（带具体 IP 查，ipapi.co 正常；失败再换 ip2location） */
+          return fetch('https://ipapi.co/' + ip + '/json/', { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (g) {
+              return { ip: ip, country: g.country_name || g.country || '', region: g.region || '', city: g.city || '', isp: g.org || '' };
+            })
+            .catch(function () {
+              return fetch('https://api.ip2location.io/?ip=' + ip, { cache: 'no-store' })
+                .then(function (r) { return r.json(); })
+                .then(function (g) {
+                  return { ip: ip, country: g.country_name || '', region: g.region_name || '', city: g.city_name || '', isp: g.as || '' };
+                })
+                .catch(function () { return { ip: ip }; });
+            });
+        })
+        .catch(function () { return {}; });
     }
     geo().then(function (n) {
       n = n || {};
