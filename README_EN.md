@@ -18,9 +18,9 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 
 ---
 
-> Maintained by **janecoolman** — WeChat Official Account 「金融防骗预警」
+> Maintained by **janecoolman515** — WeChat Official Account 「金融防骗预警」
 >
-> Official Account ID `jiancoolman` · WeChat ID `jiancoolman01` · Channels `Janecoolman01`
+> Official Account ID `jiancoolman` · WeChat ID `janecoolman01` · Channels `Janecoolman01`
 >
 > This project started with one question people kept asking:
 > **"Can I invest in this?"**
@@ -28,8 +28,34 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 > All they had was a screenshot, a voice message in a group chat, or just a name.
 > They weren't short on caution. They were short on **knowing where to start doubting.**
 >
-> So the methodology breaks a judgement into 18 verifiable checkpoints,
+> So the methodology breaks a judgement into 21 verifiable checkpoints,
 > each traceable to a public source, ending in a score and a conclusion you can actually explain.
+
+---
+
+## What's inside
+
+| Capability | Scale |
+|---|---|
+| **High-risk project database** | **2,048** (crashed 1,172 · warned 876) |
+| **Adjudicated case library** | **18** (Shanxinhui / Ezubao / Qianbao / Yunlianhui / PlusToken / Wekuai / Haihui International / Lixiang Jiayuan …) |
+| **Scoring rules** | **21**, 100-point, four dimensions (A entity 25 / B yield 30 / C funds 25 / D external 20) |
+| **Scheme archetypes** | **14** (rotation Ponzi / brush-order rebate / cloud mining / NFT / consumer rebate / fake P2P / fake exchange …) |
+| **Surfaces** | Web · WeChat Mini Program · CLI (same rules, same ratings) |
+
+## What the site does
+
+**1. Look up a project** — three outcomes: 🔴 red card (with a court judgment: charge / principal / sentence / court / amount), 🟠 orange card (publicly reported only, labelled "not judicially determined"), ⚪ grey card (not found — no invention).
+
+**2. Can't find it? Fill the form** — 8 guided fields; paste the pitch from the group chat. The system scores it (100 max) and identifies the likely **scheme archetype** (e.g. "1.8% daily, 7-day cycle, pay-first rebate" → brush-order rebate, typically lives 1–6 months).
+
+**3. Project database** — 2,048 entries, sorted by pinyin initial, searchable and filterable (status: crashed / warned; scheme: national-asset-unfreezing / crypto / impersonation / P2P / copy-trading / rebate …).
+
+**4. Two data layers** — Layer 1: 18 adjudicated cases (hard evidence); Layer 2: 2,048 risk-list entries (leads, not conclusions).
+
+**5. Admin review** — submissions never enter the database directly; every entry is manually reviewed. Duplicate submissions merge, contradictions get flagged.
+
+**6. Bonus: a state-owned-enterprise job guide** — six chapters, nine articles, 16k words.
 
 ---
 
@@ -49,7 +75,7 @@ Three core assets:
 
 | Asset | What it is | Why it matters |
 |---|---|---|
-| **Six verification tracks** | Tech & licensing / Endorsements / Scheme design / Money flow / Corporate & legal / Public signals | Turns "investigate the project" into 18 concrete actions instead of intuition |
+| **Six verification tracks** | Tech & licensing / Endorsements / Scheme design / Money flow / Corporate & legal / Public signals | Turns "investigate the project" into 21 concrete actions instead of intuition |
 | **Four reasoning heuristics** | Operator motive / Cost reasoning / Benchmarking / Reductio ad absurdum | Produces conclusions when evidence is incomplete |
 | **100-point scorecard** | Entity 25 + Yield 30 + Fund safety 25 + External 20 | Makes "how risky" a comparable number, not an adjective |
 
@@ -163,7 +189,7 @@ python tools/report_builder.py examples/sample-case.json -o REPORT.md
 
 ### Option 3: Read the methodology only
 
-Open [`docs/01-methodology.md`](docs/01-methodology.md) and work through the 18 checkpoints by hand. Tools are speed; the method is the product.
+Open [`docs/01-methodology.md`](docs/01-methodology.md) and work through the 21 checkpoints by hand. Tools are speed; the method is the product.
 
 ---
 
@@ -267,7 +293,7 @@ Every report has a "Not verified" section. **Admitting what you don't know is mo
 | Tool | Purpose |
 |---|---|
 | `tools/apr_calculator.py` | Yield reverse-engineering: daily → annualized, cycle consistency, Ponzi gap |
-| `tools/scheme_audit.py` | 18-rule matching engine → dimension scores + hit list + gaps |
+| `tools/scheme_audit.py` | 21-rule matching engine → dimension scores + hit list + gaps |
 | `tools/report_builder.py` | Case JSON → full Markdown risk report |
 | `data/` | Extensible rule references |
 
@@ -366,6 +392,6 @@ the methodology is years of accumulated field notes that shouldn't be repackaged
 
 **If this handbook helped you dodge one bad decision, pass it to the next person who might not.**
 
-WeChat Official Account 「金融防骗预警」 · Official Account ID `jiancoolman` · WeChat ID `jiancoolman01` · Channels `Janecoolman01`
+WeChat Official Account 「金融防骗预警」 · Official Account ID `jiancoolman` · WeChat ID `janecoolman01` · Channels `Janecoolman01`
 
 </div>

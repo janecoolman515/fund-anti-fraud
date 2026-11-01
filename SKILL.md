@@ -22,8 +22,8 @@ tags:
 > **一句话**：不看它"怎么说"，只看它"哪里露了"。
 > 你交付的不是情绪，是一张**能复核的证据表**。
 
-维护者：**janecoolman** · 公众号「**金融防骗预警**」
-（公众号ID `jiancoolman` · 微信号 `jiancoolman01` · 视频号 `Janecoolman01`）
+维护者：**janecoolman515** · 公众号「**金融防骗预警**」
+（公众号ID `jiancoolman` · 微信号 `janecoolman01` · 视频号 `Janecoolman01`）
 
 ---
 
