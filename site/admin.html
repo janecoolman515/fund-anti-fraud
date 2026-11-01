@@ -272,6 +272,19 @@
   .chart-legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
   .chart-box { background: linear-gradient(180deg,#12304F,#0E2743); border: 1px solid #1E4874; border-radius: 12px; padding: 12px; }
   #trendCanvas { width: 100%; height: auto; display: block; }
+  .vg-list { display: flex; flex-direction: column; gap: 8px; }
+  .vg { border: 1px solid #1E4874; border-radius: 10px; overflow: hidden; }
+  .vg-h { display: flex; align-items: center; gap: 14px; padding: 11px 14px; cursor: pointer; font-size: 12px; background: #12304F; }
+  .vg-h:hover { background: #15365A; }
+  .vg-ip { font-family: Consolas, monospace; color: #E8C55C; width: 118px; flex: none; }
+  .vg-loc { color: #BED2E6; width: 168px; flex: none; }
+  .vg-isp { color: #94AECB; width: 86px; flex: none; }
+  .vg-dev { color: #94AECB; flex: 1; min-width: 120px; }
+  .vg-n { color: #7FD69B; font-family: Consolas, monospace; width: 52px; text-align: right; flex: none; }
+  .vg-last { color: #7189A6; font-family: Consolas, monospace; width: 92px; text-align: right; flex: none; }
+  .vg-arrow { color: #7189A6; width: 14px; text-align: center; flex: none; transition: transform .15s; }
+  .vg-h.open .vg-arrow { transform: rotate(90deg); }
+  .vg-sub { display: none; padding: 4px 10px 10px; background: #0E2743; }
   .nav-on { background: #C9A227 !important; color: #1A1400 !important; border-color: #C9A227 !important; font-weight: 700; }
 
   @media (max-width: 820px) {
@@ -970,24 +983,71 @@ function renderStats() {
       '<div class="num">' + x.n + '</div></div>';
   }).join('') : '<div class="empty" style="padding:20px">暂无数据</div>';
 
-  document.getElementById('stCount').textContent = '（共 ' + rows.length + ' 条，最多显示 300 行）';
-  document.getElementById('stTable').innerHTML = rows.length ? (
-    '<table class="st-table"><thead><tr><th>时间</th><th>IP</th><th>地区</th><th>运营商</th><th>页面</th><th>来源</th><th>停留</th><th>设备</th></tr></thead><tbody>' +
-    rows.slice(0, 300).map(function (v) {
-      var t = v.created_at ? new Date(v.created_at) : null;
-      var ts = t ? ((t.getMonth() + 1) + '-' + t.getDate() + ' ' +
+  /* 按 IP 分组：主记录 + 每次访问明细 */
+  var groups = {};
+  rows.forEach(function (v) {
+    var ip = (v.ip || '').trim() || '未知IP';
+    if (!groups[ip]) groups[ip] = { ip: ip, subs: [], loc: '', isp: '', dev: '', last: 0, n: 0 };
+    var g = groups[ip];
+    g.subs.push(v);
+    g.n++;
+    var ts = v.created_at ? new Date(v.created_at).getTime() : 0;
+    if (ts >= g.last) {
+      g.last = ts;
+      g.loc = [v.country || '', v.region || '', v.city || ''].filter(Boolean).join(' / ');
+      g.isp = v.isp || '';
+      g.dev = parseUA(v.ua);
+    }
+  });
+  var glist = Object.keys(groups).map(function (k) { return groups[k]; });
+  glist.sort(function (a, b) { return b.last - a.last; });
+
+  document.getElementById('stCount').textContent = '（' + glist.length + ' 个访客 · ' + rows.length + ' 次访问，点一行展开明细）';
+  document.getElementById('stTable').innerHTML = glist.length ? (
+    '<div class="vg-list">' + glist.map(function (g) {
+      var t = g.last ? new Date(g.last) : null;
+      var lastStr = t ? ((t.getMonth() + 1) + '-' + t.getDate() + ' ' +
         String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0')) : '-';
-      var loc = [v.country || '', v.region || '', v.city || ''].filter(Boolean).join(' / ') || '-';
-      return '<tr><td class="st-mono">' + ts + '</td><td class="st-mono">' + esc(v.ip || '-') + '</td>' +
-        '<td>' + esc(loc) + '</td><td class="st-mono">' + esc(v.isp || '-') + '</td>' +
-        '<td class="st-mono">' + esc(v.path || '-') + '</td>' +
-        '<td class="st-mono">' + esc(shortRef(v.referrer)) + '</td>' +
-        '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td>' +
-        '<td>' + esc(parseUA(v.ua)) + '</td></tr>';
-    }).join('') + '</tbody></table>'
+      var subs = g.subs.slice().sort(function (a, b) {
+        return (b.created_at ? new Date(b.created_at).getTime() : 0) - (a.created_at ? new Date(a.created_at).getTime() : 0);
+      });
+      var rowsHtml = subs.map(function (v, i) {
+        var tt = v.created_at ? new Date(v.created_at) : null;
+        var tstr = tt ? ((tt.getMonth() + 1) + '-' + tt.getDate() + ' ' +
+          String(tt.getHours()).padStart(2, '0') + ':' + String(tt.getMinutes()).padStart(2, '0')) : '-';
+        return '<tr><td class="st-mono">#' + (i + 1) + '</td><td class="st-mono">' + tstr + '</td>' +
+          '<td class="st-mono">' + esc(v.path || '-') + '</td>' +
+          '<td class="st-mono">' + esc(shortRef(v.referrer)) + '</td>' +
+          '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td>' +
+          '<td>' + esc(parseUA(v.ua)) + '</td></tr>';
+      }).join('');
+      return '<div class="vg">' +
+        '<div class="vg-h" onclick="toggleVG(this)">' +
+          '<span class="vg-ip">' + esc(g.ip) + '</span>' +
+          '<span class="vg-loc">' + esc(g.loc || '-') + '</span>' +
+          '<span class="vg-isp">' + esc(g.isp || '-') + '</span>' +
+          '<span class="vg-dev">' + esc(g.dev) + '</span>' +
+          '<span class="vg-n">' + g.n + ' 次</span>' +
+          '<span class="vg-last">' + lastStr + '</span>' +
+          '<span class="vg-arrow">▸</span>' +
+        '</div>' +
+        '<div class="vg-sub">' +
+          '<table class="st-table"><thead><tr><th>#</th><th>时间</th><th>页面</th><th>来源</th><th>停留</th><th>设备</th></tr></thead><tbody>' +
+          rowsHtml + '</tbody></table>' +
+        '</div>' +
+      '</div>';
+    }).join('') + '</div>'
   ) : '<div class="empty" style="padding:30px">还没有访问记录。部署后有人打开首页就会出现。</div>';
 
   renderTrend();
+}
+
+function toggleVG(el) {
+  var sub = el.nextElementSibling;
+  if (!sub) return;
+  var open = sub.style.display === 'block';
+  sub.style.display = open ? 'none' : 'block';
+  if (open) el.classList.remove('open'); else el.classList.add('open');
 }
 
 /* ── 每日趋势 ── */

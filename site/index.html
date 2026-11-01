@@ -2669,27 +2669,35 @@ render("星辰国际");
     if (!SDB || !SDB.url || !SDB.key) return;
     var start = Date.now(), rowId = null;
     var H = { 'apikey': SDB.key, 'Authorization': 'Bearer ' + SDB.key, 'Content-Type': 'application/json' };
-    function norm(g) {
-      g = g || {};
-      return {
-        ip: g.ip || '',
-        country: g.country || g.country_name || '',
-        region: g.region || g.region_name || '',
-        city: g.city || '',
-        isp: (g.connection && g.connection.isp) || g.org || g.asn_org || ''
-      };
-    }
     function geo() {
-      return fetch('https://ipwho.is/', { cache: 'no-store' })
-        .then(function (r) { return r.json(); })
-        .catch(function () {
-          return fetch('https://ipapi.co/json/', { cache: 'no-store' })
-            .then(function (r) { return r.json(); })
-            .catch(function () { return {}; });
-        });
+      var chain = [
+        function () {
+          return fetch('https://ip.useragentinfo.com/json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
+            return { ip: g.ip || '', country: g.country || '', region: g.province || '', city: g.city || '', isp: g.isp || '' };
+          });
+        },
+        function () {
+          return fetch('https://ipwho.is/', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
+            return { ip: g.ip || '', country: g.country || '', region: g.region || '', city: g.city || '', isp: (g.connection && g.connection.isp) || '' };
+          });
+        },
+        function () {
+          return fetch('https://ipapi.co/json/', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (g) {
+            return { ip: g.ip || '', country: g.country_name || '', region: g.region || '', city: g.city || '', isp: g.org || '' };
+          });
+        }
+      ];
+      function tryAt(i) {
+        if (i >= chain.length) return Promise.resolve({});
+        return chain[i]().then(function (g) {
+          if (g && g.ip) return g;
+          return tryAt(i + 1);
+        }).catch(function () { return tryAt(i + 1); });
+      }
+      return tryAt(0);
     }
-    geo().then(function (g) {
-      var n = norm(g);
+    geo().then(function (n) {
+      n = n || {};
       return fetch(SDB.url + '/rest/v1/visits', {
         method: 'POST',
         headers: Object.assign({ 'Prefer': 'return=representation' }, H),
