@@ -126,7 +126,7 @@
 
   .list-head {
     display: grid;
-    grid-template-columns: 10px minmax(140px, 1fr) 120px 78px;
+    grid-template-columns: 10px minmax(130px, 1fr) minmax(170px, 1.8fr) 110px 80px;
     gap: 12px; align-items: center;
     padding: 8px 14px; margin-bottom: 6px;
     font-size: 11px; color: #7189A6;
@@ -136,7 +136,7 @@
   .list-head span:last-child { text-align: right; }
   .item {
     display: grid;
-    grid-template-columns: 10px minmax(140px, 1fr) 120px 78px;
+    grid-template-columns: 10px minmax(130px, 1fr) minmax(170px, 1.8fr) 110px 80px;
     gap: 12px; align-items: center;
     padding: 11px 14px;
     border: 1px solid #1E4874;
@@ -160,8 +160,12 @@
     font-size: 14.5px; font-weight: 600; min-width: 0;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
+  .item .ds {
+    font-size: 12px; color: #8FA9C4; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
   .item .tp {
-    font-size: 11px; color: #94AECB;
+    font-size: 12px; color: #94AECB;
     background: rgba(255,255,255,.06);
     border: 1px solid #245488;
     padding: 2px 8px; border-radius: 4px;
@@ -169,7 +173,7 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .item .st {
-    font-size: 11px; padding: 3px 9px; border-radius: 4px;
+    font-size: 12px; padding: 3px 9px; border-radius: 4px;
     font-weight: 700; text-align: center;
   }
   .st.boom { color: #FFD3D1; background: rgba(217,67,63,.45); border: 1px solid rgba(217,67,63,.8); }
@@ -252,8 +256,8 @@
     header .htitle { font-size: 13px; }
     header .hstat { display: none; }
     .hero h1 { font-size: 19px; }
-    .list-head, .item { grid-template-columns: 10px minmax(120px, 1fr) 78px; }
-    .item .tp, .list-head span:nth-child(3) { display: none; }
+    .list-head, .item { grid-template-columns: 10px minmax(110px, 1fr) 80px; }
+    .item .tp, .item .ds, .list-head span:nth-child(3), .list-head span:nth-child(4) { display: none; }
     .group-title { top: 148px; }
     .modal-head { padding: 18px 18px 14px; }
     .modal-body { padding: 16px 18px 22px; }
@@ -305,7 +309,7 @@
     <span>共 <b id="shown">0</b> 个结果</span>
     <span id="sortTip">按名称拼音排序</span>
   </div>
-  <div class="list-head"><span></span><span>项目名称</span><span>模式类型</span><span>状态</span></div>
+  <div class="list-head"><span></span><span>项目名称</span><span>说明</span><span>模式类型</span><span>状态</span></div>
   <div id="list"></div>
 </div>
 
@@ -464,6 +468,7 @@ function render() {
       html += '<div class="item ' + r.st + '" data-i="' + idx + '">' +
         '<span class="dot ' + r.st + '"></span>' +
         '<span class="nm">' + esc(r.n) + '</span>' +
+        '<span class="ds">' + esc(r.d || '') + '</span>' +
         '<span class="tp">' + esc(r.t) + '</span>' +
         '<span class="st ' + r.st + '">' + stText + '</span>' +
       '</div>';
