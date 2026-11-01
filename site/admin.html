@@ -265,6 +265,13 @@
   .st-table td { padding: 8px 10px; border-bottom: 1px solid #1E4874; color: #E8F0F8; }
   .st-table tr:hover td { background: #15365A; }
   .st-mono { font-family: Consolas, monospace; font-size: 11.5px; color: #94AECB; }
+  .range-btns { display: inline-flex; gap: 6px; margin-left: auto; }
+  .rbtn { font-size: 11.5px; padding: 4px 11px; border-radius: 100px; border: 1px solid #33628F; background: #15365A; color: #BED2E6; cursor: pointer; font-family: inherit; }
+  .rbtn.on { background: #C9A227; border-color: #C9A227; color: #1A1400; font-weight: 700; }
+  .chart-legend { display: inline-flex; gap: 14px; font-size: 11.5px; color: #94AECB; font-weight: 400; }
+  .chart-legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  .chart-box { background: linear-gradient(180deg,#12304F,#0E2743); border: 1px solid #1E4874; border-radius: 12px; padding: 12px; }
+  #trendCanvas { width: 100%; height: auto; display: block; }
   .nav-on { background: #C9A227 !important; color: #1A1400 !important; border-color: #C9A227 !important; font-weight: 700; }
 
   @media (max-width: 820px) {
@@ -354,6 +361,24 @@
         <div class="scard"><div class="scard-n" id="stToday">-</div><div class="scard-t">今日访问</div></div>
         <div class="scard"><div class="scard-n" id="stDwell">-</div><div class="scard-t">平均停留</div></div>
       </div>
+
+      <div class="stats-sec">
+        <div class="stats-h" style="display:flex;align-items:center;gap:10px">
+          每日访问趋势
+          <span class="chart-legend">
+            <span><i style="background:#E8C55C"></i>访问量</span>
+            <span><i style="background:#7FD69B"></i>独立IP</span>
+          </span>
+          <span class="range-btns">
+            <button class="rbtn on" data-days="7">7 天</button>
+            <button class="rbtn" data-days="14">14 天</button>
+            <button class="rbtn" data-days="30">30 天</button>
+          </span>
+        </div>
+        <div class="chart-box"><canvas id="trendCanvas" width="960" height="260"></canvas></div>
+        <div id="stDaily" style="margin-top:14px"></div>
+      </div>
+
       <div class="stats-sec">
         <div class="stats-h">地区分布（Top 10）</div>
         <div id="stRegions"></div>
@@ -934,7 +959,119 @@ function renderStats() {
         '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td><td>' + dev + '</td></tr>';
     }).join('') + '</tbody></table>'
   ) : '<div class="empty" style="padding:30px">还没有访问记录。部署后有人打开首页就会出现。</div>';
+
+  renderTrend();
 }
+
+/* ── 每日趋势 ── */
+var TREND_DAYS = 7;
+
+function dayKey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function buildDaily(rows, days) {
+  var map = {};
+  (rows || []).forEach(function (v) {
+    if (!v.created_at) return;
+    var d = new Date(v.created_at);
+    var k = dayKey(d);
+    if (!map[k]) map[k] = { n: 0, ips: {}, dwellSum: 0, dwellN: 0 };
+    map[k].n++;
+    if (v.ip) map[k].ips[v.ip] = 1;
+    if (v.dwell_sec > 0) { map[k].dwellSum += v.dwell_sec; map[k].dwellN++; }
+  });
+  var out = [];
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  for (var i = days - 1; i >= 0; i--) {
+    var d = new Date(today.getTime() - i * 864e5);
+    var k = dayKey(d);
+    var m = map[k] || { n: 0, ips: {}, dwellSum: 0, dwellN: 0 };
+    out.push({
+      k: k,
+      label: (d.getMonth() + 1) + '/' + d.getDate(),
+      n: m.n,
+      u: Object.keys(m.ips).length,
+      dwell: m.dwellN ? Math.round(m.dwellSum / m.dwellN) : 0
+    });
+  }
+  return out;
+}
+
+function drawTrend(data) {
+  var cv = document.getElementById('trendCanvas');
+  if (!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  var pl = 48, pr = 20, pt = 20, pb = 34;
+  var cw = W - pl - pr, ch = H - pt - pb;
+  var maxN = 1;
+  data.forEach(function (x) { if (x.n > maxN) maxN = x.n; });
+
+  ctx.strokeStyle = 'rgba(120,160,200,.18)';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#7189A6';
+  ctx.font = '11px Consolas,monospace';
+  ctx.textAlign = 'right';
+  for (var g = 0; g <= 4; g++) {
+    var y = pt + ch - ch * g / 4;
+    ctx.beginPath(); ctx.moveTo(pl, y); ctx.lineTo(pl + cw, y); ctx.stroke();
+    ctx.fillText(String(Math.round(maxN * g / 4)), pl - 8, y + 4);
+  }
+
+  var n = data.length;
+  var stepX = cw / Math.max(1, n - 1);
+  function xAt(i) { return pl + (n === 1 ? cw / 2 : stepX * i); }
+  function yAt(v) { return pt + ch - ch * (v / maxN); }
+
+  ctx.beginPath();
+  data.forEach(function (x, i) { var px = xAt(i), py = yAt(x.n); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); });
+  var grad = ctx.createLinearGradient(0, pt, 0, pt + ch);
+  grad.addColorStop(0, 'rgba(232,197,92,.35)');
+  grad.addColorStop(1, 'rgba(232,197,92,0)');
+  ctx.lineTo(pl + cw, pt + ch); ctx.lineTo(pl, pt + ch); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  data.forEach(function (x, i) { var px = xAt(i), py = yAt(x.n); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); });
+  ctx.strokeStyle = '#E8C55C'; ctx.lineWidth = 2.2; ctx.stroke();
+
+  data.forEach(function (x, i) {
+    var px = xAt(i), py = yAt(x.n);
+    ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fillStyle = '#E8C55C'; ctx.fill();
+  });
+
+  ctx.beginPath();
+  data.forEach(function (x, i) { var px = xAt(i), py = yAt(x.u); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); });
+  ctx.strokeStyle = '#7FD69B'; ctx.lineWidth = 1.6; ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([]);
+
+  ctx.fillStyle = '#7189A6'; ctx.font = '10.5px Consolas,monospace'; ctx.textAlign = 'center';
+  data.forEach(function (x, i) {
+    if (n > 14 && i % 2 !== 0 && i !== n - 1) return;
+    ctx.fillText(x.label, xAt(i), pt + ch + 18);
+  });
+}
+
+function renderTrend() {
+  var data = buildDaily(STATS, TREND_DAYS);
+  drawTrend(data);
+  var html = '<table class="st-table"><thead><tr><th>日期</th><th>访问量</th><th>独立IP</th><th>平均停留</th></tr></thead><tbody>';
+  data.slice().reverse().forEach(function (x) {
+    html += '<tr><td class="st-mono">' + x.k + '</td><td>' + x.n + '</td><td>' + x.u + '</td><td class="st-mono">' + (x.dwell ? x.dwell + 's' : '-') + '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('stDaily').innerHTML = html;
+}
+
+document.querySelectorAll('.rbtn').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.rbtn').forEach(function (x) { x.classList.remove('on'); });
+    this.classList.add('on');
+    TREND_DAYS = parseInt(this.getAttribute('data-days'), 10) || 7;
+    renderTrend();
+  });
+});
 
 document.getElementById('navReview').addEventListener('click', function () {
   this.classList.add('nav-on');
