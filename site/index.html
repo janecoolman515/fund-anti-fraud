@@ -1090,10 +1090,10 @@ footer{
     <div class="section-head">
       <div>
         <div class="section-title">Submit Materials</div>
-        <div class="section-h">把手上的资料丢进来，我帮你分析</div>
+        <div class="section-h">填好资料：可先分析，也可直接提交给管理员</div>
         <div class="section-desc">
-          不用懂术语。群里的话术、朋友圈的截图文字、制度说明，复制粘贴进来就行 ——
-          系统会自动从里面提取关键信息，算一个风险分。
+          不用懂术语。群里的话术、朋友圈的截图文字、制度说明，复制粘贴进来就行。
+          填完可以点「分析这些资料」先看个分；也可以直接「提交给管理员」，核实后会补进项目库。
         </div>
       </div>
     </div>
@@ -1168,6 +1168,17 @@ footer{
         <div class="sc-actions">
           <button class="btn-calc" id="btnParse">分析这些资料</button>
           <button class="btn-reset" id="btnEasyReset">清空</button>
+        </div>
+
+        <div class="submit-gate">
+          <div class="sg-title">直接提交给管理员审核（不用先分析）</div>
+          <div class="sg-desc">填好项目名称就能提交，核实后会补进项目库，其他人才查得到。填个验证码防止脚本乱刷。</div>
+          <div class="sg-row">
+            <input id="e_captcha" type="text" maxlength="4" inputmode="numeric" placeholder="4 位数字">
+            <canvas id="e_capCanvas" width="96" height="38" title="点击换一张"></canvas>
+            <button class="sg-btn" onclick="doSubmit()">提交给管理员</button>
+          </div>
+          <div class="sg-msg" id="sgMsg"></div>
         </div>
       </div>
 
@@ -2412,17 +2423,6 @@ function renderParse() {
       没提供的项系统不会扣分，<b>不代表它没问题</b>。</p>
       <p>比如你没说提现规则，系统就不会因为提现受限扣那 10 分。
       要更准，请补齐下方「没找到的信息」，或把资料发给我人工核查。</p>
-    </div>
-
-    <div class="submit-gate">
-      <div class="sg-title">把这些资料提交给管理员</div>
-      <div class="sg-desc">核实后会补进项目库，其他人才查得到。提交前请填一下验证码，防止有人用脚本乱刷。</div>
-      <div class="sg-row">
-        <input id="e_captcha" type="text" maxlength="4" inputmode="numeric" placeholder="4 位数字">
-        <canvas id="e_capCanvas" width="96" height="38" title="点击换一张"></canvas>
-        <button class="sg-btn" onclick="doSubmit()">提交资料</button>
-      </div>
-      <div class="sg-msg" id="sgMsg"></div>
     </div>
 
     <div class="block-title" style="margin-bottom:10px">从你的资料里识别出</div>
