@@ -1506,15 +1506,15 @@ footer{
         <div class="mopt">
           <div class="mopt-n">1</div>
           <div class="mopt-b">
-            <div class="mopt-t">最快的：直接加微信</div>
-            <div class="mopt-d">微信号 <code>janecoolman01</code>，备注「bug」优先通过。截图 + 你当时填了什么，能复现就能修。</div>
-            <span class="mbtn primary" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
+            <div class="mopt-t">补充项目线索 / 报新盘（不用加微信）</div>
+            <div class="mopt-d">直接填项目名、收益制度、推广话术，提交后进「待审核」队列，我核实完就补进项目库。不需要加微信。</div>
+            <span class="mbtn primary" onclick="closeFeedback();document.getElementById('submit').scrollIntoView({behavior:'smooth',block:'start'})">直接提交项目 →</span>
           </div>
         </div>
         <div class="mopt">
           <div class="mopt-n">2</div>
           <div class="mopt-b">
-            <div class="mopt-t">技术型：提到 GitHub</div>
+            <div class="mopt-t">发现 bug：提到 GitHub</div>
             <div class="mopt-d">有 GitHub 账号的话直接开 issue，带上浏览器版本和操作步骤，修完你能看到记录。</div>
             <a class="mbtn" href="https://github.com/janecoolman515/fund-anti-fraud/issues/new?labels=bug&title=%5BBUG%5D+" target="_blank">去提 issue →</a>
           </div>
@@ -1522,12 +1522,13 @@ footer{
         <div class="mopt">
           <div class="mopt-n">3</div>
           <div class="mopt-b">
-            <div class="mopt-t">想补充项目线索</div>
-            <div class="mopt-d">把项目名、收益制度截图、推广话术发过来，核查完会补进库。</div>
+            <div class="mopt-t">加微信（可选，不强制）</div>
+            <div class="mopt-d">想直接聊也行：微信号 <code>janecoolman01</code>，备注「项目」优先通过。</div>
+            <span class="mbtn" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
           </div>
         </div>
         <div class="mnote">
-          这个页面是纯静态的，不收集、不上传任何数据。你在自查里填的内容只留在你自己的浏览器里，关掉就没了。
+          提交的项目资料会进入后台「待审核」队列，只用于核实补库；不收集你的手机号、身份证等个人隐私。
         </div>
       </div>
 
@@ -1536,25 +1537,25 @@ footer{
         <div class="mopt">
           <div class="mopt-n">1</div>
           <div class="mopt-b">
-            <div class="mopt-t">加微信留言</div>
-            <div class="mopt-d">微信号 <code>janecoolman01</code>。想问项目、提建议、说你踩过的坑，都行。</div>
-            <span class="mbtn primary" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
+            <div class="mopt-t">公众号后台留言（不用加好友）</div>
+            <div class="mopt-d">公众号「金融防骗预警」，ID <code>jiancoolman</code>。后台直接留言，我会看。</div>
+            <span class="mbtn primary" onclick="copyText('jiancoolman','公众号ID')">复制公众号ID</span>
           </div>
         </div>
         <div class="mopt">
           <div class="mopt-n">2</div>
           <div class="mopt-b">
-            <div class="mopt-t">关注公众号留言</div>
-            <div class="mopt-d">公众号「金融防骗预警」，ID <code>jiancoolman</code>。后台直接留言，我会看。</div>
-            <span class="mbtn" onclick="copyText('jiancoolman','公众号ID')">复制公众号ID</span>
+            <div class="mopt-t">公开讨论</div>
+            <div class="mopt-d">GitHub Issues，适合规则建议和技术讨论。</div>
+            <a class="mbtn" href="https://github.com/janecoolman515/fund-anti-fraud/issues" target="_blank">去讨论区 →</a>
           </div>
         </div>
         <div class="mopt">
           <div class="mopt-n">3</div>
           <div class="mopt-b">
-            <div class="mopt-t">公开讨论</div>
-            <div class="mopt-d">GitHub Issues，适合规则建议和技术讨论。</div>
-            <a class="mbtn" href="https://github.com/janecoolman515/fund-anti-fraud/issues" target="_blank">去讨论区 →</a>
+            <div class="mopt-t">加微信（可选，不强制）</div>
+            <div class="mopt-d">微信号 <code>janecoolman01</code>。想问项目、提建议、说你踩过的坑，都行。</div>
+            <span class="mbtn" onclick="copyText('janecoolman01','微信号')">复制微信号</span>
           </div>
         </div>
         <div class="mnote">
