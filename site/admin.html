@@ -274,12 +274,12 @@
   #trendCanvas { width: 100%; height: auto; display: block; }
   .vg-list { display: flex; flex-direction: column; gap: 8px; }
   .vg { box-shadow: 0 0 0 1px #1E4874; border-radius: 10px; overflow: hidden; }
-  .vg-head, .vg-h { display: grid; grid-template-columns: 108px 158px 88px minmax(110px, 1fr) 56px 96px 14px; gap: 12px; align-items: center; }
+  .vg-head, .vg-h { display: grid; grid-template-columns: 110px 190px 90px minmax(110px, 1fr) 56px 96px 14px; gap: 12px; align-items: center; }
   .vg-head { padding: 6px 14px 8px; font-size: 11px; color: #7189A6; font-family: Consolas, monospace; border-bottom: 1px solid #1E4874; margin-bottom: 2px; }
   .vg-h { padding: 11px 14px; cursor: pointer; font-size: 12px; background: #12304F; }
   .vg-h:hover { background: #15365A; }
   .vg-ip { font-family: Consolas, monospace; color: #E8C55C; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .vg-loc { color: #BED2E6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vg-loc { color: #BED2E6; line-height: 1.35; word-break: break-word; }
   .vg-isp { color: #94AECB; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .vg-dev { color: #94AECB; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .vg-n { color: #7FD69B; font-family: Consolas, monospace; text-align: right; }
@@ -1022,8 +1022,7 @@ function renderStats() {
         return '<tr><td class="st-mono">#' + (i + 1) + '</td><td class="st-mono">' + tstr + '</td>' +
           '<td class="st-mono">' + esc(v.path || '-') + '</td>' +
           '<td class="st-mono">' + esc(shortRef(v.referrer)) + '</td>' +
-          '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td>' +
-          '<td>' + esc(parseUA(v.ua)) + '</td></tr>';
+          '<td class="st-mono">' + (v.dwell_sec ? v.dwell_sec + 's' : '-') + '</td></tr>';
       }).join('');
       return '<div class="vg">' +
         '<div class="vg-h" onclick="toggleVG(this)">' +
@@ -1036,7 +1035,7 @@ function renderStats() {
           '<span class="vg-arrow">▸</span>' +
         '</div>' +
         '<div class="vg-sub">' +
-          '<table class="st-table"><thead><tr><th>#</th><th>时间</th><th>页面</th><th>来源</th><th>停留</th><th>设备</th></tr></thead><tbody>' +
+          '<table class="st-table"><thead><tr><th>#</th><th>时间</th><th>页面</th><th>来源</th><th>停留</th></tr></thead><tbody>' +
           rowsHtml + '</tbody></table>' +
         '</div>' +
       '</div>';
