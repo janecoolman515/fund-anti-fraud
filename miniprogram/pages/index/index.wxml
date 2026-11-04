@@ -1,5 +1,11 @@
 <view class="page">
 
+  <!-- 品牌标题 -->
+  <view class="brand">
+    <view class="brand-name">资金盘金融项目防骗预警</view>
+    <view class="brand-sub">{{caseCount}} 个已判决案例 · {{totalRisk}} 个高风险项目</view>
+  </view>
+
   <!-- 顶部联系方式（与结尾同款金色卡片） -->
   <view class="home-contact">
     <view class="hc-label">关注我们</view>
@@ -23,7 +29,6 @@
 
   <!-- 搜索区 -->
   <view class="hero">
-    <view class="eyebrow">{{caseCount}} 个已判决案例 · {{totalRisk}} 个高风险项目</view>
     <view class="h1">投之前，先查一遍。</view>
     <view class="h1 gold">看它哪里解释不通。</view>
 

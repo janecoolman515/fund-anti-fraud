@@ -4,6 +4,25 @@
   padding-bottom: 60rpx;
 }
 
+/* ── 品牌标题 ── */
+.brand {
+  padding: 32rpx 32rpx 6rpx;
+}
+
+.brand-name {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #E8C55C;
+  line-height: 1.35;
+  letter-spacing: 0.5rpx;
+}
+
+.brand-sub {
+  font-size: 22rpx;
+  color: #94AECB;
+  margin-top: 10rpx;
+}
+
 /* ── HERO ── */
 .hero {
   padding: 44rpx 32rpx 36rpx;
