@@ -37,7 +37,7 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 
 | Capability | Scale |
 |---|---|
-| **High-risk project database** | **2,128** (crashed 1,183 · warned 921) |
+| **High-risk project database** | **2,259** (crashed 1,216 · warned 1,019) |
 | **Adjudicated case library** | **18** (Shanxinhui / Ezubao / Qianbao / Yunlianhui / PlusToken / Wekuai / Haihui International / Lixiang Jiayuan …) |
 | **Scoring rules** | **21**, 100-point, four dimensions (A entity 25 / B yield 30 / C funds 25 / D external 20) |
 | **Scheme archetypes** | **14** (rotation Ponzi / brush-order rebate / cloud mining / NFT / consumer rebate / fake P2P / fake exchange …) |
@@ -49,9 +49,9 @@ Turn a vague suspicion into a scored, source-traceable risk report.
 
 **2. Can't find it? Fill the form** — 8 guided fields; paste the pitch from the group chat. The system scores it (100 max) and identifies the likely **scheme archetype** (e.g. "1.8% daily, 7-day cycle, pay-first rebate" → brush-order rebate, typically lives 1–6 months).
 
-**3. Project database** — 2,128 entries, sorted by pinyin initial, searchable and filterable (status: crashed / warned; scheme: national-asset-unfreezing / crypto / impersonation / P2P / copy-trading / rebate …).
+**3. Project database** — 2,259 entries, sorted by pinyin initial, searchable and filterable (status: crashed / warned; scheme: national-asset-unfreezing / crypto / impersonation / P2P / copy-trading / rebate …).
 
-**4. Two data layers** — Layer 1: 18 adjudicated cases (hard evidence); Layer 2: 2,128 risk-list entries (leads, not conclusions).
+**4. Two data layers** — Layer 1: 18 adjudicated cases (hard evidence); Layer 2: 2,259 risk-list entries (leads, not conclusions).
 
 **5. Admin review** — submissions never enter the database directly; every entry is manually reviewed. Duplicate submissions merge, contradictions get flagged.
 
