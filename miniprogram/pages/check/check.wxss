@@ -60,22 +60,29 @@
 }
 
 .pv {
+  display: flex;
+  align-items: center;
+  min-height: 76rpx;
   background: #13355C;
   border: 1rpx solid #33628F;
   border-radius: 10rpx;
-  padding: 18rpx 20rpx;
+  padding: 0 20rpx;
   font-size: 26rpx;
   color: #E8F0F8;
+  box-sizing: border-box;
 }
 
 .pi {
   background: #13355C;
   border: 1rpx solid #33628F;
   border-radius: 10rpx;
-  padding: 18rpx 20rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 20rpx;
   font-size: 26rpx;
   color: #E8F0F8;
   font-family: "SF Mono", Consolas, monospace;
+  box-sizing: border-box;
 }
 
 .ph {

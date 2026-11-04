@@ -21,8 +21,10 @@
 
 .lib-input {
   height: 68rpx;
+  line-height: 68rpx;
   font-size: 27rpx;
   color: #E8F0F8;
+  box-sizing: border-box;
 }
 
 .ph {
