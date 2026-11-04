@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/library/library",
+    "pages/check/check",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#13355C",
+    "navigationBarTitleText": "金融防骗预警",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0E2A4A",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#94AECB",
+    "selectedColor": "#C9A227",
+    "backgroundColor": "#204B7C",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "查询"
+      },
+      {
+        "pagePath": "pages/library/library",
+        "text": "项目库"
+      },
+      {
+        "pagePath": "pages/check/check",
+        "text": "自查"
+      },
+      {
+        "pagePath": "pages/about/about",
+        "text": "关于"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

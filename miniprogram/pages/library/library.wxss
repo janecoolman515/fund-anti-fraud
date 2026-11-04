@@ -1,0 +1,188 @@
+.page {
+  min-height: 100vh;
+  background: #0E2A4A;
+  padding-bottom: 40rpx;
+}
+
+/* ── 筛选头 ── */
+.lib-head {
+  background: #13355C;
+  border-bottom: 1rpx solid #33628F;
+  padding: 20rpx 24rpx 14rpx;
+}
+
+.lib-search {
+  background: #204B7C;
+  border: 1rpx solid #3A74AA;
+  border-radius: 12rpx;
+  padding: 4rpx 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.lib-input {
+  height: 68rpx;
+  font-size: 27rpx;
+  color: #E8F0F8;
+}
+
+.ph {
+  color: #7189A6;
+}
+
+.chip-row {
+  white-space: nowrap;
+  margin-bottom: 12rpx;
+}
+
+.st-chip,
+.mode-chip {
+  display: inline-block;
+  font-size: 22rpx;
+  color: #BED2E6;
+  background: #204B7C;
+  border: 1rpx solid #33628F;
+  padding: 8rpx 20rpx;
+  border-radius: 100rpx;
+  margin-right: 12rpx;
+}
+
+.st-chip.on {
+  color: #1A1400;
+  background: #C9A227;
+  border-color: #C9A227;
+  font-weight: 700;
+}
+
+.mode-chip.on {
+  color: #E8C55C;
+  background: rgba(201, 162, 39, 0.15);
+  border-color: rgba(201, 162, 39, 0.6);
+}
+
+.lib-count {
+  font-size: 20rpx;
+  color: #7189A6;
+  padding-top: 4rpx;
+}
+
+/* ── 列表 ── */
+.lib-list {
+  padding: 14rpx 24rpx 0;
+}
+
+.item {
+  background: #1A4270;
+  border: 1rpx solid #33628F;
+  border-left: 5rpx solid #3A74AA;
+  border-radius: 12rpx;
+  padding: 20rpx 22rpx;
+  margin-bottom: 14rpx;
+}
+
+.item-boom {
+  border-left-color: #D9433F;
+  background: rgba(217, 67, 63, 0.07);
+}
+
+.item-warn {
+  border-left-color: #E07B39;
+}
+
+.it-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.it-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #E8F0F8;
+  flex: 1;
+  min-width: 0;
+}
+
+.it-meta {
+  font-size: 21rpx;
+  color: #94AECB;
+  margin-top: 6rpx;
+}
+
+.it-d {
+  font-size: 22rpx;
+  color: #94AECB;
+  line-height: 1.6;
+  margin-top: 8rpx;
+}
+
+/* ── 状态标签（WXSS 不跨页，本页单独定义） ── */
+.st {
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  flex: none;
+  margin-left: 12rpx;
+}
+
+.st-boom {
+  color: #FFD3D1;
+  background: rgba(217, 67, 63, 0.35);
+  border: 1rpx solid rgba(217, 67, 63, 0.7);
+}
+
+.st-warn {
+  color: #FFE0C2;
+  background: rgba(224, 123, 57, 0.3);
+  border: 1rpx solid rgba(224, 123, 57, 0.65);
+}
+
+.st-other {
+  color: #BED2E6;
+  background: rgba(110, 136, 166, 0.22);
+  border: 1rpx solid rgba(110, 136, 166, 0.5);
+}
+
+/* ── 加载更多 ── */
+.more {
+  margin: 10rpx 24rpx 0;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #E8C55C;
+  background: #204B7C;
+  border: 1rpx solid #33628F;
+  border-radius: 12rpx;
+}
+
+.more-end {
+  text-align: center;
+  font-size: 21rpx;
+  color: #7189A6;
+  padding: 26rpx 0;
+}
+
+/* ── 空态 ── */
+.empty {
+  text-align: center;
+  padding: 70rpx 32rpx;
+}
+
+.empty-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #E8F0F8;
+  margin-bottom: 12rpx;
+}
+
+.empty-desc {
+  font-size: 23rpx;
+  color: #94AECB;
+  line-height: 1.7;
+}
+
+.foot-note {
+  font-size: 20rpx;
+  color: #7189A6;
+  line-height: 1.75;
+  padding: 24rpx 32rpx 40rpx;
+}

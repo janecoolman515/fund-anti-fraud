@@ -1,0 +1,259 @@
+.page {
+  min-height: 100vh;
+  background: #0E2A4A;
+  padding-bottom: 60rpx;
+}
+
+.head {
+  padding: 36rpx 32rpx 12rpx;
+}
+
+.sec-label {
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+  color: #7189A6;
+  margin-bottom: 8rpx;
+}
+
+.sec-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #E8F0F8;
+  line-height: 1.45;
+  margin-bottom: 12rpx;
+}
+
+.sec-desc {
+  font-size: 23rpx;
+  color: #94AECB;
+  line-height: 1.75;
+}
+
+.card {
+  margin: 20rpx 24rpx;
+  padding: 24rpx 28rpx 28rpx;
+  background: #1A4270;
+  border: 1rpx solid #33628F;
+  border-radius: 16rpx;
+}
+
+.grp {
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+  color: #C9A227;
+  margin-bottom: 20rpx;
+  padding-bottom: 14rpx;
+  border-bottom: 1rpx solid #245488;
+}
+
+/* 步骤 */
+.step {
+  display: flex;
+  margin-bottom: 22rpx;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.step-n {
+  font-size: 20rpx;
+  color: #C9A227;
+  width: 52rpx;
+  flex-shrink: 0;
+  padding-top: 4rpx;
+}
+
+.step-t {
+  font-size: 27rpx;
+  font-weight: 700;
+  color: #E8F0F8;
+  margin-bottom: 6rpx;
+}
+
+.step-d {
+  font-size: 22rpx;
+  color: #94AECB;
+  line-height: 1.65;
+}
+
+/* 维度 */
+.dimrow {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.dim-k {
+  font-size: 26rpx;
+  color: #C9A227;
+  width: 46rpx;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.dim-h {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5rpx;
+}
+
+.dim-n {
+  font-size: 25rpx;
+  color: #E8F0F8;
+  font-weight: 600;
+}
+
+.dim-m {
+  font-size: 21rpx;
+  color: #94AECB;
+}
+
+.dim-d {
+  font-size: 21rpx;
+  color: #7189A6;
+  line-height: 1.6;
+}
+
+.tip {
+  margin-top: 8rpx;
+  padding: 16rpx 18rpx;
+  background: rgba(201, 162, 39, 0.08);
+  border-left: 4rpx solid #C9A227;
+  border-radius: 6rpx;
+  font-size: 21rpx;
+  color: #BED2E6;
+  line-height: 1.7;
+}
+
+/* 边界 */
+.rule {
+  font-size: 23rpx;
+  color: #94AECB;
+  line-height: 1.75;
+  margin-bottom: 18rpx;
+}
+
+.rule:last-child {
+  margin-bottom: 0;
+}
+
+.rule-t {
+  display: block;
+  font-size: 25rpx;
+  color: #E8F0F8;
+  font-weight: 600;
+  margin-bottom: 4rpx;
+}
+
+/* 账号 */
+.acc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #245488;
+}
+
+.acc-row:last-child {
+  border-bottom: none;
+}
+
+.acc-k {
+  font-size: 23rpx;
+  color: #94AECB;
+}
+
+.acc-v {
+  font-size: 24rpx;
+  color: #E8F0F8;
+  display: flex;
+  align-items: center;
+}
+
+.copy {
+  font-size: 19rpx;
+  color: #C9A227;
+  border: 1rpx solid rgba(201, 162, 39, 0.35);
+  padding: 2rpx 10rpx;
+  border-radius: 4rpx;
+  margin-left: 12rpx;
+}
+
+.foot-note {
+  font-size: 20rpx;
+  color: #7189A6;
+  line-height: 1.75;
+  padding: 24rpx 32rpx 40rpx;
+}
+
+/* ── 关注我们（高亮卡片） ── */
+.contact-card {
+  margin: 20rpx 24rpx;
+  padding: 32rpx 30rpx 26rpx;
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.20), rgba(201, 162, 39, 0.04));
+  border: 1rpx solid rgba(201, 162, 39, 0.55);
+  border-left: 8rpx solid #C9A227;
+  border-radius: 16rpx;
+  box-shadow: 0 6rpx 24rpx rgba(201, 162, 39, 0.12);
+}
+
+.contact-label {
+  font-size: 20rpx;
+  letter-spacing: 4rpx;
+  color: #C9A227;
+  margin-bottom: 18rpx;
+}
+
+.contact-sub {
+  font-size: 22rpx;
+  color: #94AECB;
+  margin-bottom: 22rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1rpx solid rgba(201, 162, 39, 0.45);
+  border-radius: 12rpx;
+  padding: 18rpx 24rpx;
+  margin-bottom: 14rpx;
+}
+
+.ci-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.ci-k {
+  font-size: 20rpx;
+  color: #94AECB;
+  letter-spacing: 1rpx;
+}
+
+.ci-v {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #E8C55C;
+  margin-top: 4rpx;
+  line-height: 1.3;
+  word-break: break-all;
+}
+
+.ci-copy {
+  flex: none;
+  font-size: 23rpx;
+  font-weight: 700;
+  color: #1A1400;
+  background: linear-gradient(180deg, #E8C55C, #C9A227);
+  padding: 10rpx 24rpx;
+  border-radius: 8rpx;
+  margin-left: 16rpx;
+}
+
+.contact-tip {
+  font-size: 20rpx;
+  color: #94AECB;
+  margin-top: 14rpx;
+}

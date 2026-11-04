@@ -1,0 +1,185 @@
+<view class="page">
+
+  <!-- 顶部联系方式（与结尾同款金色卡片） -->
+  <view class="home-contact">
+    <view class="hc-label">关注我们</view>
+
+    <view class="home-row" bindtap="onCopyName">
+      <view class="hr-left">
+        <view class="hr-k">公众号名称</view>
+        <view class="hr-v">{{account.name}}</view>
+      </view>
+      <view class="hr-copy">复制</view>
+    </view>
+
+    <view class="home-row" bindtap="onCopyWx">
+      <view class="hr-left">
+        <view class="hr-k">微信号</view>
+        <view class="hr-v mono">{{account.wechat}}</view>
+      </view>
+      <view class="hr-copy">复制</view>
+    </view>
+  </view>
+
+  <!-- 搜索区 -->
+  <view class="hero">
+    <view class="eyebrow">{{caseCount}} 个已判决案例 · {{totalRisk}} 个高风险项目</view>
+    <view class="h1">投之前，先查一遍。</view>
+    <view class="h1 gold">看它哪里解释不通。</view>
+
+    <view class="search">
+      <input
+        class="search-input"
+        value="{{keyword}}"
+        bindinput="onInput"
+        bindconfirm="onSearch"
+        confirm-type="search"
+        placeholder="输入项目名称，如「善心汇」"
+        placeholder-class="ph" />
+      <view class="search-btn" bindtap="onSearch">查询</view>
+    </view>
+
+    <view class="hot">
+      <text class="hot-label">热门</text>
+      <view
+        class="chip"
+        wx:for="{{hot}}"
+        wx:key="*this"
+        data-k="{{item}}"
+        bindtap="onHot">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 项目库入口 -->
+  <view class="lib-banner" bindtap="onGoLibrary">
+    <view class="lib-num mono">{{totalRisk}}</view>
+    <view class="lib-mid">
+      <view class="lib-title">高风险项目库</view>
+      <view class="lib-desc">已暴雷 · 预警 · 民族资产解冻 · 虚拟币 · 假交易所…</view>
+    </view>
+    <view class="lib-go">进入 →</view>
+  </view>
+
+  <!-- 未收录 -->
+  <view class="card empty" wx:if="{{notFound}}">
+    <view class="empty-title">「{{notFound}}」暂未收录</view>
+    <view class="empty-desc">这个项目还没进公开名单。换一种方式：把它宣称的收益制度填进「特征自查」，18 条规则照样能算分。</view>
+    <view class="empty-btn" bindtap="onGoCheck">用特征自查 →</view>
+  </view>
+
+  <!-- 已判决案例命中 -->
+  <block wx:if="{{caseHit}}">
+    <view class="card report-head">
+      <view class="rh-top">
+        <view class="rh-name">{{caseHit.name}}<text class="rh-tag">{{caseHit.badge}}</text></view>
+      </view>
+      <view class="rh-meta" wx:if="{{caseHit.type}}">类型　{{caseHit.type}}</view>
+      <view class="rh-meta" wx:if="{{caseHit.crime}}">罪名　{{caseHit.crime}}</view>
+      <view class="rh-meta" wx:if="{{caseHit.principal}}">主犯　{{caseHit.principal}}</view>
+      <view class="rh-meta" wx:if="{{caseHit.scale}}">规模　{{caseHit.scale}}</view>
+
+      <view class="hr"></view>
+
+      <view class="kv" wx:if="{{caseHit.sentence}}">
+        <text class="kv-k">判决</text><text class="kv-v">{{caseHit.sentence}}</text>
+      </view>
+      <view class="kv" wx:if="{{caseHit.court}}">
+        <text class="kv-k">法院</text><text class="kv-v">{{caseHit.court}}</text>
+      </view>
+      <view class="kv" wx:if="{{caseHit.judged}}">
+        <text class="kv-k">时间</text><text class="kv-v">{{caseHit.judged}}</text>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{caseHit.pattern}}">
+      <view class="sec-label">MECHANISM</view>
+      <view class="sec-title">运作模式</view>
+      <view class="p">{{caseHit.pattern}}</view>
+    </view>
+
+    <view class="card" wx:if="{{caseHit.features.length}}">
+      <view class="sec-label">FEATURES</view>
+      <view class="sec-title">关键特征</view>
+      <view class="feat" wx:for="{{caseHit.features}}" wx:key="*this">· {{item}}</view>
+    </view>
+
+    <view class="card" wx:if="{{caseHit.lesson}}">
+      <view class="sec-label">LESSON</view>
+      <view class="sec-title">教训</view>
+      <view class="p">{{caseHit.lesson}}</view>
+    </view>
+
+    <view class="card" wx:if="{{caseHit.extra}}">
+      <view class="sec-label">NOTE</view>
+      <view class="sec-title">补充</view>
+      <view class="p">{{caseHit.extra}}</view>
+    </view>
+
+    <view class="card" wx:if="{{caseHit.sources.length}}">
+      <view class="sec-label">SOURCES</view>
+      <view class="sec-title">来源</view>
+      <view class="src" wx:for="{{caseHit.sources}}" wx:key="*this">· {{item}}</view>
+    </view>
+  </block>
+
+  <!-- 高风险名单命中 -->
+  <block wx:if="{{riskHit}}">
+    <view class="card risk-card">
+      <view class="rc-top">
+        <view class="rc-name">{{riskHit.n}}</view>
+        <view class="st st-{{riskHit.st}}">{{riskHit.stText}}</view>
+      </view>
+      <view class="kv"><text class="kv-k">类型</text><text class="kv-v">{{riskHit.t}}</text></view>
+      <view class="kv"><text class="kv-k">状态</text><text class="kv-v">{{riskHit.s}}</text></view>
+      <view class="kv" wx:if="{{riskHit.d}}"><text class="kv-k">说明</text><text class="kv-v">{{riskHit.d}}</text></view>
+      <view class="kv" wx:if="{{riskHit.src}}"><text class="kv-k">来源</text><text class="kv-v">{{riskHit.src}}</text></view>
+      <view class="rc-note">本条来自公开报道汇总，未经司法机关认定。状态与细节可能已变化，也可能存在重名。它只说明「这个名字曾被公开曝光」，不等于已被定性。</view>
+    </view>
+  </block>
+
+  <!-- 已判决案例列表（无结果时展示） -->
+  <view class="card" wx:if="{{!caseHit && !riskHit && !notFound}}">
+    <view class="sec-label">JUDGED CASES</view>
+    <view class="sec-title">已判决案例</view>
+    <view class="sec-desc">以下 {{caseCount}} 个案件均有法院生效判决或官方通报，点一条查看详情。</view>
+    <view class="cl" wx:for="{{cases}}" wx:key="key" data-k="{{item.name}}" bindtap="onHot">
+      <view class="cl-main">
+        <view class="cl-name">{{item.name}}</view>
+        <view class="cl-meta">{{item.type}}</view>
+      </view>
+      <view class="cl-badge">{{item.badge}}</view>
+    </view>
+
+    <view class="more-btn" bindtap="onGoLibrary">
+      <text>查看更多 · {{totalRisk}} 个高风险项目</text>
+      <text class="more-arrow">→</text>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="home-contact">
+    <view class="hc-label">关注我们</view>
+
+    <view class="home-row" bindtap="onCopyName">
+      <view class="hr-left">
+        <view class="hr-k">公众号名称</view>
+        <view class="hr-v">{{account.name}}</view>
+      </view>
+      <view class="hr-copy">复制</view>
+    </view>
+
+    <view class="home-row" bindtap="onCopyWx">
+      <view class="hr-left">
+        <view class="hr-k">微信号</view>
+        <view class="hr-v mono">{{account.wechat}}</view>
+      </view>
+      <view class="hr-copy">复制</view>
+    </view>
+  </view>
+
+  <view class="foot-note">
+    数据来自公开报道与法院生效判决汇总，仅作风险提示，不构成法律意见或投资建议。
+    未经司法机关认定的部分已在页面内单独标注。如认为内容有误，可通过「关于」页反馈更正。
+  </view>
+
+</view>

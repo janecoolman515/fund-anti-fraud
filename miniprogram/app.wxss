@@ -1,0 +1,84 @@
+/* 全局样式 · 深蓝金融终端风 */
+page {
+  --navy-950: #0E2A4A;
+  --navy-900: #13355C;
+  --navy-850: #1A4270;
+  --navy-800: #204B7C;
+  --navy-700: #245488;
+  --line: #33628F;
+  --line-strong: #3A74AA;
+  --gold: #C9A227;
+  --gold-lt: #E8C55C;
+  --text: #E8F0F8;
+  --text-2: #BED2E6;
+  --text-3: #94AECB;
+  --text-4: #7189A6;
+  --red: #D9433F;
+  --orange: #E07B39;
+  --green: #2E9E5B;
+
+  background: var(--navy-950);
+  color: var(--text);
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+view, text, input, button, picker {
+  box-sizing: border-box;
+}
+
+.page {
+  min-height: 100vh;
+  background: var(--navy-950);
+  padding-bottom: 40rpx;
+}
+
+/* 通用卡片 */
+.card {
+  background: var(--navy-850);
+  border: 1rpx solid var(--line);
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 区块标题 */
+.sec-label {
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+  color: var(--text-4);
+  margin-bottom: 8rpx;
+}
+
+.sec-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8rpx;
+}
+
+.sec-desc {
+  font-size: 24rpx;
+  color: var(--text-3);
+  line-height: 1.7;
+}
+
+/* 数字等宽 */
+.mono {
+  font-family: "SF Mono", Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 评级色 */
+.lv-critical { color: var(--red); }
+.lv-high { color: var(--orange); }
+.lv-medium { color: var(--gold); }
+.lv-low { color: var(--green); }
+
+/* 分割线 */
+.hr {
+  height: 1rpx;
+  background: var(--line);
+  margin: 24rpx 0;
+}

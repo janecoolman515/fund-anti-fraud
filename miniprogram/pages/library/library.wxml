@@ -1,0 +1,61 @@
+<view class="page">
+
+  <!-- 筛选头 -->
+  <view class="lib-head">
+    <view class="lib-search">
+      <input
+        class="lib-input"
+        value="{{kw}}"
+        bindinput="onInput"
+        confirm-type="search"
+        placeholder="搜索项目名称 / 类型 / 说明"
+        placeholder-class="ph" />
+    </view>
+
+    <scroll-view class="chip-row" scroll-x>
+      <view class="st-chip {{st==='all'?'on':''}}" data-st="all" bindtap="onStatus">全部 {{counts.all}}</view>
+      <view class="st-chip {{st==='boom'?'on':''}}" data-st="boom" bindtap="onStatus">已暴雷 {{counts.boom}}</view>
+      <view class="st-chip {{st==='warn'?'on':''}}" data-st="warn" bindtap="onStatus">预警 {{counts.warn}}</view>
+      <view class="st-chip {{st==='other'?'on':''}}" data-st="other" bindtap="onStatus">其他 {{counts.other}}</view>
+    </scroll-view>
+
+    <scroll-view class="chip-row" scroll-x>
+      <view
+        class="mode-chip {{mode===item.name?'on':''}}"
+        wx:for="{{modes}}"
+        wx:key="name"
+        data-mode="{{item.name}}"
+        bindtap="onMode">{{item.name}} {{item.count}}</view>
+    </scroll-view>
+
+    <view class="lib-count">共 {{total}} 条 · 点一条看详情</view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="lib-list">
+    <view
+      class="item item-{{item.st}}"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-i="{{index}}"
+      bindtap="onTap">
+      <view class="it-top">
+        <view class="it-name">{{item.n}}</view>
+        <view class="st st-{{item.st}}">{{item.stText}}</view>
+      </view>
+      <view class="it-meta">{{item.t}} · {{item.mode}}</view>
+      <view class="it-d" wx:if="{{item.d}}">{{item.d}}</view>
+    </view>
+  </view>
+
+  <view class="more" wx:if="{{hasMore}}" bindtap="onMore">{{loading?'加载中…':'加载更多'}}</view>
+  <view class="more-end" wx:if="{{!hasMore && list.length}}">— 已到底 —</view>
+
+  <view class="empty" wx:if="{{!list.length}}">
+    <view class="empty-title">没有匹配的项目</view>
+    <view class="empty-desc">换个关键词，或点上方「全部」重置筛选。</view>
+  </view>
+
+  <view class="foot-note">名单来自公开报道汇总，未经司法机关认定。状态与细节可能已变化，也可能存在重名。</view>
+
+</view>

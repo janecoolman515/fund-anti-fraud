@@ -1,0 +1,92 @@
+<view class="page">
+
+  <view class="head">
+    <view class="sec-label">METHODOLOGY</view>
+    <view class="sec-title">不看它怎么说，只看它哪里露了</view>
+    <view class="sec-desc">项目方的自我描述不算证据。唯一方向是：它为了支撑那个说法，花了多少钱、办了多少事。该花的钱没花 —— 就是破绽。</view>
+  </view>
+
+  <!-- 四步 -->
+  <view class="card">
+    <view class="grp">四步流程</view>
+    <view class="step" wx:for="{{steps}}" wx:key="n">
+      <view class="step-n mono">{{item.n}}</view>
+      <view class="step-body">
+        <view class="step-t">{{item.t}}</view>
+        <view class="step-d">{{item.d}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 四维 -->
+  <view class="card">
+    <view class="grp">100 分评分卡</view>
+    <view class="dimrow" wx:for="{{rules}}" wx:key="k">
+      <view class="dim-k mono">{{item.k}}</view>
+      <view class="dim-body">
+        <view class="dim-h">
+          <text class="dim-n">{{item.n}}</text>
+          <text class="dim-m mono">{{item.m}} 分</text>
+        </view>
+        <view class="dim-d">{{item.d}}</view>
+      </view>
+    </view>
+    <view class="tip">分数越高越危险。80 分以上极高风险，60–79 高风险，40–59 中风险，40 以下暂未发现明显违规。</view>
+  </view>
+
+  <!-- 边界 -->
+  <view class="card">
+    <view class="grp">边界</view>
+    <view class="rule"><text class="rule-t">不做法律定性</text>只写「提现受限」「备案主体不符」，不写「这是骗子」。定性权在司法机关。</view>
+    <view class="rule"><text class="rule-t">不做投资建议</text>只告诉你哪些地方解释不通，不告诉你该买什么。</view>
+    <view class="rule"><text class="rule-t">不当判案机</text>工具做规则匹配，判断还是人做的。</view>
+    <view class="rule"><text class="rule-t">绿色不等于安全</text>「本次未发现」和「没问题」是两件事。</view>
+  </view>
+
+  <!-- 数据来源 -->
+  <view class="card">
+    <view class="grp">数据来源</view>
+    <view class="rule"><text class="rule-t">已判决案例 {{caseCount}} 个</text>来自法院生效判决与官方通报，只收已判决或官方已通报的案件。</view>
+    <view class="rule"><text class="rule-t">高风险名单 {{riskCount}} 条</text>来自公安部公布名单与公开报道汇总，未经司法机关认定，只说明「这个名字曾被公开曝光」。</view>
+    <view class="rule"><text class="rule-t">自查规则 18 条</text>按主体资质、收益结构、资金安全、外部信号四个维度打分，全部本地计算，不上传任何数据。</view>
+  </view>
+
+  <!-- 关注我们（高亮） -->
+  <view class="contact-card">
+    <view class="contact-label">关 注 我 们</view>
+    <view class="contact-sub">防骗预警 · 高风险项目曝光 · 已判决案例</view>
+
+    <view class="contact-item" bindtap="onCopyName">
+      <view class="ci-left">
+        <view class="ci-k">公众号名称</view>
+        <view class="ci-v">{{account.name}}</view>
+      </view>
+      <view class="ci-copy">复制</view>
+    </view>
+
+    <view class="contact-item" bindtap="onCopyWx">
+      <view class="ci-left">
+        <view class="ci-k">微信号</view>
+        <view class="ci-v mono">{{account.wechat}}</view>
+      </view>
+      <view class="ci-copy">复制</view>
+    </view>
+
+    <view class="contact-tip">点击任意一项可复制 · 微信搜索公众号名或微信号即可找到</view>
+  </view>
+
+  <!-- 支持作者 -->
+  <view class="card">
+    <view class="grp">支持作者</view>
+    <view class="rule"><text class="rule-t">为什么这里没有收款码</text>微信规定小程序内不得展示个人收款码或引导站外转账，否则会被下架。所以这里不放二维码，也不收任何款项。</view>
+    <view class="rule"><text class="rule-t">合规的支持方式</text>关注公众号「{{account.name}}」，在公众号的原创文章里使用「赞赏」功能。这是微信允许的方式，也是对我们最直接的支持。</view>
+    <view class="rule"><text class="rule-t">转发给需要的人</text>把小程序转给身边正在被「高收益」项目劝说的人，比打赏更有用。</view>
+  </view>
+
+  <view class="foot-note">
+    本小程序仅提供公开信息查询与风险特征提示，不构成法律意见、投资建议或对任何主体的事实认定。
+    已判决案例以法院生效判决为准；高风险名单来自公开报道汇总，未经司法机关认定，可能存在重名或时效变化。
+    如内容与事实有出入，欢迎提供证据，核实后将及时更正。
+  </view>
+
+</view>

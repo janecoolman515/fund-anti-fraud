@@ -1,0 +1,194 @@
+<view class="page">
+
+  <view class="head">
+    <view class="sec-label">SELF CHECK</view>
+    <view class="sec-title">不知道项目名？用特征自查</view>
+    <view class="sec-desc">把它宣称的收益制度填进来，18 条规则实时算分。数据只在本机计算，不上传。</view>
+  </view>
+
+  <!-- A 主体资质 -->
+  <view class="card">
+    <view class="grp">A · 主体资质</view>
+
+    <view class="field">
+      <view class="fl">备案主体</view>
+      <picker mode="selector" range="{{form.icp.labels}}" value="{{form.icp.idx}}" data-key="icp" bindchange="onPick">
+        <view class="pv">{{form.icp.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">备案主体与宣传主体</view>
+      <picker mode="selector" range="{{form.match.labels}}" value="{{form.match.idx}}" data-key="match" bindchange="onPick">
+        <view class="pv">{{form.match.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">实缴资本（万元）</view>
+      <input class="pi" type="digit" value="{{nums.paid}}" data-key="paid" bindinput="onNum" placeholder="留空 = 不清楚" placeholder-class="ph" />
+    </view>
+
+    <view class="field">
+      <view class="fl">工商状态</view>
+      <picker mode="selector" range="{{form.status.labels}}" value="{{form.status.idx}}" data-key="status" bindchange="onPick">
+        <view class="pv">{{form.status.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">域名注册时长（月）</view>
+      <input class="pi" type="digit" value="{{nums.domain}}" data-key="domain" bindinput="onNum" placeholder="留空 = 不清楚" placeholder-class="ph" />
+    </view>
+  </view>
+
+  <!-- B 收益结构 -->
+  <view class="card">
+    <view class="grp">B · 收益结构</view>
+
+    <view class="field">
+      <view class="fl">日化收益率（%）</view>
+      <input class="pi" type="digit" value="{{nums.daily}}" data-key="daily" bindinput="onNum" placeholder="如 1.8" placeholder-class="ph" />
+    </view>
+
+    <view class="field">
+      <view class="fl">推荐奖层级（代）</view>
+      <input class="pi" type="digit" value="{{nums.level}}" data-key="level" bindinput="onNum" placeholder="0 = 没有" placeholder-class="ph" />
+    </view>
+
+    <view class="field">
+      <view class="fl">入门门槛费（元）</view>
+      <input class="pi" type="digit" value="{{nums.fee}}" data-key="fee" bindinput="onNum" placeholder="0 = 没有" placeholder-class="ph" />
+    </view>
+
+    <view class="field">
+      <view class="fl">锁仓 / 强制复投</view>
+      <picker mode="selector" range="{{form.lock.labels}}" value="{{form.lock.idx}}" data-key="lock" bindchange="onPick">
+        <view class="pv">{{form.lock.label}}</view>
+      </picker>
+    </view>
+
+    <checkbox-group data-key="cap" bindchange="onCheck">
+      <label class="cb">
+        <checkbox value="1" checked="{{checks.cap}}" color="#C9A227" />
+        <text>推荐奖有封顶上限</text>
+      </label>
+    </checkbox-group>
+  </view>
+
+  <!-- C 资金安全 -->
+  <view class="card">
+    <view class="grp">C · 资金安全</view>
+
+    <view class="field">
+      <view class="fl">提现是否受限</view>
+      <picker mode="selector" range="{{form.wd.labels}}" value="{{form.wd.idx}}" data-key="wd" bindchange="onPick">
+        <view class="pv">{{form.wd.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">收款方</view>
+      <picker mode="selector" range="{{form.payee.labels}}" value="{{form.payee.idx}}" data-key="payee" bindchange="onPick">
+        <view class="pv">{{form.payee.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">第三方资金存管</view>
+      <picker mode="selector" range="{{form.cust.labels}}" value="{{form.cust.idx}}" data-key="cust" bindchange="onPick">
+        <view class="pv">{{form.cust.label}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="fl">真实造血业务</view>
+      <picker mode="selector" range="{{form.biz.labels}}" value="{{form.biz.idx}}" data-key="biz" bindchange="onPick">
+        <view class="pv">{{form.biz.label}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- D 外部信号 -->
+  <view class="card">
+    <view class="grp">D · 外部信号</view>
+
+    <view class="field">
+      <view class="fl">公开投诉数量（条）</view>
+      <input class="pi" type="digit" value="{{nums.complaint}}" data-key="complaint" bindinput="onNum" placeholder="留空 = 不清楚" placeholder-class="ph" />
+    </view>
+
+    <view class="field">
+      <view class="fl">立案 / 判决记录</view>
+      <picker mode="selector" range="{{form.legal.labels}}" value="{{form.legal.idx}}" data-key="legal" bindchange="onPick">
+        <view class="pv">{{form.legal.label}}</view>
+      </picker>
+    </view>
+
+    <checkbox-group data-key="reg" bindchange="onCheck">
+      <label class="cb">
+        <checkbox value="1" checked="{{checks.reg}}" color="#C9A227" />
+        <text>监管或官方已发风险提示</text>
+      </label>
+    </checkbox-group>
+
+    <checkbox-group data-key="deny" bindchange="onCheck">
+      <label class="cb">
+        <checkbox value="1" checked="{{checks.deny}}" color="#C9A227" />
+        <text>被冒名机构已发声明撇清</text>
+      </label>
+    </checkbox-group>
+  </view>
+
+  <!-- 按钮 -->
+  <view class="actions">
+    <view class="btn-calc" bindtap="onCalc">计算风险分</view>
+    <view class="btn-reset" bindtap="onReset">重置</view>
+  </view>
+
+  <!-- 结果 -->
+  <block wx:if="{{resultReady}}">
+    <view class="card result">
+      <view class="res-top">
+        <view class="res-score mono" style="color:{{result.grade.color}}">{{result.total}}</view>
+        <view class="res-right">
+          <view class="res-lv" style="color:{{result.grade.color}}">{{result.grade.text}}</view>
+          <view class="res-note">{{result.grade.note}}</view>
+        </view>
+      </view>
+
+      <view class="hr"></view>
+
+      <view class="dim" wx:for="{{result.dims}}" wx:key="k">
+        <view class="dim-top">
+          <text class="dim-name">{{item.k}} {{item.n}}</text>
+          <text class="dim-val mono">{{item.v}}/{{item.m}}</text>
+        </view>
+        <view class="dim-bar">
+          <view class="dim-fill" style="width:{{item.pct}}%;background:{{result.grade.color}}"></view>
+        </view>
+      </view>
+
+      <view class="hr"></view>
+
+      <view class="hits" wx:if="{{result.hits.length > 0}}">
+        <view class="hit" wx:for="{{result.hits}}" wx:key="id">+{{item.w}} {{item.name}}</view>
+      </view>
+      <view class="no-hit" wx:else>未命中任何规则</view>
+
+      <view class="gap">
+        已核实 {{result.verified}} / {{result.totalRules}} 项
+        <block wx:if="{{result.gaps.length > 0}}">，未计分项：<text class="gap-list">{{result.gaps[0].name}}</text> 等 {{result.gaps.length}} 项</block>
+      </view>
+
+      <view class="warn">
+        自查只覆盖「你已经知道的事实」。缺口多，说明信息不够，不代表项目干净。
+      </view>
+    </view>
+  </block>
+
+  <view class="foot-note">
+    自查结果仅作风险提示，不构成法律意见或投资建议。项目性质的最终认定权在司法机关。
+  </view>
+
+</view>
